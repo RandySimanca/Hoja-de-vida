@@ -1,31 +1,32 @@
 <script setup>
+import { RouterView } from 'vue-router';
+
 </script>
 
 <template>
   <div class="layout">
     <!-- Menú lateral -->
-    <!-- <aside class="sidebar">
+    <aside class="sidebar">
       <nav>
         <ul class="sidebar-menu">
-          <li><router-link to="/">Home</router-link></li>
-          <li><router-link to="/Hoja1">Datos Personales</router-link></li>
+          <li><router-link to="/panel/Hoja1">Datos Personales</router-link></li>
+          <li><router-link to="/panel/Hoja2">Experiencia Laboral</router-link></li>
+          <li><router-link to="/panel/Hoja2Extra">Experiencia Laboral2</router-link></li>
+          <li><router-link to="/panel/Hoja3">Tiempo Total de Experiencia</router-link></li>
         </ul>
       </nav>
-    </aside> -->
-
-    <!-- Contenido principal 
+    </aside>
     <div class="main-content">
-      <header class="header">
-        <h1 class="title">Notes Page</h1>
-      </header>
-
-      <router-view />
-    </div>-->
+      <RouterView />
+    </div>
+    
   </div>
 </template>
 
+
 <style>
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;

@@ -1,5 +1,6 @@
 <script setup>
 import MenuComponents from '../components/MenuComponents.vue';
+import LoginViews from './LoginViews.vue';
 
 
 
@@ -8,6 +9,7 @@ import MenuComponents from '../components/MenuComponents.vue';
 <template>
   
   <h2>Home Page</h2>
+  <LoginViews />
 </template>
 
 <style></style>

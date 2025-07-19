@@ -124,10 +124,10 @@ const enviarFormulario = async () => {
 
   try {
     await axios.post("/api/datos", datosPersonales);
-    console.log("✅ Datos enviados con éxito");
+    console.log("Datos enviados con éxito");
     // Puedes mostrar un mensaje visual o limpiar campos aquí
   } catch (error) {
-    console.error("❌ Error al enviar datos:", error);
+    console.error("Error al enviar datos:", error);
   }
 };
 
