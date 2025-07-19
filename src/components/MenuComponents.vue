@@ -7,6 +7,7 @@ import { RouterView } from 'vue-router';
   <div class="layout">
     <!-- Menú lateral -->
     <aside class="sidebar">
+      <h1 class="h1">Menu</h1>
       <nav>
         <ul class="sidebar-menu">
           <li><router-link to="/panel/Hoja1">Datos Personales</router-link></li>
@@ -23,21 +24,59 @@ import { RouterView } from 'vue-router';
   </div>
 </template>
 
-
 <style>
-html,
-body {
-  margin: 0;
-  padding: 0;
+/* Menú lateral elegante */
+.sidebar {
+  width: 240px;
+  background: linear-gradient(135deg, #1d1f27, #2c2f36);
+  color: #f1f1f1;
+  padding: 20px;
   height: 100%;
-  box-sizing: border-box;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
+  font-family: 'Segoe UI', sans-serif;
 }
 
-/* Layout horizontal */
-.layout {
-  display: flex;
-  flex-direction: row;
-  height: 100vh; /* Asegura que ocupa toda la pantalla */
+/* Título del menú */
+.h1 {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 32px;
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+
+/* Lista del menú */
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Item del menú */
+.sidebar-menu li {
+  margin-bottom: 16px;
+}
+
+/* Enlace del menú */
+.sidebar-menu a {
+  display: block;
+  padding: 12px 16px;
+  color: #e0e0e0;
+  background-color: transparent;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+/* Hover y selección */
+.sidebar-menu a:hover,
+.sidebar-menu a.router-link-exact-active {
+  background-color: #00d8ff22;
+  color: #00d8ff;
+  font-weight: 600;
+  border-left: 4px solid #00d8ff;
 }
 
 /* Menú lateral */
@@ -86,5 +125,11 @@ body {
 
 .sidebar-menu a:hover {
   color: #00d8ff;
+}
+
+.h1 {
+  color: #f10c0c;
+  text-align: center;
+  margin-bottom: 24px;
 }
 </style>
