@@ -144,6 +144,9 @@
             </div>
           </div>
         </div>
+        <div class="form-group" style="margin-top: 20px">
+        <button class="btn btn-primary" @click="guardarExperiencia">Guardar experiencia</button>
+      </div>
       </div>
 
       <div>
