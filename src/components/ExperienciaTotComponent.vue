@@ -122,8 +122,6 @@
         </div>
 
         <div class="signature-area">
-          <label for="firma">FIRMA DEL SERVIDOR PÚBLICO O CONTRATISTA</label
-          ><br />
           <input
             type="file"
             id="firma"
@@ -137,6 +135,9 @@
               style="margin-top: 10px; max-width: 300px; height: auto"
             />
           </div>
+          <label for="firma">FIRMA DEL SERVIDOR PÚBLICO O CONTRATISTA</label
+          ><br />
+          
         </div>
       </div>
 
@@ -185,6 +186,14 @@
 
 <script setup>
 
+import { defineProps, defineOptions } from 'vue'
+
+import { ref } from 'vue';
+
+
+
+
+
 defineOptions({
   name: "ExperienciaTotComponent"
 })
@@ -196,4 +205,31 @@ const props = defineProps({
   totalAnios: Number,
   totalMeses: Number
 })
+
+const firmaUrl = ref(null);
+
+const mostrarFirma = (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = 250; // ancho deseado
+      canvas.height = 100; // alto deseado
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      firmaUrl.value = canvas.toDataURL("image/png"); // imagen escalada
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+};
+
 </script>
+
+<style>
+
+</style>
