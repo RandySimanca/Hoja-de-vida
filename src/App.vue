@@ -1,3 +1,4 @@
+
 <template>
   <div class="layout">
     <!-- Menú lateral -->
@@ -25,6 +26,12 @@
           </li>
         </ul>
       </nav>
+   
+      <div>
+    <button @click="guardarExperiencia">Guardar experiencia</button>
+  </div>
+   
+
     </aside>
 
     <!-- Contenido principal-->
@@ -32,7 +39,27 @@
       <router-view />
     </div>
   </div>
+
+
+  
 </template>
+
+<script setup>
+import axios from 'axios';
+
+const guardarExperiencia = async () => {
+  try {
+    await axios.post('/api/experiencia', {
+     
+      //aqui se cargan los datos que se van a enviar
+    });
+    console.log('Enviado exitosamente');
+  } catch (error) {
+    console.error('Error al guardar:', error);
+  }
+};
+</script>
+
 
 <style>
 .lateral {

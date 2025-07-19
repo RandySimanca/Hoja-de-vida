@@ -14,7 +14,13 @@
     </div>
 
     <button @click="agregarExperiencia">Agregar experiencia</button>
-    </div>    
+
+    <div>
+    <button @click="guardarExperiencia">Guardar experiencia</button>
+  </div>
+    </div>  
+    
+
   
 
 
