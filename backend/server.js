@@ -9,6 +9,10 @@ mongoose.connect(process.env.MONGODB_URI, {
 const experienciaRoutes = require('./routes/experiencia');
 app.use('/api/experiencia', experienciaRoutes);
 
+const datosRoutes = require('./routes/datosPersonales');
+app.use('/api/datos', datosRoutes);
+
+
 
 
 

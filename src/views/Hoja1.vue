@@ -3,7 +3,7 @@
     <form @submit.prevent="enviarFormulario">
       <!--Seccion del encabezado, esta dentro del form para validar el input de la entidad receptora-->
       <div>
-        <Headercomponent />
+        <HeaderComponent />
       </div>
 
       <!--Seccion de datos personales-->
@@ -15,18 +15,121 @@
       <div>
         <formacion-acad-component />
       </div>
+
+      <div class="form-group" style="margin-top: 20px">
+        <button type="submit" class="boton-guardar">
+          Guardar datos personales
+        </button>
+      </div>
     </form>
   </div>
 </template>
 
 <script setup>
 import DatosPerComponent from "../components/DatosPerComponent.vue";
+import HeaderComponent from "../components/HeaderComponent.vue";
 import FormacionAcadComponent from "../components/FormacionAcadComponent.vue";
-import Headercomponent from "../components/Headercomponent.vue";
 import { useDatosStore } from "../stores/datos";
 import { ref } from "vue";
 
 const datosStore = useDatosStore(); //stores
+
+import axios from "axios";
+
+const enviarFormulario = async () => {
+  const datosPersonales = {
+    entidad: entidad.value,
+    apellido1: apellido1.value,
+    apellido2: apellido2.value,
+    nombres: nombres.value,
+    tipoDocumento: cedula.value
+      ? "C.C"
+      : cedulExt.value
+      ? "C.E"
+      : pasaporte.value
+      ? "PAS"
+      : "",
+    sexo: sexoF.value ? "F" : sexoM.value ? "M" : "",
+    nacionalidad: nacCol.value
+      ? "Colombiana"
+      : nacExt.value
+      ? "Extranjera"
+      : "",
+    pais: pais.value,
+    libretaMilitar: libretaMilitar.value,
+    numeroLibreta: numeroLibreta.value,
+    dm: dm.value,
+    fechaNacimiento: {
+      dia: diaNac.value,
+      mes: mesNac.value,
+      ano: anoNac.value,
+    },
+    lugarNacimiento: {
+      pais: paisNac.value,
+      depto: deptoNac.value,
+      municipio: municipioNac.value,
+    },
+    direccion: {
+      pais: paisCorr.value,
+      depto: deptoCorr.value,
+      municipio: municipioCorr.value,
+      direccion: direccionCorr.value,
+      telefono: telefono.value,
+      email: email.value,
+    },
+    idiomas: [
+      {
+        idioma: idioma1.value,
+        habla: habla1.value,
+        lee: lee1.value,
+        escribe: escribe1.value,
+      },
+      {
+        idioma: idioma2.value,
+        habla: habla2.value,
+        lee: lee2.value,
+        escribe: escribe2.value,
+      },
+    ],
+    formacionAcademica: [
+      {
+        modalidad: modalidad1.value,
+        semestres: semestres1.value,
+        graduado: graduado1.value,
+        titulo: titulo1.value,
+        mes: mes1.value,
+        ano: ano1.value,
+        tarjeta: tarjeta1.value,
+      },
+      {
+        modalidad: modalidad2.value,
+        semestres: semestres2.value,
+        graduado: graduado2.value,
+        titulo: titulo2.value,
+        mes: mes2.value,
+        ano: ano2.value,
+        tarjeta: tarjeta2.value,
+      },
+      {
+        modalidad: modalidad3.value,
+        semestres: semestres3.value,
+        graduado: graduado3.value,
+        titulo: titulo3.value,
+        mes: mes3.value,
+        ano: ano3.value,
+        tarjeta: tarjeta3.value,
+      },
+    ],
+  };
+
+  try {
+    await axios.post("/api/datos", datosPersonales);
+    console.log("✅ Datos enviados con éxito");
+    // Puedes mostrar un mensaje visual o limpiar campos aquí
+  } catch (error) {
+    console.error("❌ Error al enviar datos:", error);
+  }
+};
 
 const entidad = ref("");
 const apellido1 = ref("");
@@ -320,5 +423,24 @@ const tarjeta3 = ref("");
 .compacto p {
   margin-top: 0;
   margin-bottom: 4px; /* puedes ajustar este valor */
+}
+
+.boton-guardar {
+  background-color: #117de9;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
+
+.boton-guardar:hover {
+  background-color: #00d8ff;
+  color: #24292e;
+  transform: scale(1.03);
 }
 </style>

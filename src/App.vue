@@ -19,18 +19,13 @@
           <!-- <li>
             <router-link to="/ListaDeTareas">Lista de Tareas</router-link>
           </li> -->
-          <li>
-            <router-link to="/HojaDeVidaCompleta"
-              >Imprimir Hoja de Vida</router-link
-            >
-          </li>
+          <!--<li>
+            <router-link to="/HojaDeVidaCompleta">Imprimir Hoja de Vida</router-link>
+          </li> -->
         </ul>
       </nav>
    
-      <div>
-    <button @click="guardarExperiencia">Guardar experiencia</button>
-  </div>
-   
+       
 
     </aside>
 

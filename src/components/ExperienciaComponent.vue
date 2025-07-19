@@ -1,10 +1,31 @@
-<script>
-export default {
-  name: 'ExperienciaComponent'
-}
+<script setup>
+import { reactive } from 'vue';
+import axios from 'axios';
+
+const experiencia = reactive({
+  empresa: '',
+  tipoEntidad: '',
+  pais: '',
+  departamento: '',
+  municipio: '',
+  correoEntidad: '',
+  telefonos: '',
+  fechaIngreso: { dia: '', mes: '', año: '' },
+  fechaRetiro: { dia: '', mes: '', año: '' },
+  cargo: '',
+  dependencia: '',
+  direccion: ''
+});
+
+const guardarExperiencia = async () => {
+  try {
+    await axios.post('/api/experiencia', experiencia);
+    console.log('📤 Experiencia enviada correctamente');
+  } catch (error) {
+    console.error('❌ Error al guardar:', error);
+  }
+};
 </script>
-
-
 
 <template>
   <div class="section">
@@ -13,63 +34,63 @@ export default {
 
       <div style="display: flex; margin-top: 3px">
         <div class="form-group col-2">
-          <label for="cc">EMPRESA O ENTIDAD.</label>
-          <input type="text" id="empresa-actual" class="form-control" />
+          <label>EMPRESA O ENTIDAD.</label>
+          <input type="text" v-model="experiencia.empresa" class="form-control" />
         </div>
 
         <div class="checkbox-group">
-          <label for="cc">PUBLICA.</label>
-          <input type="radio" id="cc" name="tipo-documento" value="cc" />
+          <label>PUBLICA</label>
+          <input type="radio" value="Publica" v-model="experiencia.tipoEntidad" />
         </div>
 
         <div class="checkbox-group">
-          <label for="cc">PRIVADA</label>
-          <input type="radio" id="cc" name="tipo-documento" value="cc" />
+          <label>PRIVADA</label>
+          <input type="radio" value="Privada" v-model="experiencia.tipoEntidad" />
         </div>
 
         <div class="form-group col-2">
-          <label for="pais-actual">PAÍS</label>
-          <input type="text" id="pais-actual" class="form-control" />
+          <label>PAÍS</label>
+          <input type="text" v-model="experiencia.pais" class="form-control" />
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group col-2">
-          <label for="depto-actual">DEPARTAMENTO</label>
-          <input type="text" id="depto-actual" class="form-control" />
+          <label>DEPARTAMENTO</label>
+          <input type="text" v-model="experiencia.departamento" class="form-control" />
         </div>
 
         <div class="form-group col-2">
-          <label for="municipio-actual">MUNICIPIO</label>
-          <input type="text" id="municipio-actual" class="form-control" />
+          <label>MUNICIPIO</label>
+          <input type="text" v-model="experiencia.municipio" class="form-control" />
         </div>
 
         <div class="form-group col-2">
-          <label for="email-actual">CORREO ELECTRÓNICO ENTIDAD</label>
-          <input type="email" id="email-actual" class="form-control" />
+          <label>CORREO ELECTRÓNICO ENTIDAD</label>
+          <input type="email" v-model="experiencia.correoEntidad" class="form-control" />
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group col-2">
-          <label for="telefonos-actual">TELÉFONOS</label>
-          <input type="text" id="telefonos-actual" class="form-control" />
+          <label>TELÉFONOS</label>
+          <input type="text" v-model="experiencia.telefonos" class="form-control" />
         </div>
 
         <div class="form-group col-2">
           <label>FECHA DE INGRESO</label>
           <div style="display: flex">
             <div class="form-group" style="width: 30px; margin-right: 5px">
-              <label for="dia-ingreso-actual">DÍA</label>
-              <input type="text" id="dia-ingreso-actual" class="form-control" />
+              <label>DÍA</label>
+              <input type="text" v-model="experiencia.fechaIngreso.dia" class="form-control" />
             </div>
             <div class="form-group" style="width: 30px; margin-right: 5px">
-              <label for="mes-ingreso-actual">MES</label>
-              <input type="text" id="mes-ingreso-actual" class="form-control" />
+              <label>MES</label>
+              <input type="text" v-model="experiencia.fechaIngreso.mes" class="form-control" />
             </div>
             <div class="form-group" style="width: 60px">
-              <label for="ano-ingreso-actual">AÑO</label>
-              <input type="text" id="ano-ingreso-actual" class="form-control" />
+              <label>AÑO</label>
+              <input type="text" v-model="experiencia.fechaIngreso.año" class="form-control" />
             </div>
           </div>
         </div>
@@ -78,16 +99,16 @@ export default {
           <label>FECHA DE RETIRO</label>
           <div style="display: flex">
             <div class="form-group" style="width: 30px; margin-right: 5px">
-              <label for="dia-retiro-actual">DÍA</label>
-              <input type="text" id="dia-retiro-actual" class="form-control" />
+              <label>DÍA</label>
+              <input type="text" v-model="experiencia.fechaRetiro.dia" class="form-control" />
             </div>
             <div class="form-group" style="width: 30px; margin-right: 5px">
-              <label for="mes-retiro-actual">MES</label>
-              <input type="text" id="mes-retiro-actual" class="form-control" />
+              <label>MES</label>
+              <input type="text" v-model="experiencia.fechaRetiro.mes" class="form-control" />
             </div>
             <div class="form-group" style="width: 60px">
-              <label for="ano-retiro-actual">AÑO</label>
-              <input type="text" id="ano-retiro-actual" class="form-control" />
+              <label>AÑO</label>
+              <input type="text" v-model="experiencia.fechaRetiro.año" class="form-control" />
             </div>
           </div>
         </div>
@@ -95,25 +116,28 @@ export default {
 
       <div class="form-row">
         <div class="form-group col-2">
-          <label for="cargo-actual">CARGO O CONTRATO ACTUAL</label>
-          <input type="text" id="cargo-actual" class="form-control" />
+          <label>CARGO O CONTRATO ACTUAL</label>
+          <input type="text" v-model="experiencia.cargo" class="form-control" />
         </div>
 
         <div class="form-group col-2">
-          <label for="dependencia-actual">DEPENDENCIA</label>
-          <input type="text" id="dependencia-actual" class="form-control" />
+          <label>DEPENDENCIA</label>
+          <input type="text" v-model="experiencia.dependencia" class="form-control" />
         </div>
 
         <div class="form-group col-2">
-          <label for="direccion-actual">DIRECCIÓN</label>
-          <input type="text" id="direccion-actual" class="form-control" />
+          <label>DIRECCIÓN</label>
+          <input type="text" v-model="experiencia.direccion" class="form-control" />
         </div>
       </div>
-    </div>
 
-   
+      <div class="form-group" style="margin-top: 20px">
+        <button class="btn btn-primary" @click="guardarExperiencia">Guardar experiencia</button>
+      </div>
+    </div>
   </div>
 </template>
+
 
 <style>
 .section {

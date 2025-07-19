@@ -15,19 +15,19 @@
         </div>
         <div class="form-group">
           <label for="entidad">Entidad Receptora:</label>
-          <input
-            v-model="entidad"
-            type="text"
-            id="entidad"
-            class="form-control3"
-          />
+          <input type="text" id="entidad" class="form-control3"/>
         </div>
       </div>
 </template>
 
 <script>
 export default {
-    name: "HeaderComponent"
+    name: "HeaderComponent",
+    data() {
+        return {
+            entidad: ''
+        };
+    },
     
 }
 </script>
