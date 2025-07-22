@@ -1,7 +1,21 @@
 <script setup>
-import { RouterView } from 'vue-router';
+import { useRouter } from 'vue-router';
+import { useUsuarioStore } from '../stores/usuarios'; // ajusta la ruta según tu proyecto
 
+const router = useRouter();
+const usuarioStore = useUsuarioStore();
+
+const cerrarSesion = () => {
+  usuarioStore.$reset(); // Limpia Pinia
+  localStorage.clear();  // Limpia token y datos del usuario
+  router.push("/login"); // Navega al login
+  location.reload();     // Recarga visual completa
+};
 </script>
+
+
+
+
 
 <template>
   <div class="layout">
@@ -11,16 +25,28 @@ import { RouterView } from 'vue-router';
       <nav>
         <ul class="sidebar-menu">
           <li><router-link to="/panel/Hoja1">Datos Personales</router-link></li>
-          <li><router-link to="/panel/Hoja2">Experiencia Laboral</router-link></li>
-          <li><router-link to="/panel/Hoja2Extra">Experiencia Laboral2</router-link></li>
-          <li><router-link to="/panel/Hoja3">Tiempo Total de Experiencia</router-link></li>
+          <li>
+            <router-link to="/panel/Hoja2">Experiencia Laboral</router-link>
+          </li>
+          <li>
+            <router-link to="/panel/Hoja2Extra"
+              >Experiencia Laboral2</router-link
+            >
+          </li>
+          <li>
+            <router-link to="/panel/Hoja3"
+              >Tiempo Total de Experiencia</router-link
+            >
+          </li>
         </ul>
+        <button @click="cerrarSesion" class="boton-cerrar">
+          Cerrar sesión
+        </button>
       </nav>
     </aside>
     <div class="main-content">
       <RouterView />
     </div>
-    
   </div>
 </template>
 
@@ -33,7 +59,7 @@ import { RouterView } from 'vue-router';
   padding: 20px;
   height: 100%;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 
 /* Título del menú */
@@ -131,5 +157,20 @@ import { RouterView } from 'vue-router';
   color: #f10c0c;
   text-align: center;
   margin-bottom: 24px;
+}
+
+.boton-cerrar {
+  background-color: #ef4444;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.boton-cerrar:hover {
+  background-color: #dc2626;
 }
 </style>
