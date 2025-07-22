@@ -1,5 +1,6 @@
+//models/usuario
 import mongoose from "mongoose";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 const usuarioSchema = new mongoose.Schema({
   nombre: { type: String, required: true },
@@ -17,9 +18,15 @@ usuarioSchema.pre("save", async function (next) {
   next();
 });
 
-// Método personalizado
-usuarioSchema.methods.validarPassword = async function (pwPlano) {
-  return await bcrypt.compare(pwPlano, this.password);
+
+usuarioSchema.methods.validarPassword = function (passwordPlano) {
+  return bcrypt.compare(passwordPlano, this.password); // returns Promise<boolean>
 };
 
+
+
 export default mongoose.model("Usuario", usuarioSchema);
+
+
+
+

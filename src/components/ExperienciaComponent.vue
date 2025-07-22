@@ -20,9 +20,9 @@ const experiencia = reactive({
 const guardarExperiencia = async () => {
   try {
     await axios.post('/api/experiencia', experiencia);
-    console.log('📤 Experiencia enviada correctamente');
+    console.log('Experiencia enviada correctamente');
   } catch (error) {
-    console.error('❌ Error al guardar:', error);
+    console.error('Error al guardar:', error);
   }
 };
 </script>

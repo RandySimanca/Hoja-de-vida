@@ -1,47 +1,65 @@
+import jwt from 'jsonwebtoken';
 import Usuario from '../models/Usuario.js';
+/**
+ * Controlador para manejar el registro y login de usuarios.
+ * Utiliza JWT para autenticación.
+ */
 
 export const registrarUsuario = async (req, res) => {
   try {
-    const { nombre, correo, password } = req.body;
+    const { nombre, email, password, roles } = req.body;
 
-    const existente = await Usuario.findOne({ correo });
-    if (existente)
-      return res.status(400).json({ mensaje: 'El correo ya está registrado.' });
+    if (!nombre || !email || !password) {
+      return res.status(400).json({ mensaje: "Todos los campos son obligatorio." });
+    }
 
-    const nuevoUsuario = new Usuario({ nombre, correo, password });
+    const existe = await Usuario.findOne({ email });
+    if (existe) {
+      return res.status(409).json({ mensaje: "El correo ya está registrado." });
+    }
+
+    const nuevoUsuario = new Usuario({ nombre, email, password, roles });
     await nuevoUsuario.save();
 
-    res.status(201).json({ mensaje: 'Usuario creado correctamente.' });
-  } catch (error) {
-    console.error('Error en registro:', error);
-    res.status(500).json({ mensaje: 'Error del servidor.' });
+    res.status(201).json({ mensaje: "Usuario registrado exitosamente." });
+  } catch (err) {
+    console.error("Error en registro:", err.message);
+    res.status(500).json({ mensaje: "Error interno del servidor." });
   }
 };
 
-import jwt from 'jsonwebtoken';
-
 export const loginUsuario = async (req, res) => {
   try {
-    const { correo, password } = req.body;
-    const usuario = await Usuario.findOne({ correo });
+    const { email, password } = req.body;
 
-    if (!usuario) return res.status(404).json({ mensaje: 'Usuario no encontrado.' });
+    if (!email || !password) {
+      return res.status(400).json({ mensaje: "Correo y contraseña son obligatorios." });
+    }
 
-    const validado = await usuario.validarPassword(password);
-    if (!validado)
-      return res.status(401).json({ mensaje: 'Contraseña incorrecta.' });
+    const usuario = await Usuario.findOne({ email });
+    if (!usuario) return res.status(404).json({ mensaje: "Usuario no encontrado." });
 
+    const esValido = await usuario.validarPassword(password);
+    if (!esValido) return res.status(401).json({ mensaje: "Contraseña incorrecta." });
+
+    // Token JWT real
     const token = jwt.sign(
-      { id: usuario._id, nombre: usuario.nombre },
+      { id: usuario._id, roles: usuario.roles },
       process.env.JWT_SECRET,
       { expiresIn: '2h' }
     );
 
-    res.json({ token, usuario: { nombre: usuario.nombre, correo: usuario.correo } });
-  } catch (error) {
-    console.error('Error en login:', error);
-    res.status(500).json({ mensaje: 'Error del servidor.' });
+    res.json({
+      token,
+      usuario: {
+        uid: usuario._id,
+        nombre: usuario.nombre,
+        email: usuario.email,
+        roles: usuario.roles
+      }
+    });
+  } catch (err) {
+    console.error("Error en login:", err.message);
+    res.status(500).json({ mensaje: "Error interno del servidor." });
   }
 };
-
-

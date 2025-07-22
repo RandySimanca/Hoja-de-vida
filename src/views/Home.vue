@@ -1,6 +1,7 @@
 <script setup>
-import MenuComponents from '../components/MenuComponents.vue';
-import LoginViews from './LoginViews.vue';
+//import MenuComponents from '../components/MenuComponents.vue';
+import Login from './Login.vue';
+
 
 
 
@@ -9,7 +10,7 @@ import LoginViews from './LoginViews.vue';
 <template>
   
   <h2>Home Page</h2>
-  <LoginViews />
+  <login />
 </template>
 
 <style></style>

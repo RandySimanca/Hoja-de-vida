@@ -5,7 +5,7 @@ import LayoutPublico from "../layouts/LayoutPublico.vue";
 import LayoutPrivado from "../layouts/LayoutPrivado.vue";
 
 // Vistas públicas
-import LoginViews from "../views/LoginViews.vue";
+import LoginViews from "../views/Login.vue";
 
 // Vistas privadas
 import Home from "../views/Home.vue";
@@ -21,19 +21,19 @@ const requireAuth = (to, from, next) => {
 };
 
 
-// 🚀 Crear el router
+// Crear el router
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    // 🟦 Layout público (sin menú)
+    // Layout público (sin menú)
     {
       path: "/",
       component: LayoutPublico,
       children: [
-        { path: "", redirect: "/Login" },
+        { path: "", redirect: "/login" },
         {
           path: "login",
-          name: "Login",
+          name: "login",
           component: LoginViews,
         }
       ]
