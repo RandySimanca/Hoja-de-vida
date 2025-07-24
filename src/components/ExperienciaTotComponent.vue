@@ -175,12 +175,7 @@
         </div>
       </div>
 
-      <div class="footer">
-        <p>
-          LÍNEA GRATUITA NACIONAL 01800917770 - PÁGINA WEB:
-          www.funcionpublica.gov.co
-        </p>
-      </div>
+      
 </template>
 
 

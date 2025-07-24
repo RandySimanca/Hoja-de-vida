@@ -23,12 +23,17 @@
       </div>
     </form>
   </div>
+  <div>
+    <FooterComponent />
+  </div>
 </template>
 
 <script setup>
 import DatosPerComponent from "../components/DatosPerComponent.vue";
 import HeaderComponent from "../components/HeaderComponent.vue";
 import FormacionAcadComponent from "../components/FormacionAcadComponent.vue";
+import FooterComponent from "../components/FooterComponent.vue";
+
 import { useDatosStore } from "../stores/datos";
 import { ref } from "vue";
 
@@ -38,7 +43,6 @@ import axios from "axios";
 
 const enviarFormulario = async () => {
   const datosPersonales = {
-    entidad: entidad.value,
     apellido1: apellido1.value,
     apellido2: apellido2.value,
     nombres: nombres.value,
@@ -123,15 +127,19 @@ const enviarFormulario = async () => {
   };
 
   try {
-    await axios.post("/api/datos", datosPersonales);
-    console.log("Datos enviados con éxito");
-    // Puedes mostrar un mensaje visual o limpiar campos aquí
+    const respuesta = await axios.post(
+      "/api/datos-personales",
+      datosPersonales
+    );
+    console.log("✅ Datos enviados con éxito:", respuesta.data);
   } catch (error) {
-    console.error("Error al enviar datos:", error);
+    console.error(
+      "❌ Error al enviar datos:",
+      error.response?.data || error.message
+    );
   }
 };
 
-const entidad = ref("");
 const apellido1 = ref("");
 const apellido2 = ref("");
 const nombres = ref("");
@@ -195,20 +203,179 @@ const tarjeta3 = ref("");
 </script>
 
 <style>
-.container {
-  display: flex;
-  justify-content: space-between; /* Distribuye las columnas */
-  align-items: flex-start; /* Asegura que se alineen desde arriba */
-  gap: 1px; /* Espaciado uniforme entre elementos */
-  border: 2px solid rgb(0, 204, 255);
-  border-radius: 18px;
-  flex-direction: row;
-  gap: 100px;
+.boton-guardar {
+  background-color: #3498db;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.container1 {
-  border: 5px solid rgb(0, 204, 255);
-  border-radius: 18px;
+.boton-guardar:hover {
+  background-color: #2980b9;
+}
+
+.h1 {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 32px;
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+.main-content {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 24px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.header {
+  background-color: #24292e;
+  color: #fff;
+  padding: 16px;
+  margin-bottom: 24px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.h1 {
+  color: #f10c0c;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.boton-cerrar {
+  background-color: #ef4444;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.boton-cerrar:hover {
+  background-color: #dc2626;
+}
+
+.saludo {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.1rem;
+  color: #2c3e50;
+  padding: 0.75rem 1rem;
+  background-color: #f8f9fa;
+  border-left: 4px solid #34495e;
+  border-radius: 6px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
+}
+
+.saludo strong {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.saludo {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.saludo {
+  display: block;
+  margin-bottom: 24px;
+}
+
+.layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar {
+  width: 240px;
+  background: linear-gradient(135deg, #1d1f27, #2c2f36);
+  color: #f1f1f1;
+  padding: 20px;
+  height: 100%;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.sidebar-menu li {
+  margin-bottom: 16px;
+}
+
+.sidebar-menu a {
+  display: block;
+  padding: 12px 16px;
+  color: #e0e0e0;
+  background-color: transparent;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.router-link-exact-active {
+  background-color: #00d8ff22;
+  color: #00d8ff;
+  font-weight: 600;
+  border-left: 4px solid #00d8ff;
+}
+
+.sidebar {
+  width: 220px;
+  background-color: #1d2024;
+  color: white;
+  padding: 20px;
+  height: 100%;
+}
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu li {
+  margin-bottom: 16px;
+}
+
+.sidebar-menu a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.sidebar-menu a:hover {
+  color: #00d8ff;
+}
+
+.section-scrol {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  scroll-behavior: smooth;
 }
 
 .section {
@@ -221,53 +388,7 @@ const tarjeta3 = ref("");
   gap: 1px;
   align-items: flex-start;
   margin-top: 0;
-}
-
-.image-column,
-.form-group {
-  flex: 1; /* Asegura que cada elemento ocupe un espacio proporcional */
-}
-
-.main-section {
-  display: flex;
-}
-
-.header {
-  text-align: center;
-}
-
-.header h2,
-.header h3,
-.header p {
-  margin: 5px 0;
-  color: #f8f6f6;
-}
-
-.form-group label {
-  margin-bottom: 4px;
-}
-
-.form-control {
-  width: 70%;
-  padding: 4px;
-  box-sizing: border-box;
-  height: 28px;
-}
-
-.form-control3 {
-  width: 30%;
-  padding: 4px;
-  box-sizing: border-box;
-  height: 28px;
-}
-
-.imagen {
-  width: 100px;
-  height: 120px;
-  border: 1px solid #ccc;
-  display: block;
-  margin: 0 auto;
-  border-radius: 8px;
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 1);
 }
 
 .section-title {
@@ -289,91 +410,43 @@ const tarjeta3 = ref("");
   border-radius: 50%;
   margin-right: 10px;
 }
-.form-row {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 5px;
-  outline: 2px solid #808080;
+
+.container1 {
+  border: 5px solid rgb(0, 204, 255);
+  border-radius: 18px;
+  
 }
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1px;
+  border: 2px solid rgb(0, 204, 255);
+  border-radius: 18px;
+  flex-direction: row;
+  gap: 100px;
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 1);
+}
+
+.image-column,
 .form-group {
-  margin-right: 5px;
-  margin-bottom: 5px;
   flex: 1;
 }
-.form-group label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 3px;
-  font-size: 11px;
-}
-.form-control {
-  width: 100%;
-  padding: 5px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
+
+header {
+  text-align: center;
 }
 
-.form-control1 {
-  width: 100%;
-  padding: 5px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
-
-.form-control2 {
-  width: 50%;
-  padding: 5px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
-.checkbox-group {
+.main-section {
   display: flex;
-  align-items: left;
-  margin-right: 5px;
-}
-.checkbox-group input {
-  margin-left: 0px;
-}
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 10px;
-}
-.table th,
-.table td {
-  border: 1px solid #ccc;
-  padding: 1px;
-  text-align: center;
-  font-size: 12px;
-}
-.table th {
-  background-color: #f0f0f0;
-}
-.signature-box {
-  border: 1px solid #ccc;
-  height: 80px;
-  margin-top: 10px;
-}
-.col-2 {
-  flex: 10 0 10%;
-}
-.col-3 {
-  flex: 0 0 31%;
-}
-.col-4 {
-  flex: 0 0 23%;
-}
-.text-center {
-  text-align: center;
-}
-.footer {
-  margin-top: 20px;
-  text-align: center;
-  font-size: 10px;
 }
 
-.p {
-  font-size: 11px;
+.header h2,
+.header h3,
+.header p {
+  margin: 5px 0;
+  color: #f8f6f6;
 }
 
 .header {
@@ -390,57 +463,110 @@ const tarjeta3 = ref("");
   text-align: center;
 }
 
-.tittle {
-  font-size: 1.8rem;
+form {
+  margin-bottom: 40px;
+}
+
+.form-group label {
+  display: block;
   font-weight: bold;
-  margin: 0;
+  margin-bottom: 3px;
+  font-size: 11px;
 }
 
-.nav-list {
-  list-style: none;
+.form-row {
   display: flex;
-  gap: 24px;
-  margin: 0;
-  padding: 0;
+  flex-wrap: wrap;
+  margin: 5px;
+  outline: 2px solid #808080;
+}
+.form-group {
+  margin-right: 5px;
+  margin-bottom: 5px;
+  flex: 1;
 }
 
-.nav-list li a {
-  color: white;
-  text-decoration: none;
-  font-size: 1rem;
-  padding: 8px 12px;
-  transition: background-color 0.3s, color 0.3s;
+.form-control {
+  width: 70%;
+  padding: 4px;
+  box-sizing: border-box;
+  height: 28px;
 }
 
-.nav-list li a:hover {
-  background-color: #00d8ff;
-  color: #24292e;
-  border-radius: 4px;
+.form-control1 {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.form-control2 {
+  width: 50%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.form-control3 {
+  width: 30%;
+  padding: 4px;
+  box-sizing: border-box;
+  height: 28px;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: left;
+  margin-right: 5px;
+}
+.checkbox-group input {
+  margin-left: 0px;
+}
+.imagen {
+  width: 100px;
+  height: 120px;
+  border: 1px solid #ccc;
+  display: block;
+  margin: 0 auto;
+  border-radius: 8px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+}
+.table th,
+.table td {
+  border: 1px solid #ccc;
+  padding: 1px;
+  text-align: center;
+  font-size: 12px;
+}
+.table th {
+  background-color: #f0f0f0;
 }
 
 .compacto h3,
 .compacto h2,
 .compacto p {
   margin-top: 0;
-  margin-bottom: 4px; /* puedes ajustar este valor */
+  margin-bottom: 4px;
+  text-align: center;
 }
 
-.boton-guardar {
-  background-color: #117de9;
-  color: #fff;
-  font-weight: bold;
-  border: none;
-  padding: 10px 24px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
-  cursor: pointer;
-  letter-spacing: 0.5px;
+.col-2 {
+  flex: 10 0 10%;
+}
+.col-3 {
+  flex: 0 0 31%;
+}
+.col-4 {
+  flex: 0 0 23%;
 }
 
-.boton-guardar:hover {
-  background-color: #00d8ff;
-  color: #24292e;
-  transform: scale(1.03);
+.p {
+  font-size: 11px;
 }
+
 </style>

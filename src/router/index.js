@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 // Layouts
-import LayoutPublico from "../layouts/LayoutPublico.vue";
-import LayoutPrivado from "../layouts/LayoutPrivado.vue";
+import LayoutPublico from "../Layouts/LayoutPublico.vue";
+import LayoutPrivado from "../Layouts/LayoutPrivado.vue";
 
 // Vistas públicas
 import LoginViews from "../views/Login.vue";
@@ -13,6 +13,7 @@ import Hoja1 from "../views/Hoja1.vue";
 import Hoja2 from "../views/Hoja2.vue";
 import Hoja2Extra from "../views/Hoja2Extra.vue";
 import Hoja3 from "../views/Hoja3.vue";
+
 
 // Middleware para proteger rutas
 const requireAuth = (to, from, next) => {

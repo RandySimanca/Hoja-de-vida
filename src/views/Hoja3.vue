@@ -1,4 +1,5 @@
 <template>
+  
   <div class="section">
     <div>
       <Header2Component />
@@ -14,12 +15,17 @@
       />
     </div>
   </div>
+  <div>
+  <FooterComponent/>
+ </div>
+
 </template>
 
 <script setup>
 import { reactive, ref, computed, watch } from "vue";
 import Header2Component from "../components/Header2Component.vue";
 import ExperienciaTotComponent from "../components/ExperienciaTotComponent.vue";
+import FooterComponent from "../components/FooterComponent.vue";
 
 // 🔷 1. Modelo de experiencia laboral
 const experiencias = reactive([
@@ -117,11 +123,12 @@ watch(experiencias, recalcularTotales, { deep: true }); /*hasta aqui el script*/
 </script>
 
 <style>
+/*
 .container {
   display: flex;
-  justify-content: space-between; /* Distribuye las columnas */
-  align-items: flex-start; /* Asegura que se alineen desde arriba */
-  gap: 1px; /* Espaciado uniforme entre elementos */
+  justify-content: space-between; 
+  align-items: flex-start; 
+  gap: 1px; 
   border: 2px solid rgb(0, 204, 255);
   border-radius: 18px;
   flex-direction: row;
@@ -147,7 +154,7 @@ watch(experiencias, recalcularTotales, { deep: true }); /*hasta aqui el script*/
 
 .image-column,
 .form-group {
-  flex: 1; /* Asegura que cada elemento ocupe un espacio proporcional */
+  flex: 1; 
 }
 
 .main-section {
@@ -344,7 +351,9 @@ watch(experiencias, recalcularTotales, { deep: true }); /*hasta aqui el script*/
 .compacto h2,
 .compacto p {
   margin-top: 0;
-  margin-bottom: 4px; /* puedes ajustar este valor */
+  margin-bottom: 4px; 
   text-align: center;
 }
+
+*/
 </style>

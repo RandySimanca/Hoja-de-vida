@@ -1,16 +1,17 @@
-const DatosPersonales = require("../models/datosPersonales");
+//datosPersonalesControllers.js
+import DatosPersonales from './models/DatosPersonales.js';
 
-exports.crearDatos = async (req, res) => {
+export const crearDatosPersonales = async (req, res) => {
   try {
     const nuevoRegistro = new DatosPersonales(req.body);
-    await nuevoRegistro.save();
-    res.status(201).json(nuevoRegistro);
+    const registroGuardado = await nuevoRegistro.save();
+    res.status(201).json(registroGuardado);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: "Error al guardar datos personales",
-        detalle: error.message,
-      });
+    console.error('Error al guardar datos personales:', error.message);
+    res.status(400).json({ mensaje: 'Error al guardar los datos', error });
   }
 };
+
+
+
+

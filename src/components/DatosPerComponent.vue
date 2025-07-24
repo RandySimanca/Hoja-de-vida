@@ -359,7 +359,6 @@ export default {
   name: "DatosPerComponent",
   data() {
     return {
-      entidad: "",
       apellido1: "",
       apellido2: "",
       nombres: "",

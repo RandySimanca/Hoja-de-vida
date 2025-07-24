@@ -10,7 +10,7 @@
 
 <script setup>
 
-import { RouterView } from 'vue-router';
+
 import MenuComponent from '../components/MenuComponents.vue';
 import axios from 'axios';
 
@@ -74,15 +74,9 @@ h1 {
 }
 
 
-
-
-
 .layout{
   display: flex;
 }
 
-.contenido {
-  flex: 1;
-  padding: 20px;
-}
+
 </style>

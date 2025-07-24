@@ -1,36 +1,52 @@
 <template>
   <div class="login-wrapper">
     <div class="login-card">
-      <h2>Bienvenido</h2>
-      <p>Inicia sesión para acceder a tu panel</p>
+      <h2>{{ modoRegistro ? "Crear cuenta" : "Bienvenido" }}</h2>
+      <p>{{ modoRegistro ? "Completa tus datos para registrarte" : "Inicia sesión para acceder a tu panel" }}</p>
 
-      <form @submit.prevent="handleLogin">
+      <form @submit.prevent="modoRegistro ? handleRegister() : handleLogin()">
+        <!-- Email -->
         <input
           v-model="email"
           type="email"
-          name="email"
-          id="email"
           placeholder="Correo electrónico"
           autocomplete="email"
         />
 
+        <!-- Password -->
         <input
           v-model="password"
           type="password"
-          name="password"
-          id="password"
           placeholder="Contraseña"
           autocomplete="current-password"
         />
 
+        <!-- Nombre completo (solo para registro) -->
+        <input
+          v-if="modoRegistro"
+          v-model="nombre"
+          type="text"
+          placeholder="Nombre completo"
+          autocomplete="name"
+        />
+
         <button type="submit" :disabled="loading">
-          {{ loading ? "Ingresando..." : "Entrar" }}
+          {{ loading ? (modoRegistro ? "Registrando..." : "Ingresando...") : (modoRegistro ? "Registrarme" : "Entrar") }}
         </button>
+
         <p v-if="error" class="error">{{ error }}</p>
       </form>
+
+      <p>
+        {{ modoRegistro ? "¿Ya tienes cuenta?" : "¿No tienes cuenta?" }}
+        <button @click="modoRegistro = !modoRegistro" class="toggle-btn">
+          {{ modoRegistro ? "Entrar" : "Registrarme" }}
+        </button>
+      </p>
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref } from "vue";
@@ -39,8 +55,10 @@ import axios from "axios";
 
 const email = ref("");
 const password = ref("");
+const nombre = ref("");
 const error = ref("");
 const loading = ref(false);
+const modoRegistro = ref(false);
 const router = useRouter();
 
 const handleLogin = async () => {
@@ -52,7 +70,6 @@ const handleLogin = async () => {
 
   loading.value = true;
   try {
-    // Realizar la solicitud de inicio de sesión
     const res = await axios.post("/api/login", {
       email: email.value,
       password: password.value,
@@ -64,21 +81,38 @@ const handleLogin = async () => {
 
     router.push(usuario.roles.includes("admin") ? "/admin" : "/panel/Hoja1");
   } catch (e) {
-    if (e.response?.data?.mensaje) {
-      error.value = e.response.data.mensaje;
-    } else if (e.response?.data) {
-      console.error("Respuesta backend:", e.response.data);
-      error.value = "Error de servidor: " + JSON.stringify(e.response.data);
-    } else if (e.message) {
-      error.value = "Error de conexión: " + e.message;
-    } else {
-      error.value = "Error inesperado";
-    }
+    error.value = e.response?.data?.mensaje || "Error de conexión: " + e.message;
+  } finally {
+    loading.value = false;
+  }
+};
+
+const handleRegister = async () => {
+  error.value = "";
+  if (!email.value || !password.value || !nombre.value) {
+    error.value = "Completa todos los campos para registrarte";
+    return;
+  }
+
+  loading.value = true;
+  try {
+    await axios.post("/api/usuarios", {
+      email: email.value,
+      password: password.value,
+      nombre: nombre.value,
+      roles: ["usuario"], // puedes asignar rol predeterminado
+    });
+
+    modoRegistro.value = false;
+    error.value = "Registro exitoso. Ahora puedes iniciar sesión.";
+  } catch (e) {
+    error.value = e.response?.data?.mensaje || "Error al registrar";
   } finally {
     loading.value = false;
   }
 };
 </script>
+
 
 <style scoped>
 .login-wrapper {

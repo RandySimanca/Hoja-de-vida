@@ -140,7 +140,7 @@ const guardarExperiencia = async () => {
 
 
 <style>
-.section {
+/*.section {
   border: 2px solid rgb(0, 204, 255);
   padding: 10px;
   gap: 10px;
@@ -154,7 +154,7 @@ const guardarExperiencia = async () => {
 
 .image-column,
 .form-group {
-  flex: 1; /* Asegura que cada elemento ocupe un espacio proporcional */
+  flex: 1;
 }
 
 .main-section {
@@ -351,7 +351,7 @@ const guardarExperiencia = async () => {
 .compacto h2,
 .compacto p {
   margin-top: 0;
-  margin-bottom: 4px; /* puedes ajustar este valor */
+  margin-bottom: 4px; 
   text-align: center;
-}
+}*/
 </style>

@@ -2,9 +2,6 @@
 //import MenuComponents from '../components/MenuComponents.vue';
 import Login from './Login.vue';
 
-
-
-
 </script>
 
 <template>

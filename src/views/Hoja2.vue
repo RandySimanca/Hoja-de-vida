@@ -4,7 +4,6 @@
       <div>
         <Header2Component />
       </div>
-
       <div class="section">
         <div class="section-title">
           <span class="section-number">3</span> EXPERIENCIA LABORAL
@@ -145,26 +144,27 @@
           </div>
         </div>
         <div class="form-group" style="margin-top: 20px">
-        <button class="btn btn-primary" @click="guardarExperiencia">Guardar experiencia</button>
-      </div>
-      </div>
-
-      <div>
-        <ExperienciaComponent/>
+          <button class="btn btn-primary" @click="guardarExperiencia">
+            Guardar experiencia
+          </button>
+        </div>
       </div>
 
       <div>
-        <ExperienciaComponent/>
+        <ExperienciaComponent />
       </div>
 
       <div>
-        <ExperienciaComponent/>
+        <ExperienciaComponent />
       </div>
 
-    
+      <div>
+        <ExperienciaComponent />
+      </div>
     </form>
-
- 
+  </div>
+  <div>
+    <FooterComponent />
   </div>
 </template>
 
@@ -174,6 +174,7 @@
 //import { useExperienciaStore } from "../stores/experienciaStore";
 import ExperienciaComponent from "../components/ExperienciaComponent.vue";
 import Header2Component from "../components/Header2Component.vue";
+import FooterComponent from "../components/FooterComponent.vue";
 
 //const store = useExperienciaStore();
 
@@ -196,11 +197,22 @@ function agregarExperiencia() {
 </script>
 
 <style>
+/*
+.section-scrol {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  scroll-behavior: smooth;
+}
+
+form {
+  margin-bottom: 40px;
+}
 .container {
   display: flex;
-  justify-content: space-between; /* Distribuye las columnas */
-  align-items: flex-start; /* Asegura que se alineen desde arriba */
-  gap: 1px; /* Espaciado uniforme entre elementos */
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1px;
   border: 2px solid rgb(0, 204, 255);
   border-radius: 18px;
   flex-direction: row;
@@ -226,7 +238,7 @@ function agregarExperiencia() {
 
 .image-column,
 .form-group {
-  flex: 1; /* Asegura que cada elemento ocupe un espacio proporcional */
+  flex: 1;
 }
 
 .main-section {
@@ -423,7 +435,8 @@ function agregarExperiencia() {
 .compacto h2,
 .compacto p {
   margin-top: 0;
-  margin-bottom: 4px; /* puedes ajustar este valor */
+  margin-bottom: 4px;
   text-align: center;
 }
+  */
 </style>
