@@ -6,6 +6,7 @@ import { createPinia } from "pinia";
 import axios from "axios";
 
 
+
 const pinia = createPinia();
 
 createApp(App).use(router).use(pinia).mount("#app");

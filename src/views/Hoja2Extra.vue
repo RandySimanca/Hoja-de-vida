@@ -7,13 +7,15 @@
     <div class="" v-for="(exp, index) in experiencias" :key="index">
       <ExperienciaComponent />
     </div>
-
-    <button @click="agregarExperiencia">Agregar experiencia</button>
+    <div class="form-group" style="margin-top: 20px">
+      <button type="submit" class="boton-guardar" @click="agregarExperiencia">Agregar experiencia</button>
   </div>
 
   <div>
   <FooterComponent/>
  </div>
+
+  </div>
 
 </template>
 

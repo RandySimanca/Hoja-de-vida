@@ -1,3 +1,4 @@
+<!--components/DatosPerComponent.vue-->
 <template>
   <form @submit.prevent="enviarFormulario">
     <div class="section">
@@ -76,11 +77,11 @@
           <label>SEXO</label>
           <div style="display: flex; margin-top: 3px">
             <div class="checkbox-group">
-              <input type="radio" id="sexoF" value="F" v-model="sexoF" />
+              <input type="radio" id="sexoF" value="Femenino" v-model="sexoF" />
               <label for="sexoF">F</label>
             </div>
             <div class="checkbox-group">
-              <input type="radio" id="sexoM" value="F" v-model="sexoM" />
+              <input type="radio" id="sexoM" value="Masculino" v-model="sexoM" />
               <label for="sexoM">M</label>
             </div>
           </div>
@@ -94,7 +95,7 @@
                 type="radio"
                 id="nacCol"
                 name="nacionalidad"
-                value="nacCol"
+                value="Colombiano"
                 v-model="nacCol"
               />
               <label for="nac-col">COL.</label>
@@ -290,71 +291,24 @@
           </div>
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group" style="width: 100%">
-          <label
-            >ESPECÍFIQUE LOS IDIOMAS DIFERENTES AL ESPAÑOL QUE: HABLA, LEE,
-            ESCRIBE DE FORMA, REGULAR (R), BIEN (B) O MUY BIEN (MB)</label
-          >
-
-          <table class="table">
-            <thead>
-              <tr>
-                <th rowspan="2">IDIOMA</th>
-                <th colspan="3">LO HABLA</th>
-                <th colspan="3">LO LEE</th>
-                <th colspan="3">LO ESCRIBE</th>
-              </tr>
-              <tr>
-                <th>R</th>
-                <th>B</th>
-                <th>MB</th>
-                <th>R</th>
-                <th>B</th>
-                <th>MB</th>
-                <th>R</th>
-                <th>B</th>
-                <th>MB</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <input type="text" class="form-control" v-model="idioma1" />
-                </td>
-                <td><input type="radio" value="R" v-model="habla1" /></td>
-                <td><input type="radio" value="B" v-model="habla1" /></td>
-                <td><input type="radio" value="MB" v-model="habla1" /></td>
-                <td><input type="radio" value="R" v-model="lee1" /></td>
-                <td><input type="radio" value="B" v-model="lee1" /></td>
-                <td><input type="radio" value="MB" v-model="lee1" /></td>
-                <td><input type="radio" value="R" v-model="escribe1" /></td>
-                <td><input type="radio" value="B" v-model="escribe1" /></td>
-                <td><input type="radio" value="MB" v-model="escribe1" /></td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="text" class="form-control" v-model="idioma2" />
-                </td>
-                <td><input type="radio" value="R" v-model="habla2" /></td>
-                <td><input type="radio" value="B" v-model="habla2" /></td>
-                <td><input type="radio" value="MB" v-model="habla2" /></td>
-                <td><input type="radio" value="R" v-model="lee2" /></td>
-                <td><input type="radio" value="B" v-model="lee2" /></td>
-                <td><input type="radio" value="MB" v-model="lee2" /></td>
-                <td><input type="radio" value="R" v-model="escribe2" /></td>
-                <td><input type="radio" value="B" v-model="escribe2" /></td>
-                <td><input type="radio" value="MB" v-model="escribe2" /></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
     </div>
+    <div class="form-group" style="margin-top: 20px">
+      <button type="submit" class="boton-guardar" :disabled="cargando">
+        {{ cargando ? "Guardando..." : "Guardar datos personales" }}
+      </button>
+    </div>
+
+    <p v-if="envioExitoso" class="mensaje-ok"></p>
+    <p v-if="errorEnvio" class="mensaje-error">
+      {{ errorEnvio }}
+    </p>
   </form>
 </template>
 
 <script>
+import { showSuccess, showError } from "../utils/showMessage.js";
+import api from "../api/axios"; // Asegúrate de que la ruta sea correcta
+
 export default {
   name: "DatosPerComponent",
   data() {
@@ -386,39 +340,67 @@ export default {
       direccionCorr: "",
       telefono: "",
       email: "",
-      idioma1: "",
-      habla1: "",
-      lee1: "",
-      escribe1: "",
-      idioma2: "",
-      habla2: "",
-      lee2: "",
-      escribe2: "",
-      // Fila 1
-      modalidad1: "",
-      semestres1: "",
-      graduado1: "",
-      titulo1: "",
-      mes1: "",
-      ano1: "",
-      tarjeta1: "",
-      // Fila 2
-      modalidad2: "",
-      semestres2: "",
-      graduado2: "",
-      titulo2: "",
-      mes2: "",
-      ano2: "",
-      tarjeta2: "",
-      // Fila 3
-      modalidad3: "",
-      semestres3: "",
-      graduado3: "",
-      titulo3: "",
-      mes3: "",
-      ano3: "",
-      tarjeta3: "",
+
+      // feedback visual
+      envioExitoso: false,
+      errorEnvio: null,
+      cargando: false,
     };
+  },
+  methods: {
+    async enviarFormulario() {
+      this.envioExitoso = false;
+      this.errorEnvio = null;
+      this.cargando = true;
+
+      const datos = {
+        apellido1: this.apellido1,
+        apellido2: this.apellido2,
+        nombres: this.nombres,
+        tipoDocumento: this.cedula || this.cedulExt || this.pasaporte,
+        numDocumento: this.numDocumento,
+        sexo: this.sexoF || this.sexoM,
+        nacionalidad: this.nacCol || this.nacExt,
+        pais: this.pais,
+        libretaMilitar: this.libretaMilitar,
+        numeroLibreta: this.numeroLibreta,
+        dm: this.dm,
+        fechaNacimiento: {
+          dia: this.diaNac,
+          mes: this.mesNac,
+          anio: this.anoNac,
+          pais: this.paisNac,
+          depto: this.deptoNac,
+          municipio: this.municipioNac,
+        },
+        direccionCorrespondencia: {
+          pais: this.paisCorr,
+          depto: this.deptoCorr,
+          municipio: this.municipioCorr,
+          direccion: this.direccionCorr,
+          telefono: this.telefono,
+          email: this.email,
+        },
+      };
+
+      //para usar con showMessage.js
+      try {
+        const res = await api.post("/datos-personales", datos);
+        const result = res.data;
+
+        console.log("✅ Datos guardados:", result);
+        this.envioExitoso = true;
+        showSuccess("✅ ¡Datos personales guardados correctamente!");
+      } catch (error) {
+        console.error(
+          "Error al enviar datos personales:",
+          error.response?.data || error.message
+        );
+        showError("❌ Ocurrió un error al guardar los datos.");
+      } finally {
+        this.cargando = false;
+      }
+    },
   },
 };
 </script>

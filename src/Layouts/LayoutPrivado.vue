@@ -13,11 +13,12 @@
 
 import MenuComponent from '../components/MenuComponents.vue';
 import axios from 'axios';
+import api from '../api/axios';
 
 
 const guardarExperiencia = async () => {
   try {
-    await axios.post('/api/experiencia', {
+    await api.post('/api/experiencia', {
      
       //aqui se cargan los datos que se van a enviar
     });

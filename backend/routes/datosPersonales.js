@@ -1,35 +1,22 @@
-//temporal borrar y descomentar cuando se haga el deploy
-import express from 'express';
+//backend/routes/datosPersonales.js
+
+import express from "express";
+import { crearDatosPersonales } from "../controllers/datosPersonalesControllers.js";
+//import { crearDatosPersonales, obtenerDatosPersonales } from '../controllers/datosPersonalesControllers.js'
+import verificarJWT from "../middlewares/verificarJWT.js";
+import { obtenerDatosPersonales } from "../controllers/datosPersonalesControllers.js";
+
 const router = express.Router();
 
-router.post('/test', (req, res) => {
-  console.log('📬 POST recibido en /api/test:', req.body);
-  res.status(200).json({
-    mensaje: 'POST exitoso',
-    datos: req.body,
-  });
+// Ruta de test (¡útil para verificar que se monte bien!)
+router.get("/test", (req, res) => {
+  res.send("🚀 Ruta de datos-personales activa");
 });
+
+// POST principal
+router.post("/datos-personales", verificarJWT, crearDatosPersonales);
+router.get("/datos-personales", verificarJWT, obtenerDatosPersonales);
 
 export default router;
 
 
-
-
-/*backend/routes/datosPersonales.js
-import express from 'express';
-import { crearDatosPersonales } from '../controllers/datosPersonalesController.js';
-console.log('📥 Datos recibidos:', req.body);
-
-//temporal
-router.get('/test', (req, res) => {
-    res.send('🚀 Ruta de datos-personales activa');
-  });
-  
-  
-
-
-const router = express.Router();
-
-router.post('/datos-personales', crearDatosPersonales);
-
-export default router;*/

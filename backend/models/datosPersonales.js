@@ -1,47 +1,68 @@
-import mongoose from 'mongoose';
+// backend/models/DatosPersonales.js
+import mongoose from "mongoose";
 
-const idiomaSchema = new mongoose.Schema({
-  nombre: { type: String, required: true },
-  habla: { type: String, enum: ['R', 'B', 'MB'], default: 'R' },
-  lee: { type: String, enum: ['R', 'B', 'MB'], default: 'R' },
-  escribe: { type: String, enum: ['R', 'B', 'MB'], default: 'R' },
-}, { _id: false });
+const { Schema, model } = mongoose;
 
-const datosPersonalesSchema = new mongoose.Schema({
-  apellido1: { type: String, required: true },
-  apellido2: { type: String },
-  nombres: { type: String, required: true },
-
-  tipoDocumento: { type: String, enum: ['cedula', 'cedulExt', 'pasaporte'], required: true },
-  numDocumento: { type: String, required: true },
-
-  sexo: { type: String, enum: ['F', 'M'], required: true },
-  nacionalidad: { type: String, enum: ['nacCol', 'nacExt'], required: true },
-  pais: { type: String, required: true },
-
-  libretaMilitar: { type: String, enum: ['primera', 'segunda'] },
-  numeroLibreta: { type: String },
-  dm: { type: String },
-
-  nacimiento: {
-    dia: { type: String },
-    mes: { type: String },
-    ano: { type: String },
-    pais: { type: String },
-    departamento: { type: String },
-    municipio: { type: String },
+const FechaNacimientoSchema = new Schema(
+  {
+    dia: String,
+    mes: String,
+    anio: String,
+    pais: String,
+    depto: String,
+    municipio: String,
   },
+  { _id: false }
+);
 
-  correspondencia: {
-    pais: { type: String },
-    departamento: { type: String },
-    municipio: { type: String },
-    direccion: { type: String },
-    telefono: { type: String },
-    email: { type: String, match: /^\S+@\S+\.\S+$/ },
+const DireccionCorrespondenciaSchema = new Schema(
+  {
+    pais: String,
+    depto: String,
+    municipio: String,
+    direccion: String,
+    telefono: String,
+    email: String,
   },
+  { _id: false }
+);
 
-  idiomas: [idiomaSchema],
-}, { timestamps: true });
+const DatosPersonalesSchema = new Schema(
+  {
+    usuario: {
+      type: Schema.Types.ObjectId,
+      ref: "Usuario",
+      required: true,
+    },
 
-export default mongoose.model('DatosPersonales', datosPersonalesSchema);
+    apellido1: { type: String, required: true },
+    apellido2: String,
+    nombres: { type: String, required: true },
+
+    tipoDocumento: String,
+    numDocumento: { type: String, required: true },
+
+    sexo: String,
+    nacionalidad: String,
+    pais: String,
+
+    libretaMilitar: String,
+    numeroLibreta: String,
+    dm: String,
+
+    fechaNacimiento: {
+      type: FechaNacimientoSchema,
+      required: true,
+    },
+
+    direccionCorrespondencia: {
+      type: DireccionCorrespondenciaSchema,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+export default model("DatosPersonales", DatosPersonalesSchema);

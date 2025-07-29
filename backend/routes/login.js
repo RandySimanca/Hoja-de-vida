@@ -1,10 +1,27 @@
+//routes/login.js
+
+// backend/routes/login.js
 import express from 'express';
-import jwt from 'jsonwebtoken';
-import Usuario from '../models/Usuario.js';
+import { loginUsuario } from '../controllers/authController.js';
 
 const router = express.Router();
 
-router.post('/login', async (req, res) => {
+// Monta únicamente loginUsuario
+router.post('/', loginUsuario);
+
+export default router;
+
+
+/*import express from 'express';
+import jwt from 'jsonwebtoken';
+import Usuario from '../models/Usuario.js';
+import { loginUsuario } from '../controllers/authController.js';
+
+
+const router = express.Router();
+
+router.post('/', loginUsuario); // ✅
+ async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -14,15 +31,13 @@ router.post('/login', async (req, res) => {
     const esValido = await usuario.validarPassword(password);
     if (!esValido) return res.status(401).json({ mensaje: "Contraseña incorrecta" });
 
-    // Generar el token JWT real
-    const token = jwt.sign(
+   /* const token = jwt.sign(
       { uid: usuario._id, roles: usuario.roles },
       process.env.JWT_SECRET,
       { expiresIn: '2h' }
-    );
+    );*/
 
-    // Actualizar último acceso (opcional)
-    usuario.ultimoAcceso = new Date();
+    /*usuario.ultimoAcceso = new Date();
     await usuario.save();
 
     res.json({
@@ -34,11 +49,13 @@ router.post('/login', async (req, res) => {
         roles: usuario.roles
       }
     });
-
   } catch (err) {
     console.error("Error en login:", err.message);
     res.status(500).json({ mensaje: "Error del servidor" });
   }
-});
+};
 
-export default router;
+export default router;*/
+
+
+

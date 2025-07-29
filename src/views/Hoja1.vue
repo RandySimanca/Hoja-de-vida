@@ -1,12 +1,12 @@
 <template>
   <div class="section">
     <form @submit.prevent="enviarFormulario">
-      <!--Seccion del encabezado, esta dentro del form para validar el input de la entidad receptora-->
+      <!--Seccion del encabezado-->
       <div>
         <HeaderComponent />
       </div>
 
-      <!--Seccion de datos personales-->
+      <!--Seccion 1. de datos personales-->
       <div>
         <datos-per-component />
       </div>
@@ -16,12 +16,7 @@
         <formacion-acad-component />
       </div>
 
-      <div class="form-group" style="margin-top: 20px">
-        <button type="submit" class="boton-guardar">
-          Guardar datos personales
-        </button>
-      </div>
-    </form>
+          </form>
   </div>
   <div>
     <FooterComponent />
@@ -33,6 +28,7 @@ import DatosPerComponent from "../components/DatosPerComponent.vue";
 import HeaderComponent from "../components/HeaderComponent.vue";
 import FormacionAcadComponent from "../components/FormacionAcadComponent.vue";
 import FooterComponent from "../components/FooterComponent.vue";
+import  api from "../api/axios.js";
 
 import { useDatosStore } from "../stores/datos";
 import { ref } from "vue";
@@ -127,7 +123,7 @@ const enviarFormulario = async () => {
   };
 
   try {
-    const respuesta = await axios.post(
+    const respuesta = await api.post(
       "/api/datos-personales",
       datosPersonales
     );
@@ -140,6 +136,7 @@ const enviarFormulario = async () => {
   }
 };
 
+/*
 const apellido1 = ref("");
 const apellido2 = ref("");
 const nombres = ref("");
@@ -174,7 +171,7 @@ const idioma2 = ref("");
 const habla2 = ref("");
 const lee2 = ref("");
 const escribe2 = ref("");
-// Fila 1
+
 const modalidad1 = ref("");
 const semestres1 = ref("");
 const graduado1 = ref("");
@@ -183,7 +180,7 @@ const mes1 = ref("");
 const ano1 = ref("");
 const tarjeta1 = ref("");
 
-// Fila 2
+
 const modalidad2 = ref("");
 const semestres2 = ref("");
 const graduado2 = ref("");
@@ -192,14 +189,14 @@ const mes2 = ref("");
 const ano2 = ref("");
 const tarjeta2 = ref("");
 
-// Fila 3
+
 const modalidad3 = ref("");
 const semestres3 = ref("");
 const graduado3 = ref("");
 const titulo3 = ref("");
 const mes3 = ref("");
 const ano3 = ref("");
-const tarjeta3 = ref("");
+const tarjeta3 = ref("");*/
 </script>
 
 <style>

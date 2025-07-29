@@ -6,7 +6,7 @@ const experienciaSchema = new mongoose.Schema({
   pais: String,
   departamento: String,
   municipio: String,
-  emailEntidad: String,
+  Entidad: String,
   telefonos: String,
   fechaIngreso: {
     dia: String,
