@@ -1,13 +1,24 @@
-//models/FormacionAcademica.js
-import mongoose from 'mongoose'
+// models/FormacionAcademica.js
+import mongoose from 'mongoose';
+const { Schema, model } = mongoose;
 
-const formacionAcademicaSchema = new mongoose.Schema({
-  nivel: { type: String, required: true },          // Ej: 'Universitario', 'Técnico'
-  institucion: { type: String, required: true },
-  titulo: { type: String, required: true },
-  fechaInicio: { type: Date, required: true },
-  fechaFin: { type: Date },                         // Opcional si sigue en curso
-  usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', required: true }
-}, { timestamps: true })
+const FormacionAcademicaSchema = new Schema({
+  user:            { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  gradoBasica:     { type: Number, min: 1, max: 11, required: true },
+  tituloBachiller: { type: String, trim: true, required: true },
+  fechaGrado:      { type: Date, trim: true },
 
-export default mongoose.model('FormacionAcademica', formacionAcademicaSchema)
+  formacionesSuperior: [
+    {
+      modalidad:    { type: String, trim: true },
+      semestres:    { type: String, trim: true },
+      graduado:     { type: String, enum: ['SI', 'NO', ''], trim: true },
+      titulo:       { type: String, trim: true },
+      mesTermino:   { type: String, trim: true },
+      anioTermino:  { type: String, trim: true },
+      tarjeta:      { type: String, trim: true }
+    }
+  ]
+}, { timestamps: true });
+
+export default model('FormacionAcademica', FormacionAcademicaSchema);

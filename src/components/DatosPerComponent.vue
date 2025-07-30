@@ -307,7 +307,7 @@
 
 <script>
 import { showSuccess, showError } from "../utils/showMessage.js";
-import api from "../api/axios"; // Asegúrate de que la ruta sea correcta
+import api from "../api/axios"; 
 
 export default {
   name: "DatosPerComponent",
@@ -392,10 +392,10 @@ export default {
         this.envioExitoso = true;
         showSuccess("✅ ¡Datos personales guardados correctamente!");
       } catch (error) {
-        console.error(
-          "Error al enviar datos personales:",
-          error.response?.data || error.message
-        );
+  console.error("Error al enviar datos personales:", error);
+  console.log("Respuesta completa del error:", JSON.stringify(error.response?.data, null, 2));
+
+
         showError("❌ Ocurrió un error al guardar los datos.");
       } finally {
         this.cargando = false;

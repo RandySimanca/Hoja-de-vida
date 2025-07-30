@@ -19,4 +19,3 @@ router.get("/datos-personales", verificarJWT, obtenerDatosPersonales);
 
 export default router;
 
-

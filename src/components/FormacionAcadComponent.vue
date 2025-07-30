@@ -299,8 +299,9 @@
 </template>
 
 <script>
-import axios from 'axios'
-import Swal from 'sweetalert2'
+import api from '../api/axios'
+import { showSuccess, showError } from "../utils/showMessage.js";
+//import Swal from 'sweetalert2'
 
 export default {
   name: 'FormacionAcadComponent',
@@ -312,7 +313,12 @@ export default {
       anoGrado: '',
       modalidad1: '', semestres1: '', graduado1: '', titulo1: '', mes1: '', ano1: '', tarjeta1: '',
       modalidad2: '', semestres2: '', graduado2: '', titulo2: '', mes2: '', ano2: '', tarjeta2: '',
-      modalidad3: '', semestres3: '', graduado3: '', titulo3: '', mes3: '', ano3: '', tarjeta3: ''
+      modalidad3: '', semestres3: '', graduado3: '', titulo3: '', mes3: '', ano3: '', tarjeta3: '',
+
+      envioExitoso: false,
+      errorEnvio: null,
+      cargando: false,
+     
     }
   },
   methods: {
@@ -320,62 +326,74 @@ export default {
       this.selectedGrado = this.selectedGrado === n ? null : n
     },
     async enviarFormulario() {
-      try {
-        const token = localStorage.getItem('token')
-        const formacion = {
-          gradoBasica: this.selectedGrado,
-          tituloBachiller: this.tituloBachiller,
-          fechaGrado: new Date(`${this.anoGrado}-${this.mesGrado}-01`),
-          formacionesSuperior: [
-            {
-              modalidad: this.modalidad1,
-              semestres: this.semestres1,
-              graduado: this.graduado1,
-              titulo: this.titulo1,
-              mesTermino: this.mes1,
-              anioTermino: this.ano1,
-              tarjeta: this.tarjeta1
-            },
-            {
-              modalidad: this.modalidad2,
-              semestres: this.semestres2,
-              graduado: this.graduado2,
-              titulo: this.titulo2,
-              mesTermino: this.mes2,
-              anioTermino: this.ano2,
-              tarjeta: this.tarjeta2
-            },
-            {
-              modalidad: this.modalidad3,
-              semestres: this.semestres3,
-              graduado: this.graduado3,
-              titulo: this.titulo3,
-              mesTermino: this.mes3,
-              anioTermino: this.ano3,
-              tarjeta: this.tarjeta3
-            }
-          ]
-        }
+  this.envioExitoso = false;
+  this.errorEnvio = null;
+  this.cargando = true;
 
-        await axios.post('/api/formacion-academica', formacion, {
-          headers: { Authorization: `Bearer ${token}` }
-        })
-
-        Swal.fire({
-          icon: 'success',
-          title: '¡Guardado!',
-          text: 'La formación académica fue registrada correctamente'
-        })
-      } catch (err) {
-        console.error('❌ Error al guardar:', err)
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'No se pudo guardar la formación académica'
-        })
-      }
-    }
+  // Validación de campos importantes
+  if (!this.selectedGrado || !this.tituloBachiller || !this.mesGrado || !this.anoGrado) {
+    showError("❌ Faltan campos obligatorios.");
+    this.cargando = false;
+    return;
   }
+
+  const formacion = {
+    gradoBasica: this.selectedGrado,
+    tituloBachiller: this.tituloBachiller,
+    fechaGrado: new Date(`${this.anoGrado}-${this.mesGrado}-01`),
+    formacionesSuperior: [
+      {
+        modalidad: this.modalidad1,
+        semestres: this.semestres1,
+        graduado: this.graduado1,
+        titulo: this.titulo1,
+        mesTermino: this.mes1,
+        anioTermino: this.ano1,
+        tarjeta: this.tarjeta1
+      },
+      {
+        modalidad: this.modalidad2,
+        semestres: this.semestres2,
+        graduado: this.graduado2,
+        titulo: this.titulo2,
+        mesTermino: this.mes2,
+        anioTermino: this.ano2,
+        tarjeta: this.tarjeta2
+      },
+      {
+        modalidad: this.modalidad3,
+        semestres: this.semestres3,
+        graduado: this.graduado3,
+        titulo: this.titulo3,
+        mesTermino: this.mes3,
+        anioTermino: this.ano3,
+        tarjeta: this.tarjeta3
+      }
+    ]
+  };
+
+  try {
+    //const token = localStorage.getItem('token');
+    const res = await api.post("/formacion-academica", formacion);
+    const result = res.data;
+    api.interceptors.request.use(request => {
+  console.log("📡 Enviando a:", request.method.toUpperCase(), request.url);
+  return request;
+});
+    console.log("✅ Datos guardados:", result);
+    this.envioExitoso = true;
+    showSuccess("✅ ¡Formación académica guardada correctamente!");
+  } catch (error) {
+    console.error(
+      "Error al enviar la formación académica:",
+      error.response?.data || error.message
+    );
+    showError("❌ Ocurrió un error al guardar la formación académica.");
+  } finally {
+    this.cargando = false;
+  }
+}
+ }
 }
 </script>
 
