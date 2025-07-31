@@ -6,8 +6,10 @@ const validateFormacion = [
     .isInt({ min: 1, max: 11 }).withMessage('Grado básico debe ser 1–11'),
   body('tituloBachiller')
     .notEmpty().withMessage('Título de bachiller es obligatorio'),
-  body('fechaGrado')
-    .isISO8601().withMessage('Fecha de grado inválida'),
+    body('mesGrado')
+    .isLength({ min: 1 }).withMessage('Mes de grado requerido'),
+  body('anioGrado')
+    .isLength({ min: 4 }).withMessage('Año de grado requerido'),  
   body('formacionesSuperior')
     .isArray({ min: 1 }).withMessage('Al menos una formación superior'),
   body('formacionesSuperior.*.modalidad').notEmpty(),

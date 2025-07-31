@@ -39,7 +39,7 @@
             <label for="secundaria">SECUNDARIA</label>
           </div>
           <div style="display: flex; margin-top: 5px">
-            <div class="checkbox-group" v-for="n in [6,7,8,9]" :key="n">
+            <div class="checkbox-group" v-for="n in [6, 7, 8, 9]" :key="n">
               <input
                 type="checkbox"
                 :id="`grado-${n}`"
@@ -55,7 +55,7 @@
             <label for="media">MEDIA</label>
           </div>
           <div style="display: flex; margin-top: 5px">
-            <div class="checkbox-group" v-for="n in [10,11]" :key="n">
+            <div class="checkbox-group" v-for="n in [10, 11]" :key="n">
               <input
                 type="checkbox"
                 :id="`grado-${n}`"
@@ -82,14 +82,28 @@
         <div class="form-group col-2">
           <label>FECHA DE GRADO</label>
           <div style="display: flex; margin-top: 5px">
-            <div class="form-group col-2" style="width: 60px; margin-right: 5px">
+            <div
+              class="form-group col-2"
+              style="width: 60px; margin-right: 5px"
+            >
               <label for="mes-grado">MES</label>
-              <input
-                type="text"
-                id="mes-grado"
-                class="form-control"
-                v-model="mesGrado"
-              />
+              <select id="mes-grado" class="form-control" v-model="mesGrado">
+                <option disabled value="">Selecciona un mes</option>
+                <option value="01">Enero</option>
+                <option value="02">Febrero</option>
+                <option value="03">Marzo</option>
+                <option value="04">Abril</option>
+                <option value="05">Mayo</option>
+                <option value="06">Junio</option>
+                <option value="07">Julio</option>
+                <option value="08">Agosto</option>
+                <option value="09">Septiembre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
+              </select>
+
+              
             </div>
             <div class="form-group col-2" style="width: 60px">
               <label for="ano-grado">AÑO</label>
@@ -97,7 +111,7 @@
                 type="text"
                 id="ano-grado"
                 class="form-control"
-                v-model="anoGrado"
+                v-model="anioGrado"
               />
             </div>
           </div>
@@ -109,185 +123,73 @@
         <p class="p">
           DILIGENCIE ESTE PUNTO EN ESTRICTO ORDEN CRONOLÓGICO, EN MODALIDAD
           ACADÉMICA ESCRIBA: TC (TÉCNICA), TL (TECNOLÓGICA), TE (TECNOLÓGICA
-          ESPECIALIZADA), UN (UNIVERSITARIA), ES (ESPECIALIZACIÓN), MG (MAESTRÍA O
-          MAGISTER), DOC (DOCTORADO O PHD), RELACIONE AL FRENTE EL NÚMERO DE LA
-          TARJETA PROFESIONAL (SI ÉSTA HA SIDO PREVISTA EN UNA LEY).
+          ESPECIALIZADA), UN (UNIVERSITARIA), ES (ESPECIALIZACIÓN), MG (MAESTRÍA
+          O MAGISTER), DOC (DOCTORADO O PHD), RELACIONE AL FRENTE EL NÚMERO DE
+          LA TARJETA PROFESIONAL (SI ÉSTA HA SIDO PREVISTA EN UNA LEY).
         </p>
-
-        <table class="table">
-          <thead>
-            <tr>
-              <th>MODALIDAD ACADÉMICA</th>
-              <th>No. SEMESTRES APROBADOS</th>
-              <th colspan="2">GRADUADO</th>
-              <th>NOMBRE DE LOS ESTUDIOS O TÍTULO OBTENIDO</th>
-              <th colspan="2">TERMINACIÓN</th>
-              <th>No. DE TARJETA PROFESIONAL</th>
-            </tr>
-            <tr>
-              <th></th><th></th><th>SI</th><th>NO</th><th></th><th>MES</th><th>AÑO</th><th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border: none"
-                  v-model="modalidad1"
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border: none"
-                  v-model="semestres1"
-                />
-              </td>
-              <td><input type="radio" value="SI" v-model="graduado1" /></td>
-              <td><input type="radio" value="NO" v-model="graduado1" /></td>
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border: none"
-                  v-model="titulo1"
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border: none"
-                  v-model="mes1"
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border: none"
-                  v-model="ano1"
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border: none"
-                  v-model="tarjeta1"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border: none"
-                  v-model="modalidad2"
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border: none"
-                  v-model="semestres2"
-                />
-              </td>
-              <td><input type="radio" value="SI" v-model="graduado2" /></td>
-              <td><input type="radio" value="NO" v-model="graduado2" /></td>
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border: none"
-                  v-model="titulo2"
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border: none"
-                  v-model="mes2"
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border: none"
-                  v-model="ano2"
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border: none"
-                  v-model="tarjeta2"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border: none"
-                  v-model="modalidad3"
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border: none"
-                  v-model="semestres3"
-                />
-              </td>
-              <td><input type="radio" value="SI" v-model="graduado3" /></td>
-              <td><input type="radio" value="NO" v-model="graduado3" /></td>
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border: none"
-                  v-model="titulo3"
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border: none"
-                  v-model="mes3"
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border: none"
-                  v-model="ano3"
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  style="border: none"
-                  v-model="tarjeta3"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </div>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>MODALIDAD ACADÉMICA</th>
+            <th>No. SEMESTRES APROBADOS</th>
+            <th colspan="2">GRADUADO</th>
+            <th>NOMBRE DE LOS ESTUDIOS O TÍTULO OBTENIDO</th>
+            <th colspan="2">TERMINACIÓN</th>
+            <th>No. DE TARJETA PROFESIONAL</th>
+            <th>ACCIONES</th>
+          </tr>
+          <tr>
+            <th></th>
+            <th></th>
+            <th>SI</th>
+            <th>NO</th>
+            <th></th>
+            <th>MES</th>
+            <th>AÑO</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(formacion, index) in formacionesSuperior" :key="index">
+            <td>
+              <input class="form-control" v-model="formacion.modalidad" />
+            </td>
+            <td>
+              <input class="form-control" v-model="formacion.semestres" />
+            </td>
+            <td>
+              <input type="radio" :value="'SI'" v-model="formacion.graduado" />
+            </td>
+            <td>
+              <input type="radio" :value="'NO'" v-model="formacion.graduado" />
+            </td>
+            <td><input class="form-control" v-model="formacion.titulo" /></td>
+            <td>
+              <input class="form-control" v-model="formacion.mesTermino" />
+            </td>
+            <td>
+              <input class="form-control" v-model="formacion.anioTermino" />
+            </td>
+            <td><input class="form-control" v-model="formacion.tarjeta" /></td>
+            <td>
+              <button
+                class="btn btn-danger btn-sm"
+                v-if="formacionesSuperior.length > 1"
+                @click.prevent="removeFormacion(index)"
+              >
+                🗑️
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button type="button" class="btn btn-primary mt-2" @click="addFormacion">
+        ➕ Agregar otra formación
+      </button>
     </div>
 
     <div class="form-group" style="margin-top: 20px">
@@ -299,102 +201,105 @@
 </template>
 
 <script>
-import api from '../api/axios'
+import api from "../api/axios";
 import { showSuccess, showError } from "../utils/showMessage.js";
-//import Swal from 'sweetalert2'
 
 export default {
-  name: 'FormacionAcadComponent',
+  name: "FormacionAcadComponent",
   data() {
     return {
       selectedGrado: null,
-      tituloBachiller: '',
-      mesGrado: '',
-      anoGrado: '',
-      modalidad1: '', semestres1: '', graduado1: '', titulo1: '', mes1: '', ano1: '', tarjeta1: '',
-      modalidad2: '', semestres2: '', graduado2: '', titulo2: '', mes2: '', ano2: '', tarjeta2: '',
-      modalidad3: '', semestres3: '', graduado3: '', titulo3: '', mes3: '', ano3: '', tarjeta3: '',
+      tituloBachiller: "",
+      mesGrado: "",
+      anioGrado: "",
+
+      // Fila inicial + dinámicas
+      formacionesSuperior: [
+        {
+          modalidad: "",
+          semestres: "",
+          graduado: "",
+          titulo: "",
+          mesTermino: "",
+          anioTermino: "",
+          tarjeta: "",
+        },
+      ],
 
       envioExitoso: false,
       errorEnvio: null,
       cargando: false,
-     
-    }
+    };
   },
   methods: {
     selectGrado(n) {
-      this.selectedGrado = this.selectedGrado === n ? null : n
+      this.selectedGrado = this.selectedGrado === n ? null : n;
+    },
+    addFormacion() {
+      this.formacionesSuperior.push({
+        modalidad: "",
+        semestres: "",
+        graduado: "",
+        titulo: "",
+        mesTermino: "",
+        anioTermino: "",
+        tarjeta: "",
+      });
+    },
+    removeFormacion(index) {
+      this.formacionesSuperior.splice(index, 1);
     },
     async enviarFormulario() {
-  this.envioExitoso = false;
-  this.errorEnvio = null;
-  this.cargando = true;
+      this.envioExitoso = false;
+      this.errorEnvio = null;
+      this.cargando = true;
 
-  // Validación de campos importantes
-  if (!this.selectedGrado || !this.tituloBachiller || !this.mesGrado || !this.anoGrado) {
-    showError("❌ Faltan campos obligatorios.");
-    this.cargando = false;
-    return;
-  }
-
-  const formacion = {
-    gradoBasica: this.selectedGrado,
-    tituloBachiller: this.tituloBachiller,
-    fechaGrado: new Date(`${this.anoGrado}-${this.mesGrado}-01`),
-    formacionesSuperior: [
-      {
-        modalidad: this.modalidad1,
-        semestres: this.semestres1,
-        graduado: this.graduado1,
-        titulo: this.titulo1,
-        mesTermino: this.mes1,
-        anioTermino: this.ano1,
-        tarjeta: this.tarjeta1
-      },
-      {
-        modalidad: this.modalidad2,
-        semestres: this.semestres2,
-        graduado: this.graduado2,
-        titulo: this.titulo2,
-        mesTermino: this.mes2,
-        anioTermino: this.ano2,
-        tarjeta: this.tarjeta2
-      },
-      {
-        modalidad: this.modalidad3,
-        semestres: this.semestres3,
-        graduado: this.graduado3,
-        titulo: this.titulo3,
-        mesTermino: this.mes3,
-        anioTermino: this.ano3,
-        tarjeta: this.tarjeta3
+      if (
+        !this.selectedGrado ||
+        !this.tituloBachiller ||
+        !this.mesGrado ||
+        !this.anioGrado
+      ) {
+        showError("❌ Faltan campos obligatorios.");
+        this.cargando = false;
+        return;
       }
-    ]
-  };
 
-  try {
-    //const token = localStorage.getItem('token');
-    const res = await api.post("/formacion-academica", formacion);
-    const result = res.data;
-    api.interceptors.request.use(request => {
-  console.log("📡 Enviando a:", request.method.toUpperCase(), request.url);
-  return request;
-});
-    console.log("✅ Datos guardados:", result);
-    this.envioExitoso = true;
-    showSuccess("✅ ¡Formación académica guardada correctamente!");
-  } catch (error) {
-    console.error(
-      "Error al enviar la formación académica:",
-      error.response?.data || error.message
-    );
-    showError("❌ Ocurrió un error al guardar la formación académica.");
-  } finally {
-    this.cargando = false;
-  }
-}
- }
-}
+      const formacion = {
+        gradoBasica: this.selectedGrado,
+        tituloBachiller: this.tituloBachiller,
+        //fechaGrado: new Date(`${this.anioGrado}-${this.mesGrado}-01`),
+        mesGrado: this.mesGrado,
+        anioGrado: this.anioGrado,
+        formacionesSuperior: this.formacionesSuperior,
+      };
+
+      try {
+        const res = await api.post("/formacion-academica", formacion);
+        const result = res.data;
+        api.interceptors.request.use((request) => {
+          console.log(
+            "📡 Enviando a:",
+            request.method.toUpperCase(),
+            request.url
+          );
+          return request;
+        });
+        console.log("✅ Datos guardados:", result);
+        this.envioExitoso = true;
+        showSuccess("✅ ¡Formación académica guardada correctamente!");
+      } catch (error) {
+        console.error(
+          "Error al enviar la formación académica:",
+          error.response?.data || error.message
+        );
+        showError("❌ Ocurrió un error al guardar la formación académica.");
+      } finally {
+        this.cargando = false;
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>
