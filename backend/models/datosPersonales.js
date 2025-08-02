@@ -29,7 +29,7 @@ const DireccionCorrespondenciaSchema = new Schema(
 
 const DatosPersonalesSchema = new Schema(
   {
-    usuario: {
+    user: {
       type: Schema.Types.ObjectId,
       ref: "Usuario",
       required: true,

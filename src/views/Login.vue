@@ -1,8 +1,15 @@
+<!--src/views/Login.vue-->
 <template>
   <div class="login-wrapper">
     <div class="login-card">
       <h2>{{ modoRegistro ? "Crear cuenta" : "Bienvenido" }}</h2>
-      <p>{{ modoRegistro ? "Completa tus datos para registrarte" : "Inicia sesión para acceder a tu panel" }}</p>
+      <p>
+        {{
+          modoRegistro
+            ? "Completa tus datos para registrarte"
+            : "Inicia sesión para acceder a tu panel"
+        }}
+      </p>
 
       <form @submit.prevent="modoRegistro ? handleRegister() : handleLogin()">
         <!-- Email -->
@@ -31,7 +38,15 @@
         />
 
         <button type="submit" :disabled="loading">
-          {{ loading ? (modoRegistro ? "Registrando..." : "Ingresando...") : (modoRegistro ? "Registrarme" : "Entrar") }}
+          {{
+            loading
+              ? modoRegistro
+                ? "Registrando..."
+                : "Ingresando..."
+              : modoRegistro
+              ? "Registrarme"
+              : "Entrar"
+          }}
         </button>
 
         <p v-if="error" class="error">{{ error }}</p>
@@ -47,11 +62,11 @@
   </div>
 </template>
 
-
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import axios from "axios";
+import axios from "../api/axios"; // Asegúrate de tener configurado axios correctamente
+import { useHojaStore } from "../stores/useHojaStore";
 
 const email = ref("");
 const password = ref("");
@@ -60,6 +75,7 @@ const error = ref("");
 const loading = ref(false);
 const modoRegistro = ref(false);
 const router = useRouter();
+
 
 const handleLogin = async () => {
   error.value = "";
@@ -70,7 +86,7 @@ const handleLogin = async () => {
 
   loading.value = true;
   try {
-    const res = await axios.post("/api/login", {
+    const res = await axios.post("/login", {
       email: email.value,
       password: password.value,
     });
@@ -78,10 +94,13 @@ const handleLogin = async () => {
     const { token, usuario } = res.data;
     localStorage.setItem("token", token);
     localStorage.setItem("usuario", JSON.stringify(usuario));
+    const hojaStore = useHojaStore();
+    await hojaStore.cargarHoja(); // ✅ Carga datos antes de mostrar el panel
 
     router.push(usuario.roles.includes("admin") ? "/admin" : "/panel/Hoja1");
   } catch (e) {
-    error.value = e.response?.data?.mensaje || "Error de conexión: " + e.message;
+    error.value =
+      e.response?.data?.mensaje || "Error de conexión: " + e.message;
   } finally {
     loading.value = false;
   }
@@ -96,7 +115,7 @@ const handleRegister = async () => {
 
   loading.value = true;
   try {
-    await axios.post("/api/usuarios", {
+    await axios.post("/usuarios", {
       email: email.value,
       password: password.value,
       nombre: nombre.value,
@@ -112,7 +131,6 @@ const handleRegister = async () => {
   }
 };
 </script>
-
 
 <style scoped>
 .login-wrapper {

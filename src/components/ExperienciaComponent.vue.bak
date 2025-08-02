@@ -1,0 +1,160 @@
+<!--src/componentes/ExperienciaComponent.vue-->
+<template>
+   <form @submit.prevent="guardarExperiencia">
+  <div class="section">
+    <div class="form-group">
+      <label for="empleo-actual-o-contrato-anterior">empleo-actual-o-contrato-anterior</label><input id="empleo-actual-o-contrato-anterior" />
+
+      <div style="display: flex; margin-top: 3px">
+        <div class="form-group col-2">
+          <label for="empresa-o-entidad.">empresa-o-entidad.</label><input id="empresa-o-entidad." />
+          <input type="text" v-model="experiencia.empresa" class="form-control" />
+        </div>
+
+        <div class="checkbox-group">
+          <label for="publica">publica</label><input id="publica" />
+          <input type="radio" value="Publica" v-model="experiencia.tipoEntidad" />
+        </div>
+
+        <div class="checkbox-group">
+          <label for="privada">privada</label><input id="privada" />
+          <input type="radio" value="Privada" v-model="experiencia.tipoEntidad" />
+        </div>
+
+        <div class="form-group col-2">
+          <label for="país">país</label><input id="país" />
+          <input type="text" v-model="experiencia.pais" class="form-control" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-2">
+          <label for="departamento">departamento</label><input id="departamento" />
+          <input type="text" v-model="experiencia.departamento" class="form-control" />
+        </div>
+
+        <div class="form-group col-2">
+          <label for="municipio">municipio</label><input id="municipio" />
+          <input type="text" v-model="experiencia.municipio" class="form-control" />
+        </div>
+
+        <div class="form-group col-2">
+          <label for="correo-electrónico-entidad">correo-electrónico-entidad</label><input id="correo-electrónico-entidad" />
+          <input type="email" v-model="experiencia.correoEntidad" class="form-control" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-2">
+          <label for="teléfonos">teléfonos</label><input id="teléfonos" />
+          <input type="text" v-model="experiencia.telefonos" class="form-control" />
+        </div>
+
+        <div class="form-group col-2">
+          <label for="fecha-de-ingreso">fecha-de-ingreso</label><input id="fecha-de-ingreso" />
+          <div style="display: flex">
+            <div class="form-group" style="width: 30px; margin-right: 5px">
+              <label for="día">día</label><input id="día" />
+              <input type="text" v-model="experiencia.fechaIngreso.dia" class="form-control" />
+            </div>
+            <div class="form-group" style="width: 30px; margin-right: 5px">
+              <label for="mes">mes</label><input id="mes" />
+              <input type="text" v-model="experiencia.fechaIngreso.mes" class="form-control" />
+            </div>
+            <div class="form-group" style="width: 60px">
+              <label for="año">año</label><input id="año" />
+              <input type="text" v-model="experiencia.fechaIngreso.año" class="form-control" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group col-2">
+          <label for="fecha-de-retiro">fecha-de-retiro</label><input id="fecha-de-retiro" />
+          <div style="display: flex">
+            <div class="form-group" style="width: 30px; margin-right: 5px">
+              <label for="día">día</label><input id="día" />
+              <input type="text" v-model="experiencia.fechaRetiro.dia" class="form-control" />
+            </div>
+            <div class="form-group" style="width: 30px; margin-right: 5px">
+              <label for="mes">mes</label><input id="mes" />
+              <input type="text" v-model="experiencia.fechaRetiro.mes" class="form-control" />
+            </div>
+            <div class="form-group" style="width: 60px">
+              <label for="año">año</label><input id="año" />
+              <input type="text" v-model="experiencia.fechaRetiro.año" class="form-control" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-2">
+          <label for="cargo-o-contrato-actual">cargo-o-contrato-actual</label><input id="cargo-o-contrato-actual" />
+          <input type="text" v-model="experiencia.cargo" class="form-control" />
+        </div>
+
+        <div class="form-group col-2">
+          <label for="dependencia">dependencia</label><input id="dependencia" />
+          <input type="text" v-model="experiencia.dependencia" class="form-control" />
+        </div>
+
+        <div class="form-group col-2">
+          <label for="dirección">dirección</label><input id="dirección" />
+          <input type="text" v-model="experiencia.direccion" class="form-control" />
+        </div>
+      </div>
+
+     <div class="form-group" style="margin-top: 20px">
+        <button type="submit" class="boton-guardar">
+          Guardar experiencia
+        </button>
+      </div>
+    </div>
+  </div>
+
+  </form>
+</template>
+
+<script setup>
+import { reactive } from 'vue';
+import axios from 'axios';
+
+import { showSuccess, showError } from '../utils/showMessage.js'; // Asegúrate de tener un archivo de utilidades para notificaciones
+
+const experiencia = reactive({
+  empresa: '',
+  tipoEntidad: '',
+  pais: '',
+  departamento: '',
+  municipio: '',
+  correoEntidad: '',
+  telefonos: '',
+  fechaIngreso: { dia: '', mes: '', año: '' },
+  fechaRetiro: { dia: '', mes: '', año: '' },
+  cargo: '',
+  dependencia: '',
+  direccion: ''
+});
+
+const guardarExperiencia = async () => {
+  try {
+    await axios.post('/api/experiencia', experiencia);
+    console.log('Experiencia enviada correctamente');
+    showSuccess("✅ ¡Datos personales guardados correctamente!");
+  } catch (error) {
+    console.error('Error al guardar:', error);
+    showError("❌ Ocurrió un error al guardar los datos.");
+
+  }
+
+ 
+
+};
+
+
+</script>
+
+
+<style>
+
+</style>

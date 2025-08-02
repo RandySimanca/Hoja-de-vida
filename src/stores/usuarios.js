@@ -21,3 +21,19 @@ export const useUsuarioStore = defineStore("usuario", {
   },
 });
 
+
+// stores/usuarios.js
+import api from '../helpers/axiosInstance';
+
+export const useUsuariosStore = defineStore('usuarios', {
+  state: () => ({
+    uid: null,
+    perfil: {},
+  }),
+  actions: {
+    async cargarPerfil(uid) {
+      const { data } = await api.get(`/usuarios/${uid}`);
+      this.perfil = data;
+    },
+  },
+});

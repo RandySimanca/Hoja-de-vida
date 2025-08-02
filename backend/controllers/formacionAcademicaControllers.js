@@ -8,7 +8,7 @@ export const crearFormacionAcademica = async (req, res) => {
     // 1) Fusiona req.body + req.usuario.uid
     const payload = {
       ...req.body,
-      user: req.usuario.uid
+      user: req.user.uid
     };
     console.log('🛠 Payload a guardar:', payload);
 
@@ -30,7 +30,7 @@ export const crearFormacionAcademica = async (req, res) => {
 
 export const obtenerFormacionAcademica = async (req, res) => {
   try {
-    const datos = await FormacionAcademica.findOne({ usuario: req.usuario._id });
+    const datos = await FormacionAcademica.findOne({ user: req.usuario._id });
     if (!datos)
       return res.status(404).json({ mensaje: "No hay formacion academica registrada" });
     res.json(datos);

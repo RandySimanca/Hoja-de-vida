@@ -1,5 +1,5 @@
 //datosPersonalesControllers.js
-import DatosPersonales from "../models/datosPersonales.js";
+import DatosPersonales from "../models/DatosPersonales.js";
 
 
 export const crearDatosPersonales = async (req, res) => {
@@ -7,7 +7,7 @@ export const crearDatosPersonales = async (req, res) => {
     // 1) Fusiona req.body + req.usuario.uid
     const payload = {
       ...req.body,
-      usuario: req.usuario.uid
+      user: req.user.uid
     };
     console.log('🛠 Payload a guardar:', payload);
 
@@ -29,7 +29,7 @@ export const crearDatosPersonales = async (req, res) => {
 
 export const obtenerDatosPersonales = async (req, res) => {
   try {
-    const datos = await DatosPersonales.findOne({ usuario: req.usuario._id });
+    const datos = await DatosPersonales.findOne({ usuario: req.user._id });
     if (!datos)
       return res.status(404).json({ mensaje: "No hay datos personales" });
     res.json(datos);

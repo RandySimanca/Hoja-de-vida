@@ -1,203 +1,166 @@
+<!-- src/views/Hoja1.vue -->
 <template>
   <div class="section">
     <form @submit.prevent="enviarFormulario">
-      <!--Seccion del encabezado-->
+      <!-- Sección del encabezado -->
       <div>
         <HeaderComponent />
       </div>
 
-      <!--Seccion 1. de datos personales-->
-      <div>
-        <datos-per-component />
-      </div>
-
-      <!-- SECCIÓN 2: FORMACIÓN ACADÉMICA -->
-      <div>
-        <formacion-acad-component />
-      </div>
-
-          </form>
+      <!-- Sección de datos cargados -->
+      <div v-if="hojaStore.cargado">
+        <DatosPerComponent :datos="hojaStore.datosPersonales || {}" />
+        <FormacionAcadComponent :formacion="hojaStore.formacionAcademica || {}" />
+           </div>
+     
+    </form>
   </div>
+
   <div>
     <FooterComponent />
   </div>
 </template>
 
 <script setup>
-import DatosPerComponent from "../components/DatosPerComponent.vue";
+/** ─────── 🔧 Imports ─────── **/
+import { onMounted, ref } from "vue";
+import { useHojaVidaStore } from "../stores/hojaVida";
+import { useDatosStore } from "../stores/datos";
+import { useUsuarioStore } from "../stores/usuarios";
+import api from "../api/axios.js";
+
+/** ─────── 🧠 Componentes ─────── **/
 import HeaderComponent from "../components/HeaderComponent.vue";
+import DatosPerComponent from "../components/DatosPerComponent.vue";
 import FormacionAcadComponent from "../components/FormacionAcadComponent.vue";
 import FooterComponent from "../components/FooterComponent.vue";
-import  api from "../api/axios.js";
 
-import { useDatosStore } from "../stores/datos";
-import { ref } from "vue";
+/** ─────── 🗂️ Instancias de stores ─────── **/
+const hojaStore = useHojaVidaStore();
+const datosStore = useDatosStore();
+const usuarioStore = useUsuarioStore();
 
-const datosStore = useDatosStore(); //stores
+/** ─────── 🔐 Cargar datos si hay token ─────── **/
+const token = localStorage.getItem("token");
 
-import axios from "axios";
+onMounted(() => {
+  if (!token) {
+    console.error("❌ Token no encontrado. Redirigiendo o mostrando fallback...");
+    // Aquí podrías redirigir al login si deseas
+  } else {
+    hojaStore.cargarHojaDeVida(); // ✅ Acción correcta del store
+    console.log("✅ Token válido:", token);
+  }
+});
+
+/** ─────── 📤 Envío de formulario (solo si deseas guardar) ─────── **/
+const safeValue = (val) => (val !== undefined ? val : ""); // Protección básica
 
 const enviarFormulario = async () => {
   const datosPersonales = {
-    apellido1: apellido1.value,
-    apellido2: apellido2.value,
-    nombres: nombres.value,
-    tipoDocumento: cedula.value
+    apellido1: safeValue(apellido1?.value),
+    apellido2: safeValue(apellido2?.value),
+    nombres: safeValue(nombres?.value),
+    tipoDocumento: cedula?.value
       ? "C.C"
-      : cedulExt.value
+      : cedulExt?.value
       ? "C.E"
-      : pasaporte.value
+      : pasaporte?.value
       ? "PAS"
       : "",
-    sexo: sexoF.value ? "F" : sexoM.value ? "M" : "",
-    nacionalidad: nacCol.value
+    sexo: sexoF?.value ? "F" : sexoM?.value ? "M" : "",
+    nacionalidad: nacionalidad?.value
       ? "Colombiana"
-      : nacExt.value
+      : nacExt?.value
       ? "Extranjera"
       : "",
-    pais: pais.value,
-    libretaMilitar: libretaMilitar.value,
-    numeroLibreta: numeroLibreta.value,
-    dm: dm.value,
+    pais: safeValue(pais?.value),
+    libretaMilitar: safeValue(libretaMilitar?.value),
+    numeroLibreta: safeValue(numeroLibreta?.value),
+    dm: safeValue(dm?.value),
     fechaNacimiento: {
-      dia: diaNac.value,
-      mes: mesNac.value,
-      ano: anoNac.value,
+      dia: safeValue(diaNac?.value),
+      mes: safeValue(mesNac?.value),
+      ano: safeValue(anoNac?.value),
     },
     lugarNacimiento: {
-      pais: paisNac.value,
-      depto: deptoNac.value,
-      municipio: municipioNac.value,
+      pais: safeValue(paisNac?.value),
+      depto: safeValue(deptoNac?.value),
+      municipio: safeValue(municipioNac?.value),
     },
     direccion: {
-      pais: paisCorr.value,
-      depto: deptoCorr.value,
-      municipio: municipioCorr.value,
-      direccion: direccionCorr.value,
-      telefono: telefono.value,
-      email: email.value,
+      pais: safeValue(paisCorr?.value),
+      depto: safeValue(deptoCorr?.value),
+      municipio: safeValue(municipioCorr?.value),
+      direccion: safeValue(direccionCorr?.value),
+      telefono: safeValue(telefono?.value),
+      email: safeValue(email?.value),
     },
     idiomas: [
       {
-        idioma: idioma1.value,
-        habla: habla1.value,
-        lee: lee1.value,
-        escribe: escribe1.value,
+        idioma: safeValue(idioma1?.value),
+        habla: safeValue(habla1?.value),
+        lee: safeValue(lee1?.value),
+        escribe: safeValue(escribe1?.value),
       },
       {
-        idioma: idioma2.value,
-        habla: habla2.value,
-        lee: lee2.value,
-        escribe: escribe2.value,
+        idioma: safeValue(idioma2?.value),
+        habla: safeValue(habla2?.value),
+        lee: safeValue(lee2?.value),
+        escribe: safeValue(escribe2?.value),
       },
     ],
     formacionAcademica: [
       {
-        modalidad: modalidad1.value,
-        semestres: semestres1.value,
-        graduado: graduado1.value,
-        titulo: titulo1.value,
-        mes: mes1.value,
-        ano: ano1.value,
-        tarjeta: tarjeta1.value,
+        modalidad: safeValue(modalidad1?.value),
+        semestres: safeValue(semestres1?.value),
+        graduado: safeValue(graduado1?.value),
+        titulo: safeValue(titulo1?.value),
+        mes: safeValue(mes1?.value),
+        ano: safeValue(ano1?.value),
+        tarjeta: safeValue(tarjeta1?.value),
       },
       {
-        modalidad: modalidad2.value,
-        semestres: semestres2.value,
-        graduado: graduado2.value,
-        titulo: titulo2.value,
-        mes: mes2.value,
-        ano: ano2.value,
-        tarjeta: tarjeta2.value,
+        modalidad: safeValue(modalidad2?.value),
+        semestres: safeValue(semestres2?.value),
+        graduado: safeValue(graduado2?.value),
+        titulo: safeValue(titulo2?.value),
+        mes: safeValue(mes2?.value),
+        ano: safeValue(ano2?.value),
+        tarjeta: safeValue(tarjeta2?.value),
       },
       {
-        modalidad: modalidad3.value,
-        semestres: semestres3.value,
-        graduado: graduado3.value,
-        titulo: titulo3.value,
-        mes: mes3.value,
-        ano: ano3.value,
-        tarjeta: tarjeta3.value,
+        modalidad: safeValue(modalidad3?.value),
+        semestres: safeValue(semestres3?.value),
+        graduado: safeValue(graduado3?.value),
+        titulo: safeValue(titulo3?.value),
+        mes: safeValue(mes3?.value),
+        ano: safeValue(ano3?.value),
+        tarjeta: safeValue(tarjeta3?.value),
       },
     ],
   };
 
   try {
-    const respuesta = await api.post(
-      "/api/datos-personales",
-      datosPersonales
-    );
+    const respuesta = await api.post("/datos-personales", datosPersonales, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
     console.log("✅ Datos enviados con éxito:", respuesta.data);
   } catch (error) {
-    console.error(
-      "❌ Error al enviar datos:",
-      error.response?.data || error.message
-    );
+    console.error("❌ Error al enviar datos:", error.response?.data || error.message);
   }
 };
-
-/*
-const apellido1 = ref("");
-const apellido2 = ref("");
-const nombres = ref("");
-const cedula = ref("");
-const cedulExt = ref("");
-const pasaporte = ref("");
-const sexoF = ref("");
-const sexoM = ref("");
-const nacCol = ref("");
-const nacExt = ref("");
-const pais = ref("");
-const libretaMilitar = ref("");
-const numeroLibreta = ref("");
-const dm = ref("");
-const diaNac = ref("");
-const mesNac = ref("");
-const anoNac = ref("");
-const paisNac = ref("");
-const deptoNac = ref("");
-const municipioNac = ref("");
-const paisCorr = ref("");
-const deptoCorr = ref("");
-const municipioCorr = ref("");
-const direccionCorr = ref("");
-const telefono = ref("");
-const email = ref("");
-const idioma1 = ref("");
-const habla1 = ref("");
-const lee1 = ref("");
-const escribe1 = ref("");
-const idioma2 = ref("");
-const habla2 = ref("");
-const lee2 = ref("");
-const escribe2 = ref("");
-
-const modalidad1 = ref("");
-const semestres1 = ref("");
-const graduado1 = ref("");
-const titulo1 = ref("");
-const mes1 = ref("");
-const ano1 = ref("");
-const tarjeta1 = ref("");
-
-
-const modalidad2 = ref("");
-const semestres2 = ref("");
-const graduado2 = ref("");
-const titulo2 = ref("");
-const mes2 = ref("");
-const ano2 = ref("");
-const tarjeta2 = ref("");
-
-
-const modalidad3 = ref("");
-const semestres3 = ref("");
-const graduado3 = ref("");
-const titulo3 = ref("");
-const mes3 = ref("");
-const ano3 = ref("");
-const tarjeta3 = ref("");*/
 </script>
+
+<style scoped>
+.section {
+  padding: 2rem;
+}
+</style>
+
 
 <style>
 .boton-guardar {
@@ -411,7 +374,6 @@ const tarjeta3 = ref("");*/
 .container1 {
   border: 5px solid rgb(0, 204, 255);
   border-radius: 18px;
-  
 }
 
 .container {
@@ -565,5 +527,4 @@ form {
 .p {
   font-size: 11px;
 }
-
 </style>

@@ -10,21 +10,19 @@
         <div class="form-group">
           <label for="apellido1">PRIMER APELLIDO</label>
           <input
-            type="text"
             v-model="apellido1"
+            type="text"
             id="apellido1"
             class="form-control"
-            :readonly="datosPrecargados"
           />
         </div>
         <div class="form-group">
           <label for="apellido2">SEGUNDO APELLIDO (O DE CASADA)</label>
           <input
-            type="text"
             v-model="apellido2"
-            id="apellido2"
+            type="text"
+            id="apellidos"
             class="form-control"
-            :readonly="datosPrecargados"
           />
         </div>
         <div class="form-group">
@@ -34,127 +32,96 @@
             type="text"
             id="nombres"
             class="form-control"
-            :readonly="datosPrecargados"
           />
         </div>
       </div>
 
       <div class="form-row">
-  <!-- Documento de Identidad -->
-  <div class="form-group col-3">
-    <label for="tipoDocumento">DOCUMENTO DE IDENTIFICACIÓN</label>
-    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-      <div class="checkbox-group">
-        <input
-          type="radio"
-          id="cedula"
-          name="tipoDocumento"
-          value="C.C"
-          v-model="tipoDocumento"
-        />
-        <label for="cedula">C.C</label>
-      </div>
-      <div class="checkbox-group">
-        <input
-          type="radio"
-          id="cedulExt"
-          name="tipoDocumento"
-          value="C.E"
-          v-model="tipoDocumento"
-        />
-        <label for="cedulExt">C.E</label>
-      </div>
-      <div class="checkbox-group">
-        <input
-          type="radio"
-          id="pasaporte"
-          name="tipoDocumento"
-          value="PAS"
-          v-model="tipoDocumento"
-        />
-        <label for="pasaporte">PAS</label>
-      </div>
-    </div>
-  </div>
+        <div class="form-group col-2">
+          <label for="documento-de-identificación">documento-de-identificación</label><input id="documento-de-identificación" />
+          <div style="display: flex; margin-top: 3px">
+            <div class="checkbox-group">
+              <input type="radio" id="cedula" value="cedula" v-model="cedula" />
+              <label for="cedula">C.C</label>
+            </div>
+            <div class="checkbox-group">
+              <input
+                type="radio"
+                id="cedulExt"
+                value="cedulExt"
+                v-model="cedulExt"
+              />
+              <label for="cedulExt">C.E</label>
+            </div>
+            <div class="checkbox-group">
+              <input
+                type="radio"
+                id="pasaporte"
+                value="pasaporte"
+                v-model="pasaporte"
+              />
+              <label for="pasaporte">PAS</label>
+            </div>
+            <div class="form-group" style="margin-left: 5px">
+              <input
+                v-model="numDocumento"
+                type="text"
+                id="numDocumento"
+                class="form-control1"
+                placeholder="No."
+              />
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="sexo">sexo</label><input id="sexo" />
+          <div style="display: flex; margin-top: 3px">
+            <div class="checkbox-group">
+              <input type="radio" id="sexoF" value="Femenino" v-model="sexoF" />
+              <label for="sexoF">F</label>
+            </div>
+            <div class="checkbox-group">
+              <input type="radio" id="sexoM" value="Masculino" v-model="sexoM" />
+              <label for="sexoM">M</label>
+            </div>
+          </div>
+        </div>
 
-  <!-- Número de documento -->
-  <div class="form-group col-2">
-    <label for="numDocumento">NÚMERO</label>
-    <input
-      v-model="numDocumento"
-      type="text"
-      id="numDocumento"
-      class="form-control"
-      placeholder="No. de documento"
-      :readonly="datosPrecargados"
-    />
-  </div>
+        <div class="form-group">
+          <label for="nacionalidad">nacionalidad</label><input id="nacionalidad" />
+          <div style="display: flex; margin-top: 3px">
+            <div class="checkbox-group">
+              <input
+                type="radio"
+                id="nacCol"
+                name="nacionalidad"
+                value="Colombiano"
+                v-model="nacCol"
+              />
+              <label for="nac-col">COL.</label>
+            </div>
+            <div class="checkbox-group">
+              <input
+                type="radio"
+                id="nacExt"
+                name="nacExt"
+                value="nacExt"
+                v-model="nacExt"
+              />
+              <label for="nac-ext">EXTRANJERO</label>
+            </div>
+          </div>
+        </div>
 
-  <!-- Sexo -->
-  <div class="form-group col-2">
-    <label>SEXO</label>
-    <div style="display: flex; gap: 10px;">
-      <div class="checkbox-group">
-        <input
-          type="radio"
-          id="sexoF"
-          name="sexo"
-          value="Femenino"
-          v-model="sexoF"
-        />
-        <label for="sexoF">F</label>
+        <div class="form-group col-4">
+          <label for="pais">PAÍS</label>
+          <input v-model="pais" type="text" id="pais" class="form-control" />
+        </div>
       </div>
-      <div class="checkbox-group">
-        <input
-          type="radio"
-          id="sexoM"
-          name="sexo"
-          value="Masculino"
-          v-model="sexoM"
-        />
-        <label for="sexoM">M</label>
-      </div>
-    </div>
-  </div>
-
-  <!-- Nacionalidad -->
-  <div class="form-group col-2">
-    <label>NACIONALIDAD</label>
-    <div style="display: flex; gap: 10px;">
-      <div class="checkbox-group">
-        <input
-          type="radio"
-          id="nacCol"
-          name="nacionalidad"
-          value="Colombiano"
-          v-model="nacCol"
-        />
-        <label for="nacCol">COL.</label>
-      </div>
-      <div class="checkbox-group">
-        <input
-          type="radio"
-          id="nacExt"
-          name="nacionalidad"
-          value="Extranjero"
-          v-model="nacExt"
-        />
-        <label for="nacExt">EXT.</label>
-      </div>
-    </div>
-  </div>
-
-  <!-- País -->
-  <div class="form-group col-3">
-    <label for="pais">PAÍS</label>
-    <input v-model="pais" type="text" id="pais" class="form-control" />
-  </div>
-</div>
-
 
       <div class="form-row">
         <div class="form-group col-2">
-          <label>LIBRETA MILITAR</label>
+          <label for="libreta-militar">libreta-militar</label><input id="libreta-militar" />
           <div style="display: flex; margin-top: 3px">
             <div class="checkbox-group">
               <input
@@ -185,25 +152,18 @@
             class="form-control2"
             placeholder="No."
             v-model="numeroLibreta"
-            :readonly="datosPrecargados"
           />
         </div>
 
         <div class="form-group col-4">
           <label for="dm">D.M</label>
-          <input
-            type="text"
-            id="dm"
-            class="form-control2"
-            v-model="dm"
-            :readonly="datosPrecargados"
-          />
+          <input type="text" id="dm" class="form-control2" v-model="dm" />
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group col-2">
-          <label>FECHA Y LUGAR DE NACIMIENTO</label>
+          <label for="fecha-y-lugar-de-nacimiento">fecha-y-lugar-de-nacimiento</label><input id="fecha-y-lugar-de-nacimiento" />
           <div style="display: flex; margin-top: 3px">
             <div class="form-group" style="width: 30px; margin-right: 5px">
               <label for="dia-nac">DÍA</label>
@@ -266,7 +226,7 @@
         </div>
 
         <div class="form-group col-2">
-          <label>DIRECCIÓN DE CORRESPONDENCIA</label>
+          <label for="dirección-de-correspondencia">dirección-de-correspondencia</label><input id="dirección-de-correspondencia" />
 
           <div style="display: flex; margin-top: 3px">
             <div class="form-group col-2">
@@ -347,24 +307,16 @@
 
 <script>
 import { showSuccess, showError } from "../utils/showMessage.js";
-import api from "../api/axios";
+import api from "../api/axios"; 
 
 export default {
   name: "DatosPerComponent",
-  props: {
-    datos: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
-
   data() {
     return {
       apellido1: "",
       apellido2: "",
       nombres: "",
-      tipoDocumento: "",
-      numDocumento: "",
+      cedula: "",
       cedulExt: "",
       pasaporte: "",
       sexoF: "",
@@ -374,6 +326,7 @@ export default {
       pais: "",
       libretaMilitar: "",
       numeroLibreta: "",
+      numDocumento: "",
       dm: "",
       diaNac: "",
       mesNac: "",
@@ -388,58 +341,11 @@ export default {
       telefono: "",
       email: "",
 
-      datosPrecargados: false,
-
       // feedback visual
       envioExitoso: false,
       errorEnvio: null,
       cargando: false,
     };
-  },
-
-  mounted() {
-    if (this.datos.tipoDocumento) {
-      this.tipoDocumento = this.datos.tipoDocumento;
-    }
-
-    if (this.datos) {
-      this.apellido1 = this.datos.apellido1 || "";
-      this.apellido2 = this.datos.apellido2 || "";
-      this.nombres = this.datos.nombres || "";
-      this.tipoDocumento = this.datos.tipoDocumento || "";
-      this.numDocumento = this.datos.numDocumento || "";
-
-      // Seleccionar automáticamente el documento correspondiente
-
-      // Asignación de valores para los campos de sexo y nacionalidad
-      this.sexoF = this.datos.sexo === "Femenino" ? this.datos.sexo : "";
-      this.sexoM = this.datos.sexo === "Masculino" ? this.datos.sexo : "";
-
-      this.nacCol =
-        this.datos.nacionalidad === "Colombiano" ? this.datos.nacionalidad : "";
-      this.nacExt =
-        this.datos.nacionalidad === "Extranjero" ? this.datos.nacionalidad : "";
-      this.pais = this.datos.pais || "";
-
-      this.libretaMilitar = this.datos.libretaMilitar || "";
-      this.numeroLibreta = this.datos.numeroLibreta || "";
-      this.dm = this.datos.dm || "";
-
-      this.diaNac = this.datos.fechaNacimiento?.dia || "";
-      this.mesNac = this.datos.fechaNacimiento?.mes || "";
-      this.anoNac = this.datos.fechaNacimiento?.anio || "";
-      this.paisNac = this.datos.fechaNacimiento?.pais || "";
-      this.deptoNac = this.datos.fechaNacimiento?.depto || "";
-      this.municipioNac = this.datos.fechaNacimiento?.municipio || "";
-
-      this.paisCorr = this.datos.direccionCorrespondencia?.pais || "";
-      this.deptoCorr = this.datos.direccionCorrespondencia?.depto || "";
-      this.municipioCorr = this.datos.direccionCorrespondencia?.municipio || "";
-      this.direccionCorr = this.datos.direccionCorrespondencia?.direccion || "";
-      this.telefono = this.datos.direccionCorrespondencia?.telefono || "";
-      this.email = this.datos.direccionCorrespondencia?.email || "";
-      // ...asigna el resto de campos que recibes desde `this.datos`
-    }
   },
   methods: {
     async enviarFormulario() {
@@ -451,8 +357,7 @@ export default {
         apellido1: this.apellido1,
         apellido2: this.apellido2,
         nombres: this.nombres,
-        //tipoDocumento: this.cedula || this.cedulExt || this.pasaporte,
-        tipoDocumento: this.tipoDocumento,
+        tipoDocumento: this.cedula || this.cedulExt || this.pasaporte,
         numDocumento: this.numDocumento,
         sexo: this.sexoF || this.sexoM,
         nacionalidad: this.nacCol || this.nacExt,
@@ -487,20 +392,14 @@ export default {
         this.envioExitoso = true;
         showSuccess("✅ ¡Datos personales guardados correctamente!");
       } catch (error) {
-        console.error("Error al enviar datos personales:", error);
-        console.log(
-          "Respuesta completa del error:",
-          JSON.stringify(error.response?.data, null, 2)
-        );
+  console.error("Error al enviar datos personales:", error);
+  console.log("Respuesta completa del error:", JSON.stringify(error.response?.data, null, 2));
+
 
         showError("❌ Ocurrió un error al guardar los datos.");
       } finally {
         this.cargando = false;
       }
-    },
-
-    esSoloLectura(valor) {
-      return valor !== null && valor !== undefined && valor !== "";
     },
   },
 };

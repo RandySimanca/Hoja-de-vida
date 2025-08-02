@@ -6,7 +6,7 @@
       </div>
 
       <div class="form-group">
-        <label>EDUCACIÓN BÁSICA Y MEDIA</label>
+        <label for="educación-básica-y-media">educación-básica-y-media</label><input id="educación-básica-y-media" />
         <p class="p">
           MARQUE CON UNA X EL ÚLTIMO GRADO APROBADO (LOS GRADOS DE 1o. A 6o. DE
           BACHILLERATO EQUIVALEN A LOS GRADOS 6o. A 11o. DE EDUCACIÓN BÁSICA
@@ -16,7 +16,7 @@
 
       <div class="form-row">
         <div class="form-group col-3">
-          <label>EDUCACIÓN BÁSICA</label>
+          <label for="educación-básica">educación-básica</label><input id="educación-básica" />
           <div style="display: flex; margin-top: 5px">
             <div class="form-group col-2">
               <label for="primaria">PRIMARIA</label>
@@ -80,7 +80,7 @@
         </div>
 
         <div class="form-group col-2">
-          <label>FECHA DE GRADO</label>
+          <label for="fecha-de-grado">fecha-de-grado</label><input id="fecha-de-grado" />
           <div style="display: flex; margin-top: 5px">
             <div
               class="form-group col-2"
@@ -117,7 +117,7 @@
       </div>
 
       <div class="form-group">
-        <label>EDUCACION SUPERIOR (PREGRADO Y POSTGRADO)</label>
+        <label for="educacion-superior-(pregrado-y-postgrado)">educacion-superior-(pregrado-y-postgrado)</label><input id="educacion-superior-(pregrado-y-postgrado)" />
         <p class="p">
           DILIGENCIE ESTE PUNTO EN ESTRICTO ORDEN CRONOLÓGICO, EN MODALIDAD
           ACADÉMICA ESCRIBA: TC (TÉCNICA), TL (TECNOLÓGICA), TE (TECNOLÓGICA
