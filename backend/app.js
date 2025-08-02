@@ -4,6 +4,9 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import formacionAcademicaRoutes from "./routes/formacionAcademica.js"; 
+import experienciaRoutes from "./routes/experienciaRoutes.js";
+
+
 
 dotenv.config();
 
@@ -21,9 +24,10 @@ mongoose
 
 
 app.use("/api/formacion-academica", formacionAcademicaRoutes);
+app.use("/api/experiencia", experienciaRoutes);
 
 
-import hojaRoutes from "../routes/hojaVidaRoutes.js"; 
+import hojaRoutes from "./routes/hojaVidaRoutes.js"; 
 app.use('/api', hojaRoutes); 
 
 export default app;

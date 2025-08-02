@@ -11,6 +11,7 @@ import loginRoute from "./routes/login.js";
 import datosPersonalesRoute from "./routes/datosPersonales.js";
 import formacionAcademicaRoute from "./routes/formacionAcademica.js";
 import hojaVidaRoute from "./routes/hojaVidaRoutes.js"; // Asegúrate de que la ruta sea correcta
+import experienciaRoutes from "./routes/experienciaRoutes.js"; // Asegúrate de que la ruta sea correcta
 
 const app = express();
 connectDB();
@@ -24,6 +25,7 @@ app.use("/api/login", loginRoute);
 app.use("/api", datosPersonalesRoute);
 app.use("/api/formacion-academica", formacionAcademicaRoute);
 app.use("/api", hojaVidaRoute); // Asegúrate de que la ruta sea correcta
+app.use("/api/experiencia", experienciaRoutes); // Asegúrate de que la ruta sea correcta
 
 app.listen(3000, () => {
   console.log("✅ Servidor corriendo en puerto 3000");
