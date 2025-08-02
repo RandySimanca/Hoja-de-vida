@@ -26,26 +26,4 @@ export const useHojaVidaStore = defineStore("hojaVida", {
   },
 });
 
-/*
-// src/stores/hojaVida.js
-import { defineStore } from "pinia";
-import api from "../api/axios"; // o el path real a tu instancia Axios
 
-export const useHojaVidaStore = defineStore("hojaVida", {
-  state: () => ({
-    datosPersonales: null,
-    formacionAcademica: null,
-  }),
-  actions: {
-    async cargarHojaDeVida() {
-      try {
-        const response = await api.get("/hoja-de-vida");
-        this.datosPersonales = response.data.datosPersonales;
-        this.formacionAcademica = response.data.formacionAcademica;
-      } catch (error) {
-        console.error("❌ Error al cargar hoja de vida:", error);
-      }
-    }
-  }
-});
-*/

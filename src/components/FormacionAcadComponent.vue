@@ -205,7 +205,14 @@ import { showSuccess, showError } from "../utils/showMessage.js";
 
 
 export default {
+
   name: "FormacionAcadComponent",
+    props: {
+    formacion: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   data() {
     return {
       selectedGrado: null,
@@ -230,6 +237,26 @@ export default {
       errorEnvio: null,
       cargando: false,
     };
+  },
+  mounted() {
+    // Cargar datos iniciales si existen
+    if (this.formacion) {
+      this.selectedGrado = this.formacion.gradoBasica || null;
+      this.tituloBachiller = this.formacion.tituloBachiller || "";
+      this.mesGrado = this.formacion.mesGrado || "";
+      this.anioGrado = this.formacion.anioGrado || "";
+      this.formacionesSuperior = this.formacion.formacionesSuperior || [
+        {
+          modalidad: "",
+          semestres: "",
+          graduado: "",
+          titulo: "",
+          mesTermino: "",
+          anioTermino: "",
+          tarjeta: "",
+        },
+      ];
+    }
   },
   methods: {
     selectGrado(n) {
