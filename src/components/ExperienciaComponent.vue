@@ -55,15 +55,15 @@
             <div style="display: flex">
               <div class="form-group" style="width: 30px; margin-right: 5px">
                 <label>DÍA</label>
-                <input type="text" v-model="experiencia.fechaIngreso.dia" class="form-control" />
+                <input type="text" v-model="experiencia.fechaIngreso.dia" class="form-control" placeholder="dd" />
               </div>
               <div class="form-group" style="width: 30px; margin-right: 5px">
                 <label>MES</label>
-                <input type="text" v-model="experiencia.fechaIngreso.mes" class="form-control" />
+                <input type="text" v-model="experiencia.fechaIngreso.mes" class="form-control" placeholder="mm"/>
               </div>
               <div class="form-group" style="width: 60px">
                 <label>AÑO</label>
-                <input type="text" v-model="experiencia.fechaIngreso.año" class="form-control" />
+                <input type="text" v-model="experiencia.fechaIngreso.año" class="form-control" placeholder="aaaa"/>
               </div>
             </div>
           </div>
@@ -73,15 +73,15 @@
             <div style="display: flex">
               <div class="form-group" style="width: 30px; margin-right: 5px">
                 <label>DÍA</label>
-                <input type="text" v-model="experiencia.fechaRetiro.dia" class="form-control" />
+                <input type="text" v-model="experiencia.fechaRetiro.dia" class="form-control" placeholder="dd" />
               </div>
               <div class="form-group" style="width: 30px; margin-right: 5px">
                 <label>MES</label>
-                <input type="text" v-model="experiencia.fechaRetiro.mes" class="form-control" />
+                <input type="text" v-model="experiencia.fechaRetiro.mes" class="form-control" placeholder="mm"/>
               </div>
               <div class="form-group" style="width: 60px">
                 <label>AÑO</label>
-                <input type="text" v-model="experiencia.fechaRetiro.año" class="form-control" />
+                <input type="text" v-model="experiencia.fechaRetiro.año" class="form-control" placeholder="aaaa" />
               </div>
             </div>
           </div>
