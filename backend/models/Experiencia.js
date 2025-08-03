@@ -1,3 +1,4 @@
+//backend/models/Experiencia.js
 import mongoose from "mongoose";
 
 const experienciaSchema = new mongoose.Schema({
@@ -13,16 +14,11 @@ const experienciaSchema = new mongoose.Schema({
   municipio: { type: String },
   correoEntidad: { type: String },
   telefonos: { type: String },
-  fechaIngreso: {
-    dia: { type: String },
-    mes: { type: String },
-    año: { type: String },
-  },
-  fechaRetiro: {
-    dia: { type: String },
-    mes: { type: String },
-    año: { type: String },
-  },
+
+  // ✅ Cambiado a tipo Date
+  fechaIngreso: { type: Date },
+  fechaRetiro: { type: Date },
+
   cargo: { type: String },
   dependencia: { type: String },
   direccion: { type: String },

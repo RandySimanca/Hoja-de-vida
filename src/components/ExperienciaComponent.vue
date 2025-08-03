@@ -1,4 +1,4 @@
-<!--src/componentes/ExperienciaComponent.vue-->
+<!-- src/componentes/ExperienciaComponent.vue -->
 <template>
   <form @submit.prevent="guardarExperiencia">
     <div class="section">
@@ -139,9 +139,23 @@ export default {
     };
   },
   methods: {
+    // ✅ Convierte un objeto con dia, mes y año a un Date válido
+    convertirFecha({ dia, mes, año }) {
+      if (!dia || !mes || !año) return null;
+      const d = parseInt(dia), m = parseInt(mes), y = parseInt(año);
+      return new Date(y, m - 1, d); // El mes va de 0 a 11
+    },
+
     async guardarExperiencia() {
       try {
-        const res = await api.post("/experiencia", this.experiencia);
+        // ✅ Convertir las fechas antes de enviar
+        const experienciaFormateada = {
+          ...this.experiencia,
+          fechaIngreso: this.convertirFecha(this.experiencia.fechaIngreso),
+          fechaRetiro: this.convertirFecha(this.experiencia.fechaRetiro),
+        };
+
+        const res = await api.post("/experiencia", experienciaFormateada);
         console.log("✅ Experiencia enviada correctamente:", res.data);
         showSuccess("✅ ¡Experiencia laboral guardada correctamente!");
       } catch (error) {
@@ -154,5 +168,5 @@ export default {
 </script>
 
 <style scoped>
-/* Aquí puedes poner tu CSS si lo necesitas */
+/* Tu CSS personalizado */
 </style>

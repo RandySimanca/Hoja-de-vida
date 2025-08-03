@@ -1,0 +1,74 @@
+diff a/backend/controllers/experienciaControllers.js b/backend/controllers/experienciaControllers.js	(rejected hunks)
+@@ -1,53 +1,26 @@
+-const Experiencia = require('../models/Experiencia');
++//backend/controllers/experienciaController.js
++import Experiencia from '../models/Experiencia.js';
+ 
+-exports.crearExperiencia = async (req, res) => {
++export const guardarExperiencia = async (req, res) => {
+   try {
+-    const nuevaExp = new Experiencia(req.body);
+-    await nuevaExp.save();
+-    res.status(201).send(nuevaExp);
+-  } catch (err) {
+-    res.status(500).send({ error: 'Error al guardar experiencia', detalle: err });
+-  }
+-};
+-
+-exports.obtenerExperiencias = async (req, res) => {
+-  try {
+-    const todas = await Experiencia.find();
+-    res.status(200).send(todas);
+-  } catch (err) {
+-    res.status(500).send({ error: 'Error al leer experiencias', detalle: err });
+-  }
+-};
+-
+-
+-
+-const Experiencia = require('../models/Experiencia');
+-
+-// Crear nueva experiencia
+-exports.crearExperiencia = async (req, res) => {
+-  try {
+-    const nuevaExp = new Experiencia(req.body);
+-    await nuevaExp.save();
+-    res.status(201).json(nuevaExp);
+-  } catch (error) {
+-    res.status(500).json({
+-      mensaje: 'Error al guardar experiencia',
+-      detalle: error.message,
++    const payload = {
++      ...req.body,
++      user: req.user.id
++    };
++    console.log('🛠 Payload a guardar:', payload);
++
++    const experienciaGuardada = await Experiencia.create(payload);
++    return res.status(201).json({
++      mensaje: 'Guardado OK',
++      data: experienciaGuardada
+     });
+-  }
+-};
+-
+-// Obtener todas las experiencias
+-exports.obtenerExperiencias = async (req, res) => {
+-  try {
+-    const experiencias = await Experiencia.find();
+-    res.status(200).json(experiencias);
++   
+   } catch (error) {
+-    res.status(500).json({
+-      mensaje: 'Error al leer experiencias',
+-      detalle: error.message,
+-    });
++    console.error('❌ Error al guardar en MongoDB:', error);
++    console.error('📄 Stack trace:', error.stack); // 🧠 Agrega esto
++    return res
++      .status(500)
++      .json({ error: 'Error interno al guardar datos personales' });
+   }
+ };
+ 
+-
