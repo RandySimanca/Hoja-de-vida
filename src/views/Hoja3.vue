@@ -1,19 +1,21 @@
+<!-- src/views/Hoja3.vue -->
 <template>
   <div class="section">
-    <div>
-      <Header2Component />
-    </div>
+    <Header2Component />
 
-    <div>
-      <ExperienciaTotComponent
-        :publico="publico"
-        :privado="privado"
-        :independiente="independiente"
-        :totalAnios="totalAnios.value"
-        :totalMeses="totalMeses.value"
-      />
-    </div>
-       <FooterComponent />
+    <ExperienciaTotComponent
+      :publico="publico"
+      :privado="privado"
+      :independiente="independiente"
+      :totalAnios="totalAnios"
+      :totalMeses="totalMeses"
+    />
+
+    <FirmaServidorComponent />
+
+    <RecursosHumComponent />
+
+    <FooterComponent />
   </div>
 </template>
 
@@ -21,19 +23,22 @@
 import { reactive, computed, watch } from "vue";
 import Header2Component from "../components/Header2Component.vue";
 import ExperienciaTotComponent from "../components/ExperienciaTotComponent.vue";
+import FirmaServidorComponent from "../components/FirmaServidorComponent.vue";
+import RecursosHumComponent from "../components/RecursosHumComponent.vue";
 import FooterComponent from "../components/FooterComponent.vue";
 import { useExperienciaStore } from "../stores/experienciaStore";
 
-// 🔷 1. Store y datos principales
+// Store
 const store = useExperienciaStore();
 const experiencias = store.experiencias;
 
-// 🔷 2. Totales por categoría
+// Totales por tipo
 const publico = reactive({ anios: 0, meses: 0 });
 const privado = reactive({ anios: 0, meses: 0 });
 const independiente = reactive({ anios: 0, meses: 0 });
 
-// 🔷 3. Utilidad para calcular duración
+
+
 function calcularDuracion({ ingreso, retiro }) {
   const desde = new Date(`${ingreso.anio}-${ingreso.mes}-${ingreso.dia}`);
   const hasta = new Date(`${retiro.anio}-${retiro.mes}-${retiro.dia}`);
@@ -52,7 +57,6 @@ function calcularDuracion({ ingreso, retiro }) {
   return { anios, meses };
 }
 
-// 🔷 4. Modularizar la acumulación por tipo
 function acumularPorTipo(tipo, meses) {
   const destino = { publica: publico, privada: privado, independiente: independiente }[tipo];
   if (!destino) return;
@@ -61,7 +65,6 @@ function acumularPorTipo(tipo, meses) {
   destino.meses = (destino.anios * 12 + total) % 12;
 }
 
-// 🔷 5. Recalcular totales globales
 function recalcularTotales() {
   publico.anios = publico.meses = 0;
   privado.anios = privado.meses = 0;
@@ -74,7 +77,6 @@ function recalcularTotales() {
   });
 }
 
-// 🔷 6. Totales computados finales
 const totalAnios = computed(() =>
   publico.anios + privado.anios + independiente.anios +
   Math.floor((publico.meses + privado.meses + independiente.meses) / 12)
@@ -84,11 +86,9 @@ const totalMeses = computed(() =>
   (publico.meses + privado.meses + independiente.meses) % 12
 );
 
-// 🔷 7. Watch reactivo
 watch(experiencias, recalcularTotales, { deep: true });
 </script>
 
-
-<style>
-
+<style scoped>
+/* Agrega estilos si es necesario */
 </style>

@@ -33,7 +33,7 @@ onMounted(() => {
   <ul class="sidebar-menu">
     <li><router-link to="/panel/Hoja1">Datos Personales</router-link></li>
     <li><router-link to="/panel/Hoja2">Experiencia Laboral</router-link></li>
-    <li><router-link to="/panel/Hoja2Extra">Experiencia Laboral2</router-link></li>
+    <li><router-link to="/panel/Hoja2Extra">Registrar Experiencia</router-link></li>
     <li><router-link to="/panel/Hoja3">Tiempo Total de Experiencia</router-link></li>
     </ul>
 

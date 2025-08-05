@@ -1,4 +1,3 @@
-<!-- src/componentes/ExperienciaComponent.vue -->
 <template>
   <form @submit.prevent="guardarExperiencia">
     <div class="section">
@@ -8,78 +7,46 @@
         <div style="display: flex; margin-top: 3px">
           <div class="form-group col-2">
             <label>EMPRESA O ENTIDAD.</label>
-            <input
-              type="text"
-              v-model="experiencia.empresa"
-              class="form-control"
-            />
+            <input type="text" v-model="experienciaLocal.empresa" class="form-control" />
           </div>
 
           <div class="checkbox-group">
             <label>PUBLICA</label>
-            <input
-              type="radio"
-              value="Publica"
-              v-model="experiencia.tipoEntidad"
-            />
+            <input type="radio" value="Publica" v-model="experienciaLocal.tipoEntidad" />
           </div>
 
           <div class="checkbox-group">
             <label>PRIVADA</label>
-            <input
-              type="radio"
-              value="Privada"
-              v-model="experiencia.tipoEntidad"
-            />
+            <input type="radio" value="Privada" v-model="experienciaLocal.tipoEntidad" />
           </div>
 
           <div class="form-group col-2">
             <label>PAÍS</label>
-            <input
-              type="text"
-              v-model="experiencia.pais"
-              class="form-control"
-            />
+            <input type="text" v-model="experienciaLocal.pais" class="form-control" />
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group col-2">
             <label>DEPARTAMENTO</label>
-            <input
-              type="text"
-              v-model="experiencia.departamento"
-              class="form-control"
-            />
+            <input type="text" v-model="experienciaLocal.departamento" class="form-control" />
           </div>
 
           <div class="form-group col-2">
             <label>MUNICIPIO</label>
-            <input
-              type="text"
-              v-model="experiencia.municipio"
-              class="form-control"
-            />
+            <input type="text" v-model="experienciaLocal.municipio" class="form-control" />
           </div>
 
           <div class="form-group col-2">
             <label>CORREO ELECTRÓNICO ENTIDAD</label>
-            <input
-              type="email"
-              v-model="experiencia.correoEntidad"
-              class="form-control"
-            />
+            <input type="email" v-model="experienciaLocal.correoEntidad" class="form-control" />
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group col-2">
             <label>TELÉFONOS</label>
-            <input
-              type="text"
-              v-model="experiencia.telefonos"
-              class="form-control"
-            />
+            <input type="text" v-model="experienciaLocal.telefonos" class="form-control" />
           </div>
 
           <div class="form-group col-2">
@@ -87,30 +54,15 @@
             <div style="display: flex">
               <div class="form-group" style="width: 30px; margin-right: 5px">
                 <label>DÍA</label>
-                <input
-                  type="text"
-                  v-model="experienciaLocal.fechaIngreso.dia"
-                  class="form-control"
-                  placeholder="dd"
-                />
+                <input type="text" v-model="experienciaLocal.fechaIngreso.dia" class="form-control" placeholder="dd" />
               </div>
               <div class="form-group" style="width: 30px; margin-right: 5px">
                 <label>MES</label>
-                <input
-                  type="text"
-                  v-model="experienciaLocal.fechaIngreso.mes"
-                  class="form-control"
-                  placeholder="mm"
-                />
+                <input type="text" v-model="experienciaLocal.fechaIngreso.mes" class="form-control" placeholder="mm" />
               </div>
               <div class="form-group" style="width: 60px">
                 <label>AÑO</label>
-                <input
-                  type="text"
-                  v-model="experienciaLocal.fechaIngreso.anio"
-                  class="form-control"
-                  placeholder="aaaa"
-                />
+                <input type="text" v-model="experienciaLocal.fechaIngreso.anio" class="form-control" placeholder="aaaa" />
               </div>
             </div>
           </div>
@@ -120,30 +72,15 @@
             <div style="display: flex">
               <div class="form-group" style="width: 30px; margin-right: 5px">
                 <label>DÍA</label>
-                <input
-                  type="text"
-                  v-model="experienciaLocal.fechaRetiro.dia"
-                  class="form-control"
-                  placeholder="dd"
-                />
+                <input type="text" v-model="experienciaLocal.fechaRetiro.dia" class="form-control" placeholder="dd" />
               </div>
               <div class="form-group" style="width: 30px; margin-right: 5px">
                 <label>MES</label>
-                <input
-                  type="text"
-                  v-model="experienciaLocal.fechaRetiro.mes"
-                  class="form-control"
-                  placeholder="mm"
-                />
+                <input type="text" v-model="experienciaLocal.fechaRetiro.mes" class="form-control" placeholder="mm" />
               </div>
               <div class="form-group" style="width: 60px">
                 <label>AÑO</label>
-                <input
-                  type="text"
-                  v-model="experienciaLocal.fechaRetiro.anio"
-                  class="form-control"
-                  placeholder="aaaa"
-                />
+                <input type="text" v-model="experienciaLocal.fechaRetiro.anio" class="form-control" placeholder="aaaa" />
               </div>
             </div>
           </div>
@@ -152,29 +89,17 @@
         <div class="form-row">
           <div class="form-group col-2">
             <label>CARGO O CONTRATO ACTUAL</label>
-            <input
-              type="text"
-              v-model="experiencia.cargo"
-              class="form-control"
-            />
+            <input type="text" v-model="experienciaLocal.cargo" class="form-control" />
           </div>
 
           <div class="form-group col-2">
             <label>DEPENDENCIA</label>
-            <input
-              type="text"
-              v-model="experiencia.dependencia"
-              class="form-control"
-            />
+            <input type="text" v-model="experienciaLocal.dependencia" class="form-control" />
           </div>
 
           <div class="form-group col-2">
             <label>DIRECCIÓN</label>
-            <input
-              type="text"
-              v-model="experiencia.direccion"
-              class="form-control"
-            />
+            <input type="text" v-model="experienciaLocal.direccion" class="form-control" />
           </div>
         </div>
 
@@ -188,7 +113,6 @@
   </form>
 </template>
 
-<!-- src/components/ExperienciaComponent.vue -->
 <script>
 import { showSuccess, showError } from "../utils/showMessage.js";
 import api from "../api/axios";
@@ -198,56 +122,71 @@ export default {
   props: {
     experiencia: {
       type: Object,
-      required: true, //default: () => ({}),
-    }
+      default: () => ({}),
+    },
   },
   data() {
     return {
       experienciaLocal: {
-        empresa: '',
-        tipoEntidad: '',
-        pais: '',
-        departamento: '',
-        municipio: '',
-        correoEntidad: '',
-        telefonos: '',
-        fechaIngreso: {  dia: '', mes: '', anio: '' },
-        fechaRetiro: { dia: '', mes: '', anio: '' },
-        cargo: '',
-        dependencia: '',
-        direccion: '',
-
+        empresa: "",
+        tipoEntidad: "",
+        pais: "",
+        departamento: "",
+        municipio: "",
+        correoEntidad: "",
+        telefonos: "",
+        fechaIngreso: { dia: "", mes: "", anio: "" },
+        fechaRetiro: { dia: "", mes: "", anio: "" },
+        cargo: "",
+        dependencia: "",
+        direccion: "",
         datosPrecargados: false,
-
-// feedback visual
-envioExitoso: false,
-errorEnvio: null,
-cargando: false,
-
-      }
+        envioExitoso: false,
+        errorEnvio: null,
+        cargando: false,
+      },
     };
   },
-
   mounted() {
-  if (this.experiencia) {
-    this.experienciaLocal = {
-      ...this.experiencia,
-      fechaIngreso: {
-        dia: this.experiencia.fechaIngreso?.dia || '',
-        mes: this.experiencia.fechaIngreso?.mes || '',
-        anio: this.experiencia.fechaIngreso?.anio || '',
+    this.sincronizarExperiencia(this.experiencia);
+  },
+  watch: {
+    experiencia: {
+      handler(nuevaExp) {
+        this.sincronizarExperiencia(nuevaExp);
       },
-      fechaRetiro: {
-        dia: this.experiencia.fechaRetiro?.dia || '',
-        mes: this.experiencia.fechaRetiro?.mes || '',
-        anio: this.experiencia.fechaRetiro?.anio || '',
-      }
-    };
-  }
-},
-
-
+      immediate: true,
+      deep: true
+    }
+  },
   methods: {
+    normalizarFecha(fecha) {
+      if (!fecha) return { dia: '', mes: '', anio: '' };
+      if (typeof fecha === 'string' || fecha instanceof Date) {
+        const f = new Date(fecha);
+        return {
+          dia: String(f.getDate()).padStart(2, '0'),
+          mes: String(f.getMonth() + 1).padStart(2, '0'),
+          anio: String(f.getFullYear())
+        };
+      }
+      return {
+        dia: fecha.dia ?? '',
+        mes: fecha.mes ?? '',
+        anio: fecha.anio ?? ''
+      };
+    },
+    sincronizarExperiencia(exp) {
+      if (!exp || this.experienciaLocal.datosPrecargados) return;
+
+      this.experienciaLocal = {
+        ...this.experienciaLocal,
+        ...exp,
+        fechaIngreso: this.normalizarFecha(exp.fechaIngreso),
+        fechaRetiro: this.normalizarFecha(exp.fechaRetiro),
+        datosPrecargados: true
+      };
+    },
     convertirFecha({ dia, mes, anio }) {
       if (!dia || !mes || !anio) return null;
       const d = parseInt(dia),
@@ -258,25 +197,23 @@ cargando: false,
     async guardarExperiencia() {
       try {
         const experienciaFormateada = {
-          ...this.experiencia,
-          fechaIngreso: this.convertirFecha(this.experiencia.fechaIngreso),
-          fechaRetiro: this.convertirFecha(this.experiencia.fechaRetiro),
+          ...this.experienciaLocal,
+          fechaIngreso: this.convertirFecha(this.experienciaLocal.fechaIngreso),
+          fechaRetiro: this.convertirFecha(this.experienciaLocal.fechaRetiro),
         };
+
         const res = await api.post("/experiencia", experienciaFormateada);
         console.log("✅ Experiencia enviada correctamente:", res.data);
         showSuccess("✅ ¡Experiencia laboral guardada correctamente!");
       } catch (error) {
-        console.error(
-          "❌ Error al guardar experiencia:",
-          error.response?.data || error.message
-        );
+        console.error("❌ Error al guardar experiencia:", error.response?.data || error.message);
         showError("❌ Ocurrió un error al guardar los datos.");
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style scoped>
-/* Tu CSS personalizado */
+/* Aquí puedes incluir tu estilo personalizado */
 </style>

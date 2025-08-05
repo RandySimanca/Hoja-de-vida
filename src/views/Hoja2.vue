@@ -39,27 +39,22 @@ const experienciaStore = useExperienciaStore();
 const token = localStorage.getItem("token");
  
 
-  onMounted(async () => {
-    if (!token) {
+onMounted(async () => {
+  if (!token) {
     console.error("❌ Token no encontrado. Redirigiendo o mostrando fallback...");
-    // Puedes redirigir al login si usas vue-router
   } else {
-    hojaStore.cargarHojaDeVida(); // ✅ Acción del store
+    hojaStore.cargarHojaDeVida();
     console.log("✅ Token válido:", token);
   }
-  try {
-    const res = await experienciaStore.cargarExperiencia();
 
-// Luego formateas las fechas directamente en el store si las necesitas listas para el formulario
-experienciaStore.experiencias = experienciaStore.experiencias.map(exp => ({
-  ...exp,
-  fechaIngreso: formatearFechaParaFormulario(exp.fechaIngreso),
-  fechaRetiro: formatearFechaParaFormulario(exp.fechaRetiro),
-}));
+  try {
+    await experienciaStore.cargarExperiencia();
+    // No formatees aquí las fechas. Deja que el componente las interprete.
   } catch (err) {
     console.error("❌ Error al cargar experiencias:", err);
   }
 });
+
 
 function formatearFechaParaFormulario(fecha) {
   if (!fecha) return { dia: '', mes: '', anio: '' };
