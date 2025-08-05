@@ -46,8 +46,7 @@ const token = localStorage.getItem("token");
 onMounted(async () => {
   if (!token) {
     console.error("❌ Token no encontrado. Redirigiendo o mostrando fallback...");
-    // Redirigir si tienes router
-    // router.push("/login");
+
   } else {
     console.log("✅ Token válido:", token);
     await hojaStore.cargarHojaDeVida();

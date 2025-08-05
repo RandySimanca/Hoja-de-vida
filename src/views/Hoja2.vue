@@ -49,7 +49,7 @@ onMounted(async () => {
 
   try {
     await experienciaStore.cargarExperiencia();
-    // No formatees aquí las fechas. Deja que el componente las interprete.
+   
   } catch (err) {
     console.error("❌ Error al cargar experiencias:", err);
   }

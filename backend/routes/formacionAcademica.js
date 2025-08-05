@@ -4,8 +4,7 @@ import { crearFormacionAcademica } from '../controllers/formacionAcademicaContro
 import verificarJWT from '../middlewares/verificarJWT.js';
 import { obtenerFormacionAcademica } from '../controllers/formacionAcademicaControllers.js';
 
-//import validateFormacion from '../middlewares/validateFormacion.js';
-//import { crearFormacion } from '../controllers/formacionAcademicaControllers.js';
+
 const router = express.Router();
 
 

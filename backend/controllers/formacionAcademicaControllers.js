@@ -46,24 +46,3 @@ export const obtenerFormacionAcademica = async (req, res) => {
 
 
 
-
-  /*
-  try {
-    const { gradoBasica, tituloBachiller, fechaGrado, formacionesSuperior } = req.body;
-
-    const nuevaFormacion = new Formacion({
-      user: req.user.id,
-      gradoBasica,
-      tituloBachiller,
-      fechaGrado: new Date(fechaGrado),
-      formacionesSuperior
-    });
-
-    await nuevaFormacion.save();
-    res.status(201).json({ message: 'Formación académica guardada', data: nuevaFormacion });
-  } catch (error) {
-    console.error('Error al guardar formación:', error);
-    res.status(500).json({ message: 'Error de servidor' });
-  }
-};*/
-

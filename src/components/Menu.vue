@@ -15,9 +15,7 @@
 
 <script setup>
 
-/*localStorage.setItem('auth', 'true')
-localStorage.setItem('usuario', usuario.value) // por ejemplo, 'Randy'
-router.push('/hojaDeVidaH1')*/
+
 
 
 import { useRouter } from 'vue-router'
