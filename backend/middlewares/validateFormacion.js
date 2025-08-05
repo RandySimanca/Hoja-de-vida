@@ -9,7 +9,7 @@ const validateFormacion = [
     body('mesGrado')
     .isLength({ min: 1 }).withMessage('Mes de grado requerido'),
   body('anioGrado')
-    .isLength({ min: 4 }).withMessage('Año de grado requerido'),  
+    .isLength({ min: 4 }).withMessage('Anio de grado requerido'),  
   body('formacionesSuperior')
     .isArray({ min: 1 }).withMessage('Al menos una formación superior'),
   body('formacionesSuperior.*.modalidad').notEmpty(),

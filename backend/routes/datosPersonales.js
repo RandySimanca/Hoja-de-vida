@@ -2,7 +2,6 @@
 
 import express from "express";
 import { crearDatosPersonales } from "../controllers/datosPersonalesControllers.js";
-//import { crearDatosPersonales, obtenerDatosPersonales } from '../controllers/datosPersonalesControllers.js'
 import verificarJWT from "../middlewares/verificarJWT.js";
 import { obtenerDatosPersonales } from "../controllers/datosPersonalesControllers.js";
 

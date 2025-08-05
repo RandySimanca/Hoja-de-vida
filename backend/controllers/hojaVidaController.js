@@ -1,6 +1,7 @@
 //backend/controllers/hojaVidaController.js
 import FormacionAcademica from "../models/FormacionAcademica.js";
 import DatosPersonales from "../models/DatosPersonales.js";
+import Experiencia from "../models/Experiencia.js";
 
 export const obtenerHojaCompleta = async (req, res) => {
   try {
@@ -10,8 +11,10 @@ export const obtenerHojaCompleta = async (req, res) => {
 
     const datosPersonales = await DatosPersonales.findOne({ user: userId });
     const formacionAcademica = await FormacionAcademica.findOne({ user: userId });
+    const experiencia = await Experiencia.find({ user: userId });
+    console.log("Datos personales:", datosPersonales);
 
-    if (!datosPersonales && !formacionAcademica) {
+    if (!datosPersonales && !formacionAcademica && !experiencia.length === 0) {
       return res.status(404).json({ mensaje: "No se encontró información de hoja de vida." });
       
     }
@@ -19,6 +22,8 @@ export const obtenerHojaCompleta = async (req, res) => {
     res.json({
       datosPersonales,
       formacionAcademica,
+      Experiencia,
+
     });
 
   } catch (error) {

@@ -11,7 +11,7 @@ import loginRoute from "./routes/login.js";
 import datosPersonalesRoute from "./routes/datosPersonales.js";
 import formacionAcademicaRoute from "./routes/formacionAcademica.js";
 import hojaVidaRoute from "./routes/hojaVidaRoutes.js"; // Asegúrate de que la ruta sea correcta
-import experienciaRoutes from "./routes/experienciaRoutes.js"; // Asegúrate de que la ruta sea correcta
+import experienciaRoutes from "./routes/experiencia.js"; // Asegúrate de que la ruta sea correcta
 
 const app = express();
 connectDB();

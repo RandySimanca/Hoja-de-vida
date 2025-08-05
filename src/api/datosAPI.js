@@ -1,4 +1,3 @@
-
   // frontend/src/api/datosAPI.js
 import api from "../helpers/axiosInstance";
 
@@ -12,6 +11,16 @@ export async function obtenerHojaDeVida() {
   const response = await api.get("/hoja-de-vida");
   return response.data;
 }
+
+export async function obtenerExperiencias() {
+  return await api.get('/experiencia'); // Asume que tu backend está montado en /api
+}
+
+// POST: Guardar nueva experiencia laboral
+export async function guardarExperiencia(payload) {
+  return await api.post('/experiencia', payload);
+}
+
 
   /*
   // frontend/src/api/datosAPI.js

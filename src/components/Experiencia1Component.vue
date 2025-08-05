@@ -20,8 +20,7 @@
           <div style="display: flex; margin-top: 3px">
             <div class="form-group col-2">
               <label for="cc">EMPRESA O ENTIDAD</label>
-              <input type="text" id="empresa-actual" class="form-control" />
-              <input type="text" v-model="nueva.empresa" class="form-control" />
+             <input type="text" id="empresa-actual" v-model="nueva.empresa" class="form-control" />
 
             </div>
             <div class="checkbox-group">

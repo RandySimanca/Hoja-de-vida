@@ -4,7 +4,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import formacionAcademicaRoutes from "./routes/formacionAcademica.js"; 
-import experienciaRoutes from "./routes/experienciaRoutes.js";
+import experienciaRoutes from "./routes/experiencia.js";
 
 
 

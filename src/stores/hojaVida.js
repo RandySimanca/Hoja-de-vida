@@ -6,6 +6,7 @@ export const useHojaVidaStore = defineStore("hojaVida", {
   state: () => ({
     datosPersonales: null,
     formacionAcademica: null,
+    experiencia: null,
     cargado: false, // NUEVO: control de carga
   }),
   actions: {
@@ -15,10 +16,12 @@ export const useHojaVidaStore = defineStore("hojaVida", {
         console.log("📦 Datos recibidos del backend:", data);
         this.datosPersonales = data.datosPersonales;
         this.formacionAcademica = data.formacionAcademica;
+        this.experiencia = data.experiencia;
       } catch (error) {
         console.warn("⚠️ No se encontraron datos, usuario nuevo:", error?.response?.data || error.message);
         this.datosPersonales = {};  // fallback vacío
         this.formacionAcademica = {}; // fallback vacío
+        this.experiencia = {}; // fallback vacío
       } finally {
         this.cargado = true; // Siempre marcar como cargado
       }
