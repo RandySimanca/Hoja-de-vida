@@ -92,7 +92,7 @@
         firmaServidor: firmaUrl.value,
       };
   
-      const response = await api.post("/experienciaTot", payload); // Asegúrate que esta ruta esté en backend
+      const response = await api.post("/firmaServidorComponent", payload); // Asegúrate que esta ruta esté en backend
       console.log("✅ Guardado:", response.data);
       showSuccess("✅ Firma y datos de diligenciamiento guardados correctamente.");
     } catch (error) {

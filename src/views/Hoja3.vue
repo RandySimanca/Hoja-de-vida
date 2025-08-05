@@ -27,15 +27,32 @@ import FirmaServidorComponent from "../components/FirmaServidorComponent.vue";
 import RecursosHumComponent from "../components/RecursosHumComponent.vue";
 import FooterComponent from "../components/FooterComponent.vue";
 import { useExperienciaStore } from "../stores/experienciaStore";
+import { onMounted } from "vue";
+import { useHojaVidaStore } from "../stores/hojaVida";
+
 
 // Store
 const store = useExperienciaStore();
 const experiencias = store.experiencias;
+const hojaStore = useHojaVidaStore();
 
 // Totales por tipo
 const publico = reactive({ anios: 0, meses: 0 });
 const privado = reactive({ anios: 0, meses: 0 });
 const independiente = reactive({ anios: 0, meses: 0 });
+
+const token = localStorage.getItem("token");
+
+onMounted(async () => {
+  if (!token) {
+    console.error("❌ Token no encontrado. Redirigiendo o mostrando fallback...");
+    // Redirigir si tienes router
+    // router.push("/login");
+  } else {
+    console.log("✅ Token válido:", token);
+    await hojaStore.cargarHojaDeVida();
+  }
+});
 
 
 
