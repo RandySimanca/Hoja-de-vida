@@ -192,7 +192,7 @@
 
     <div class="form-group" style="margin-top: 20px">
       <button type="submit" class="boton-guardar">
-        Guardar formacion academica
+        {{ modoEdicion ? 'Actualizar formacion academica' : 'Guardar formacion academica' }}
       </button>
     </div>
    
@@ -203,11 +203,9 @@
 import api from "../api/axios";
 import { showSuccess, showError } from "../utils/showMessage.js";
 
-
 export default {
-
   name: "FormacionAcadComponent",
-    props: {
+  props: {
     formacion: {
       type: Object,
       default: () => ({}),
@@ -236,26 +234,17 @@ export default {
       envioExitoso: false,
       errorEnvio: null,
       cargando: false,
+      modoEdicion: false, // Nueva variable para detectar si estamos editando
+      formacionId: null, // ID del documento para actualizar
     };
   },
   mounted() {
     // Cargar datos iniciales si existen
-    if (this.formacion) {
-      this.selectedGrado = this.formacion.gradoBasica || null;
-      this.tituloBachiller = this.formacion.tituloBachiller || "";
-      this.mesGrado = this.formacion.mesGrado || "";
-      this.anioGrado = this.formacion.anioGrado || "";
-      this.formacionesSuperior = this.formacion.formacionesSuperior || [
-        {
-          modalidad: "",
-          semestres: "",
-          graduado: "",
-          titulo: "",
-          mesTermino: "",
-          anioTermino: "",
-          tarjeta: "",
-        },
-      ];
+    if (this.formacion && Object.keys(this.formacion).length > 0) {
+      this.cargarDatosDesdeProps();
+    } else {
+      // Intentar cargar datos existentes al montar el componente
+      this.cargarDatos();
     }
   },
   methods: {
@@ -276,6 +265,61 @@ export default {
     removeFormacion(index) {
       this.formacionesSuperior.splice(index, 1);
     },
+    
+    // Cargar datos desde las props
+    cargarDatosDesdeProps() {
+      this.selectedGrado = this.formacion.gradoBasica || null;
+      this.tituloBachiller = this.formacion.tituloBachiller || "";
+      this.mesGrado = this.formacion.mesGrado || "";
+      this.anioGrado = this.formacion.anioGrado || "";
+      this.formacionesSuperior = this.formacion.formacionesSuperior || [
+        {
+          modalidad: "",
+          semestres: "",
+          graduado: "",
+          titulo: "",
+          mesTermino: "",
+          anioTermino: "",
+          tarjeta: "",
+        },
+      ];
+      this.modoEdicion = true;
+      this.formacionId = this.formacion._id;
+    },
+
+    // Nueva función para cargar datos existentes del servidor
+    async cargarDatos() {
+      try {
+        const response = await api.get("/formacion-academica"); // Cambié la ruta
+        const datos = response.data;
+        
+        if (datos) {
+          this.selectedGrado = datos.gradoBasica || null;
+          this.tituloBachiller = datos.tituloBachiller || "";
+          this.mesGrado = datos.mesGrado || "";
+          this.anioGrado = datos.anioGrado || "";
+          this.formacionesSuperior = datos.formacionesSuperior || [
+            {
+              modalidad: "",
+              semestres: "",
+              graduado: "",
+              titulo: "",
+              mesTermino: "",
+              anioTermino: "",
+              tarjeta: "",
+            },
+          ];
+          this.modoEdicion = true;
+          this.formacionId = datos._id;
+        }
+      } catch (error) {
+        // Si no hay datos, simplemente mantener el formulario vacío
+        if (error.response?.status !== 404) {
+          console.error("Error al cargar datos:", error);
+        }
+      }
+    },
+
     async enviarFormulario() {
       this.envioExitoso = false;
       this.errorEnvio = null;
@@ -295,40 +339,56 @@ export default {
       const formacion = {
         gradoBasica: this.selectedGrado,
         tituloBachiller: this.tituloBachiller,
-        //fechaGrado: new Date(`${this.anioGrado}-${this.mesGrado}-01`),
         mesGrado: this.mesGrado,
         anioGrado: this.anioGrado,
         formacionesSuperior: this.formacionesSuperior,
       };
 
       try {
-        const res = await api.post("/formacion-academica", formacion);
-        const result = res.data;
-        api.interceptors.request.use((request) => {
-          console.log(
-            "📡 Enviando a:",
-            request.method.toUpperCase(),
-            request.url
-          );
-          return request;
-        });
-        console.log("✅ Datos guardados:", result);
+        let response;
+        
+        if (this.modoEdicion) {
+          // Actualizar registro existente
+          response = await api.put("/formacion-academica", formacion);
+          showSuccess("✅ ¡Formación académica actualizada correctamente!");
+        } else {
+          // Crear nuevo registro
+          response = await api.post("/formacion-academica", formacion);
+          showSuccess("✅ ¡Formación académica guardada correctamente!");
+          
+          // Cambiar a modo edición después del primer guardado
+          this.modoEdicion = true;
+          this.formacionId = response.data.data._id;
+        }
+
+        const result = response.data;
+        console.log("✅ Datos procesados:", result);
         this.envioExitoso = true;
-        showSuccess("✅ ¡Formación académica guardada correctamente!");
+        
       } catch (error) {
         console.error(
-          "Error al enviar la formación académica:",
+          "Error al procesar la formación académica:",
           error.response?.data || error.message
         );
-        showError("❌ Ocurrió un error al guardar la formación académica.");
+        
+        if (error.response?.status === 404 && this.modoEdicion) {
+          showError("❌ No se encontraron datos para actualizar. Creando nuevo registro...");
+          // Intentar crear en lugar de actualizar
+          this.modoEdicion = false;
+          this.enviarFormulario();
+          return;
+        }
+        
+        showError(this.modoEdicion ? 
+          "❌ Ocurrió un error al actualizar la formación académica." :
+          "❌ Ocurrió un error al guardar la formación académica."
+        );
       } finally {
         this.cargando = false;
       }
     },
   },
 };
-
-
 </script>
 
 <style scoped>

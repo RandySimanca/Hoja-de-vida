@@ -1,21 +1,21 @@
 //routes/formacionAcademica.js
 import express from 'express';
-import { crearFormacionAcademica } from '../controllers/formacionAcademicaControllers.js';
+import { 
+  crearFormacionAcademica, 
+  obtenerFormacionAcademica,
+  actualizarFormacionAcademica 
+} from '../controllers/formacionAcademicaControllers.js';
 import verificarJWT from '../middlewares/verificarJWT.js';
-import { obtenerFormacionAcademica } from '../controllers/formacionAcademicaControllers.js';
-
 
 const router = express.Router();
-
 
 router.get("/test", (req, res) => {
   res.send("🚀 Ruta de formación académica activa");
 });
 
-// POST principal
+// CRUD completo
 router.post('/', verificarJWT, crearFormacionAcademica);
-router.get("/formacion-academica", verificarJWT, obtenerFormacionAcademica);
+router.get("/", verificarJWT, obtenerFormacionAcademica); // Cambié la ruta GET
+router.put('/', verificarJWT, actualizarFormacionAcademica);
 
 export default router;
-
-

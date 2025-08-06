@@ -12,7 +12,7 @@
             v-model="apellido1"
             id="apellido1"
             class="form-control"
-            :readonly="soloLectura"
+           
           />
         </div>
         <div class="form-group">
@@ -22,7 +22,7 @@
             v-model="apellido2"
             id="apellido2"
             class="form-control"
-            :readonly="soloLectura"
+           
           />
         </div>
         <div class="form-group">
@@ -32,7 +32,7 @@
             type="text"
             id="nombres"
             class="form-control"
-            :readonly="soloLectura"
+           
           />
         </div>
       </div>
