@@ -2,6 +2,9 @@
 import { defineStore } from 'pinia';
 import { obtenerExperiencias } from "../api/datosAPI";
 
+
+
+
 export const useExperienciaStore = defineStore('experiencia', {
   state: () => ({
     experiencias: [],
@@ -51,6 +54,18 @@ export const useExperienciaStore = defineStore('experiencia', {
         mes: String(fecha.getMonth() + 1).padStart(2, "0"),
         anio: String(fecha.getFullYear()),
       };
-    }
+    },
+    
   },
+  
 });
+
+function formatearFechaParaFormulario(fecha) {
+  const date = new Date(fecha);
+  return {
+    dia: String(date.getDate()).padStart(2, '0'),
+    mes: String(date.getMonth() + 1).padStart(2, '0'),
+    anio: String(date.getFullYear())
+  };
+}
+

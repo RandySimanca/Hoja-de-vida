@@ -27,13 +27,14 @@ export const guardarExperiencia = async (req, res) => {
       .json({ error: 'Error interno al guardar datos de experiencia' });
   }
 };
+
 export const obtenerExperiencias = async (req, res) => {
   try {
     const experiencias = await Experiencia.find({ user: req.user.id });
-    return res.status(200).json(experiencias); // Aquí deberían venir las fechas en formato ISO
+    return res.status(200).json(experiencias);
   } catch (error) {
+    console.error('❌ Error al obtener experiencias:', error);
     return res.status(500).json({ error: 'Error al obtener experiencias' });
   }
 };
-
 
