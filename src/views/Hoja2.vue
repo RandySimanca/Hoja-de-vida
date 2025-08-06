@@ -49,8 +49,9 @@ onMounted(async () => {
 
   try {
     await experienciaStore.cargarExperiencia();
-   
-  } catch (err) {
+     console.log("✅ Experiencias cargadas:", experienciaStore.experiencias);   
+  } 
+  catch (err) {
     console.error("❌ Error al cargar experiencias:", err);
   }
 });

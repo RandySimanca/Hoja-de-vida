@@ -27,3 +27,5 @@ const experienciaSchema = new mongoose.Schema({
 const Experiencia = mongoose.model("Experiencia", experienciaSchema);
 
 export default Experiencia;
+
+
