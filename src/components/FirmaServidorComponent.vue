@@ -1,3 +1,4 @@
+<!--src/FirmaServidorComponent.vue-->
 <template>
     <div class="section">
       <div class="section-title">
@@ -54,13 +55,29 @@
   </template>
   
   <script setup>
-  import { ref } from "vue";
-  import api from "../api/axios"; // instancia de axios con interceptor JWT
+   
   import { showSuccess, showError } from "../utils/showMessage"; // mensajes
+  import { ref, onMounted } from "vue";
+import api from "../api/axios";
+
+
+const ciudadDiligenciamiento = ref("");
+const fechaDiligenciamiento = ref("");
+const firmaUrl = ref(null);
   
-  const ciudadDiligenciamiento = ref("");
-  const fechaDiligenciamiento = ref("");
-  const firmaUrl = ref(null);
+onMounted(async () => {
+  try {
+    const response = await api.get("/firma-servidor");
+    const data = response.data;
+    if (data) {
+      ciudadDiligenciamiento.value = data.ciudadDiligenciamiento || "";
+      fechaDiligenciamiento.value = data.fechaDiligenciamiento?.substring(0, 10) || "";
+      firmaUrl.value = data.firmaServidor || null;
+    }
+  } catch (error) {
+    console.error("No se pudo cargar la firma existente:", error.response?.data || error.message);
+  }
+});
   
   // Convertir la imagen a base64
   const mostrarFirma = (event) => {
@@ -85,21 +102,22 @@
   
   // Guardar la información al backend
   const guardarFirma = async () => {
-    try {
-      const payload = {
-        ciudadDiligenciamiento: ciudadDiligenciamiento.value,
-        fechaDiligenciamiento: fechaDiligenciamiento.value,
-        firmaServidor: firmaUrl.value,
-      };
-  
-      const response = await api.post("/firmaServidorComponent", payload); // Asegúrate que esta ruta esté en backend
-      console.log("✅ Guardado:", response.data);
-      showSuccess("✅ Firma y datos de diligenciamiento guardados correctamente.");
-    } catch (error) {
-      console.error("❌ Error al guardar:", error.response?.data || error.message);
-      showError("❌ Ocurrió un error al guardar los datos.");
-    }
-  };
+  try {
+    const payload = {
+      ciudadDiligenciamiento: ciudadDiligenciamiento.value,
+      fechaDiligenciamiento: fechaDiligenciamiento.value,
+      firmaServidor: firmaUrl.value,
+    };
+
+    const response = await api.post("/firma-servidor", payload); // <-- CORREGIDO
+    console.log("✅ Guardado:", response.data);
+    showSuccess("✅ Firma y datos de diligenciamiento guardados correctamente.");
+  } catch (error) {
+    console.error("❌ Error al guardar:", error.response?.data || error.message);
+    showError("❌ Ocurrió un error al guardar los datos.");
+  }
+};
+
   </script>
   
   <style scoped>

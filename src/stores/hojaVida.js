@@ -1,6 +1,7 @@
 // src/stores/hojaVida.js
 import { defineStore } from "pinia";
 import { obtenerHojaDeVida } from "../api/datosAPI";
+import { obtenerFirmaServidor, guardarFirmaServidor } from '../api/datosAPI';
 
 export const useHojaVidaStore = defineStore("hojaVida", {
   state: () => ({
@@ -26,6 +27,22 @@ export const useHojaVidaStore = defineStore("hojaVida", {
         this.cargado = true; // Siempre marcar como cargado
       }
     },
+    async cargarFirmaServidor() {
+      try {
+        const { data } = await obtenerFirmaServidor();
+        this.firmaServidor = data;
+      } catch (error) {
+        console.error("Error al cargar firma:", error);
+      }
+    },
+    async guardarFirmaServidor(payload) {
+      try {
+        const { data } = await guardarFirmaServidor(payload);
+        this.firmaServidor = data.data;
+      } catch (error) {
+        console.error("Error al guardar firma:", error);
+      }
+    }
   },
 });
 

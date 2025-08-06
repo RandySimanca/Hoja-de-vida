@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import formacionAcademicaRoutes from "./routes/formacionAcademica.js"; 
 import experienciaRoutes from "./routes/experiencia.js";
+//import firmaServidorRoutes from "./routes/firmaServidor.js";
 
 
 
@@ -25,6 +26,7 @@ mongoose
 
 app.use("/api/formacion-academica", formacionAcademicaRoutes);
 app.use("/api/experiencia", experienciaRoutes);
+//app.use("/api/firma-servidor", firmaServidorRoutes);
 
 
 import hojaRoutes from "./routes/hojaVidaRoutes.js"; 

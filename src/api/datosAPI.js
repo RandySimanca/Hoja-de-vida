@@ -20,3 +20,12 @@ export async function obtenerExperiencias() {
 export async function guardarExperiencia(payload) {
   return await api.post('/experiencia', payload);
 }
+
+// src/api/datosAPI.js
+export async function guardarFirmaServidor(payload) {
+  return await api.post('/firma-servidor', payload);
+}
+
+export async function obtenerFirmaServidor() {
+  return await api.get('/firma-servidor');
+}

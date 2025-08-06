@@ -13,6 +13,8 @@ import formacionAcademicaRoute from "./routes/formacionAcademica.js";
 import hojaVidaRoute from "./routes/hojaVidaRoutes.js"; // Asegúrate de que la ruta sea correcta
 import experienciaRoutes from "./routes/experiencia.js"; // Asegúrate de que la ruta sea correcta
 import experienciaTotRoutes from "./routes/experienciaTot.js"; // Asegúrate de que la ruta sea correcta
+import firmaServidorRoutes from "./routes/firmaServidor.js"; // Asegúrate de que la ruta sea correcta
+
 
 
 
@@ -30,6 +32,7 @@ app.use("/api/formacion-academica", formacionAcademicaRoute);
 app.use("/api", hojaVidaRoute); // Asegúrate de que la ruta sea correcta
 app.use("/api/experiencia", experienciaRoutes); // Asegúrate de que la ruta sea correcta
 app.use("/api/experiencia-Tot", experienciaTotRoutes); // Asegúrate de que la ruta sea correcta
+app.use("/api/firma-servidor", firmaServidorRoutes); // Asegúrate de que la ruta sea correcta
 
 app.listen(3000, () => {
   console.log("✅ Servidor corriendo en puerto 3000");
