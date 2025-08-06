@@ -18,7 +18,6 @@
     <FooterComponent />
   </div>
 </template>
-
 <script setup>
 import { reactive, computed, ref, onMounted } from "vue";
 import Header2Component from "../components/Header2Component.vue";
@@ -31,11 +30,8 @@ import api from "../api/axios";
 
 // Store
 const hojaStore = useHojaVidaStore();
-
-// Experiencias cargadas desde la API
 const experiencias = ref([]);
 
-// Totales por tipo
 const publico = reactive({ anios: 0, meses: 0 });
 const privado = reactive({ anios: 0, meses: 0 });
 const independiente = reactive({ anios: 0, meses: 0 });
@@ -44,28 +40,24 @@ const token = localStorage.getItem("token");
 
 onMounted(async () => {
   if (!token) {
-    console.error("❌ Token no encontrado. Redirigiendo o mostrando fallback...");
+    console.error("❌ Token no encontrado");
   } else {
-    console.log("✅ Token válido:", token);
     await cargarExperiencias();
     await hojaStore.cargarHojaDeVida();
   }
 });
 
-// Función para cargar experiencias desde la API
 async function cargarExperiencias() {
   try {
-    const response = await api.get('/experiencia');
+    const response = await api.get("/experiencia");
     experiencias.value = response.data;
-    console.log('✅ Experiencias cargadas:', experiencias.value);
     recalcularTotales();
   } catch (error) {
-    console.error('❌ Error al cargar experiencias:', error);
+    console.error("❌ Error al cargar experiencias:", error);
   }
 }
 
 function calcularDuracion(fechaIngreso, fechaRetiro) {
-  // Convertir las fechas ISO a objetos Date
   const desde = new Date(fechaIngreso);
   const hasta = new Date(fechaRetiro);
 
@@ -73,98 +65,72 @@ function calcularDuracion(fechaIngreso, fechaRetiro) {
     return { anios: 0, meses: 0 };
   }
 
-  let anios = hasta.getFullYear() - desde.getFullYear();
-  let meses = hasta.getMonth() - desde.getMonth();
-  
-  // Ajustar si el día final es menor que el inicial
-  if (hasta.getDate() < desde.getDate()) {
-    meses--;
-  }
-  
-  
-  if (meses < 0) {
-    anios--;
-    meses += 12;
-  }
+  const diffTime = hasta - desde;
+  const totalDias = diffTime / (1000 * 60 * 60 * 24);
 
-   meses++;
-  
-  if (meses >= 12) {
-    anios++;
-    meses -= 12;
-  }
-
-  console.log(`📅 Calculando: ${desde.toISOString().split('T')[0]} a ${hasta.toISOString().split('T')[0]}`);
-  console.log(`📊 Resultado final: ${anios} años, ${meses} meses`);
+  // Asumimos 30 días por mes exactos
+  const totalMeses = totalDias / 30;
+  const anios = Math.floor(totalMeses / 12);
+  const meses = Number((totalMeses % 12).toFixed(1)); // ⚠️ Decimales reales
 
   return { anios, meses };
 }
 
 function acumularPorTipo(tipoEntidad, anios, meses) {
   let destino;
-  
-  // Mapear el tipo de entidad correctamente
   switch (tipoEntidad?.toLowerCase()) {
-    case 'publica':
+    case "publica":
       destino = publico;
       break;
-    case 'privada':
+    case "privada":
       destino = privado;
       break;
-    case 'independiente':
+    case "independiente":
       destino = independiente;
       break;
     default:
-      console.warn(`Tipo de entidad no reconocido: ${tipoEntidad}`);
+      console.warn(`⚠️ Tipo no reconocido: ${tipoEntidad}`);
       return;
   }
-  
-  // Sumar los meses totales
-  const totalMesesActuales = destino.anios * 12 + destino.meses;
-  const mesesNuevos = anios * 12 + meses;
-  const totalMesesFinal = totalMesesActuales + mesesNuevos;
-  
-  // Convertir de vuelta a años y meses
-  destino.anios = Math.floor(totalMesesFinal / 12);
-  destino.meses = totalMesesFinal % 12;
+
+  // Convertir todo a meses decimales
+  const totalActual = destino.anios * 12 + destino.meses;
+  const nuevoTotal = anios * 12 + meses;
+  const totalFinal = totalActual + nuevoTotal;
+
+  destino.anios = Math.floor(totalFinal / 12);
+  destino.meses = Number((totalFinal % 12).toFixed(2)); // Mantener precisión
 }
 
 function recalcularTotales() {
-  // Resetear totales
   publico.anios = publico.meses = 0;
   privado.anios = privado.meses = 0;
   independiente.anios = independiente.meses = 0;
 
-  console.log('🔄 Recalculando totales con experiencias:', experiencias.value);
-
   experiencias.value.forEach((exp) => {
-    if (!exp.fechaIngreso || !exp.fechaRetiro) {
-      console.warn('⚠️ Experiencia sin fechas válidas:', exp);
-      return;
-    }
-
+    if (!exp.fechaIngreso || !exp.fechaRetiro) return;
     const { anios, meses } = calcularDuracion(exp.fechaIngreso, exp.fechaRetiro);
-    console.log(`📊 ${exp.empresa} (${exp.tipoEntidad}): ${anios} años, ${meses} meses`);
-    
     acumularPorTipo(exp.tipoEntidad, anios, meses);
-  });
-
-  console.log('✅ Totales calculados:', {
-    publico: publico,
-    privado: privado,
-    independiente: independiente
   });
 }
 
 const totalAnios = computed(() => {
-  const totalMesesGeneral = publico.meses + privado.meses + independiente.meses;
-  return publico.anios + privado.anios + independiente.anios + Math.floor(totalMesesGeneral / 12);
+  const totalMeses =
+    publico.anios * 12 + publico.meses +
+    privado.anios * 12 + privado.meses +
+    independiente.anios * 12 + independiente.meses;
+  return Math.floor(totalMeses / 12);
 });
 
 const totalMeses = computed(() => {
-  return (publico.meses + privado.meses + independiente.meses) % 12;
+  const totalMeses =
+    publico.anios * 12 + publico.meses +
+    privado.anios * 12 + privado.meses +
+    independiente.anios * 12 + independiente.meses;
+  return Number((totalMeses % 12).toFixed(2)); // Decimales reales
 });
 </script>
+
 
 <style scoped>
 /* Agrega estilos si es necesario */
