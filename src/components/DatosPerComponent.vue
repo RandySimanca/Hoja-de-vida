@@ -1,11 +1,9 @@
-<!--components/DatosPerComponent.vue-->
 <template>
   <form @submit.prevent="enviarFormulario">
     <div class="section">
       <div class="section-title">
         <span class="section-number">1</span> DATOS PERSONALES
       </div>
-
       <div class="form-row">
         <div class="form-group">
           <label for="apellido1">PRIMER APELLIDO</label>
@@ -14,7 +12,7 @@
             v-model="apellido1"
             id="apellido1"
             class="form-control"
-            :readonly="datosPrecargados"
+            :readonly="soloLectura"
           />
         </div>
         <div class="form-group">
@@ -24,7 +22,7 @@
             v-model="apellido2"
             id="apellido2"
             class="form-control"
-            :readonly="datosPrecargados"
+            :readonly="soloLectura"
           />
         </div>
         <div class="form-group">
@@ -34,11 +32,11 @@
             type="text"
             id="nombres"
             class="form-control"
-            :readonly="datosPrecargados"
+            :readonly="soloLectura"
           />
         </div>
       </div>
-
+      <!-- Resto del formulario igual que antes -->
       <div class="form-row">
   <!-- Documento de Identidad -->
   <div class="form-group col-3">
@@ -333,31 +331,28 @@
       </div>
     </div>
     <div class="form-group" style="margin-top: 20px">
-      <button type="submit" class="boton-guardar" :disabled="cargando">
+      <button type="submit" class="boton-guardar" :disabled="cargando || datosPrecargados">
         {{ cargando ? "Guardando..." : "Guardar datos personales" }}
+      </button>
+      <button type="button" class="boton-guardar" @click="actualizarDatos" :disabled="cargando">
+        {{ cargando ? "Actualizando..." : "Actualizar datos personales" }}
       </button>
     </div>
 
-    <p v-if="envioExitoso" class="mensaje-ok"></p>
-    <p v-if="errorEnvio" class="mensaje-error">
-      {{ errorEnvio }}
-    </p>
+    <p v-if="envioExitoso" class="mensaje-ok">Datos guardados con éxito</p>
+    <p v-if="errorEnvio" class="mensaje-error">{{ errorEnvio }}</p>
   </form>
 </template>
 
 <script>
-import { showSuccess, showError } from "../utils/showMessage.js";
+import { showSuccess, showError } from "../utils/showMessage";
 import api from "../api/axios";
+import { actualizarDatosPersonales } from "../api/datosAPI";
 
 export default {
-  name: "DatosPerComponent",
   props: {
-    datos: {
-      type: Object,
-      default: () => ({}),
-    },
+    datos: Object,
   },
-
   data() {
     return {
       apellido1: "",
@@ -388,7 +383,8 @@ export default {
       telefono: "",
       email: "",
 
-      datosPrecargados: false,
+      datosPrecargados: !!this.datos?._id, // true si los datos vienen precargados
+
 
       // feedback visual
       envioExitoso: false,
@@ -396,7 +392,6 @@ export default {
       cargando: false,
     };
   },
-
   mounted() {
     if (this.datos.tipoDocumento) {
       this.tipoDocumento = this.datos.tipoDocumento;
@@ -412,13 +407,13 @@ export default {
       // Seleccionar automáticamente el documento correspondiente
 
       // Asignación de valores para los campos de sexo y nacionalidad
-      this.sexoF = this.datos.sexo === "Femenino" ? this.datos.sexo : "";
-      this.sexoM = this.datos.sexo === "Masculino" ? this.datos.sexo : "";
+      this.sexoF = this.datos.sexo === "Femenino" ? this.datos.sexo: "";
+      this.sexoM = this.datos.sexo === "Masculino" ? this.datos.sexo: "";
 
       this.nacCol =
-        this.datos.nacionalidad === "Colombiano" ? this.datos.nacionalidad : "";
+        this.datos.nacionalidad === "Colombiano" ? this.datos.nacionalidad: "";
       this.nacExt =
-        this.datos.nacionalidad === "Extranjero" ? this.datos.nacionalidad : "";
+        this.datos.nacionalidad === "Extranjero" ? this.datos.nacionalidad:  "";
       this.pais = this.datos.pais || "";
 
       this.libretaMilitar = this.datos.libretaMilitar || "";
@@ -443,19 +438,51 @@ export default {
   },
   methods: {
     async enviarFormulario() {
-      this.envioExitoso = false;
-      this.errorEnvio = null;
-      this.cargando = true;
+  this.cargando = true;
+  const payload = this.generarPayload();
+  try {
+    const res = await api.post("/datos-personales", payload);
+    showSuccess("✅ ¡Datos personales guardados correctamente!");
+    this.envioExitoso = true;
 
-      const datos = {
+    // Desactiva el botón de guardar
+    this.datosPrecargados = true;
+
+    // Opcional: simular que datos._id fue asignado (por si usas esto en otra parte)
+    this.$emit("datosActualizados", res.data); // para notificar al padre si lo deseas
+  } catch (e) {
+    showError("❌ Error al guardar los datos personales.");
+    this.errorEnvio = e.message;
+  } finally {
+    this.cargando = false;
+  }
+},
+
+    async actualizarDatos() {
+      this.cargando = true;
+      const payload = this.generarPayload();
+      try {
+        await actualizarDatosPersonales(payload);
+        showSuccess("✅ ¡Datos personales actualizados correctamente!");
+      } catch (e) {
+        showError("❌ Error al actualizar los datos personales.");
+        this.errorEnvio = e.message;
+      } finally {
+        this.cargando = false;
+      }
+    },
+    generarPayload() {
+      return {
         apellido1: this.apellido1,
         apellido2: this.apellido2,
         nombres: this.nombres,
-        //tipoDocumento: this.cedula || this.cedulExt || this.pasaporte,
         tipoDocumento: this.tipoDocumento,
         numDocumento: this.numDocumento,
+
         sexo: this.sexoF || this.sexoM,
         nacionalidad: this.nacCol || this.nacExt,
+
+        
         pais: this.pais,
         libretaMilitar: this.libretaMilitar,
         numeroLibreta: this.numeroLibreta,
@@ -477,33 +504,11 @@ export default {
           email: this.email,
         },
       };
-
-      //para usar con showMessage.js
-      try {
-        const res = await api.post("/datos-personales", datos);
-        const result = res.data;
-
-        console.log("✅ Datos guardados:", result);
-        this.envioExitoso = true;
-        showSuccess("✅ ¡Datos personales guardados correctamente!");
-      } catch (error) {
-        console.error("Error al enviar datos personales:", error);
-        console.log(
-          "Respuesta completa del error:",
-          JSON.stringify(error.response?.data, null, 2)
-        );
-
-        showError("❌ Ocurrió un error al guardar los datos.");
-      } finally {
-        this.cargando = false;
-      }
-    },
-
-    esSoloLectura(valor) {
-      return valor !== null && valor !== undefined && valor !== "";
     },
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+/* estilos */
+</style>
