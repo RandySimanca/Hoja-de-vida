@@ -104,8 +104,20 @@
         </div>
 
         <div class="form-group" style="margin-top: 20px">
-          <button type="submit" class="boton-guardar">
-            Guardar experiencia
+          <button type="submit" class="boton-guardar" :disabled="cargando">
+            {{ modoEdicion ? 'Actualizar experiencia' : 'Guardar experiencia' }}
+          </button>
+          
+          <!-- Botón eliminar (solo se muestra si hay un ID, es decir, experiencia existente) -->
+          <button 
+            v-if="experienciaLocal._id" 
+            type="button" 
+            class="boton-guardar"
+            style="margin-left: 10px; background-color: #dc3545;"
+            @click="confirmarEliminacion"
+            :disabled="cargando"
+          >
+            🗑️ Eliminar experiencia
           </button>
         </div>
       </div>
@@ -125,9 +137,11 @@ export default {
       default: () => ({}),
     },
   },
+  emits: ['experiencia-eliminada'],
   data() {
     return {
       experienciaLocal: {
+        _id: null, // Agregamos el ID para saber si es nueva o existente
         empresa: "",
         tipoEntidad: "",
         pais: "",
@@ -141,10 +155,11 @@ export default {
         dependencia: "",
         direccion: "",
         datosPrecargados: false,
-        envioExitoso: false,
-        errorEnvio: null,
-        cargando: false,
       },
+      envioExitoso: false,
+      errorEnvio: null,
+      cargando: false,
+      modoEdicion: false,
     };
   },
   mounted() {
@@ -176,17 +191,23 @@ export default {
         anio: fecha.anio ?? ''
       };
     },
+    
     sincronizarExperiencia(exp) {
       if (!exp || this.experienciaLocal.datosPrecargados) return;
 
       this.experienciaLocal = {
         ...this.experienciaLocal,
         ...exp,
+        _id: exp._id || null, // Guardar el ID si existe
         fechaIngreso: this.normalizarFecha(exp.fechaIngreso),
         fechaRetiro: this.normalizarFecha(exp.fechaRetiro),
         datosPrecargados: true
       };
+
+      // Si tiene ID, es una experiencia existente (modo edición)
+      this.modoEdicion = !!exp._id;
     },
+
     convertirFecha({ dia, mes, anio }) {
       if (!dia || !mes || !anio) return null;
       const d = parseInt(dia),
@@ -194,7 +215,9 @@ export default {
         y = parseInt(anio);
       return new Date(y, m - 1, d);
     },
+
     async guardarExperiencia() {
+      this.cargando = true;
       try {
         const experienciaFormateada = {
           ...this.experienciaLocal,
@@ -202,12 +225,71 @@ export default {
           fechaRetiro: this.convertirFecha(this.experienciaLocal.fechaRetiro),
         };
 
-        const res = await api.post("/experiencia", experienciaFormateada);
-        console.log("✅ Experiencia enviada correctamente:", res.data);
-        showSuccess("✅ ¡Experiencia laboral guardada correctamente!");
+        let response;
+        
+        if (this.modoEdicion && this.experienciaLocal._id) {
+          // Actualizar experiencia existente
+          
+          response = await api.put(`/experiencia/${this.experienciaLocal._id}`, experienciaFormateada);
+          showSuccess("✅ ¡Experiencia laboral actualizada correctamente!");
+        } else {
+          // Crear nueva experiencia
+          response = await api.post("/experiencia", experienciaFormateada);
+          showSuccess("✅ ¡Experiencia laboral guardada correctamente!");
+          
+          // Actualizar el ID local después de crear
+          this.experienciaLocal._id = response.data.data._id;
+          this.modoEdicion = true;
+        }
+
+        console.log("✅ Experiencia procesada:", response.data);
+        
       } catch (error) {
-        console.error("❌ Error al guardar experiencia:", error.response?.data || error.message);
-        showError("❌ Ocurrió un error al guardar los datos.");
+        console.error("❌ Error al procesar experiencia:", error.response?.data || error.message);
+        showError("❌ Ocurrió un error al procesar los datos.");
+      } finally {
+        this.cargando = false;
+      }
+    },
+
+    confirmarEliminacion() {
+      const empresa = this.experienciaLocal.empresa || 'esta experiencia';
+      const confirmacion = confirm(
+        `¿Estás seguro de que deseas eliminar la experiencia en "${empresa}"?\n\nEsta acción no se puede deshacer.`
+      );
+      
+      if (confirmacion) {
+        this.eliminarExperiencia();
+      }
+    },
+
+    async eliminarExperiencia() {
+      if (!this.experienciaLocal._id) {
+        showError("❌ No se puede eliminar una experiencia sin ID.");
+        return;
+      }
+
+      this.cargando = true;
+      try {
+        await api.delete(`/experiencia/${this.experienciaLocal._id}`);
+        
+        showSuccess("✅ Experiencia eliminada correctamente");
+        
+        // Emitir evento para notificar al componente padre
+        this.$emit('experiencia-eliminada', this.experienciaLocal._id);
+        
+        console.log("✅ Experiencia eliminada:", this.experienciaLocal._id);
+        
+      } catch (error) {
+        console.error("❌ Error al eliminar experiencia:", error.response?.data || error.message);
+        
+        if (error.response?.status === 404) {
+          showError("❌ La experiencia ya no existe o no tienes permisos para eliminarla.");
+        } else {
+          showError("❌ Ocurrió un error al eliminar la experiencia.");
+        }
+      } finally {
+        this.cargando = false;
       }
     }
   }

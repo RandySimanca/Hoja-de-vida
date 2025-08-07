@@ -34,6 +34,7 @@ app.use("/api/experiencia", experienciaRoutes); // Asegúrate de que la ruta sea
 app.use("/api/experiencia-Tot", experienciaTotRoutes); // Asegúrate de que la ruta sea correcta
 app.use("/api/firma-servidor", firmaServidorRoutes); // Asegúrate de que la ruta sea correcta
 
+
 app.listen(3000, () => {
   console.log("✅ Servidor corriendo en puerto 3000");
 });

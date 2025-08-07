@@ -18,3 +18,13 @@ export function showError(msg = '') {
     confirmButtonColor: '#dc3545'
   });
 }
+
+export function showWarning(msg = '') {
+  Swal.fire({
+    icon: 'warning',
+    title: 'Advertencia',
+    text: msg,
+    confirmButtonColor: '#ffc107', // Color amarillo para advertencias
+    confirmButtonText: 'Entendido'
+  });
+}

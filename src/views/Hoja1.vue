@@ -164,7 +164,7 @@ const enviarFormulario = async () => {
 
 <style>
 .boton-guardar {
-  background-color: #3498db;
+  background-color:  #28a745;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -173,6 +173,19 @@ const enviarFormulario = async () => {
   cursor: pointer;
   transition: all 0.3s ease;
 }
+
+.boton-actualizar {
+  background-color:  #1e90ff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 30px;
+}
+
 
 .boton-guardar:hover {
   background-color: #2980b9;
@@ -526,5 +539,88 @@ form {
 
 .p {
   font-size: 11px;
+}
+
+/**desde aqui el nuevo codigo de stylo para la tarjeta de experiencias faltantes */
+
+/* Estilos para el mensaje de no experiencias */
+.no-experiencias-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  padding: 2rem;
+}
+
+.no-experiencias-message {
+  text-align: center;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 2px dashed #dee2e6;
+  border-radius: 15px;
+  padding: 3rem 2rem;
+  max-width: 500px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.icon-large {
+  font-size: 4rem;
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+.no-experiencias-message h3 {
+  color: #495057;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.no-experiencias-message p {
+  color: #6c757d;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.btn-recordatorio {
+  background: linear-gradient(135deg, #ffc107 0%, #ffca2c 100%);
+  color: #212529;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(255, 193, 7, 0.3);
+}
+
+.btn-recordatorio:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 193, 7, 0.4);
+  background: linear-gradient(135deg, #ffca2c 0%, #ffd60a 100%);
+}
+
+.btn-recordatorio:active {
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .no-experiencias-message {
+    padding: 2rem 1rem;
+  }
+  
+  .icon-large {
+    font-size: 3rem;
+  }
+  
+  .no-experiencias-message h3 {
+    font-size: 1.3rem;
+  }
+  
+  .no-experiencias-message p {
+    font-size: 1rem;
+  }
 }
 </style>

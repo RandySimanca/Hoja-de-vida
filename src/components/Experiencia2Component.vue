@@ -106,7 +106,7 @@
 
         <div class="form-group" style="margin-top: 20px">
           <button type="submit" class="boton-guardar">
-            Guardar experiencia
+            Guardar experiencia.
           </button>
         </div>
       </div>

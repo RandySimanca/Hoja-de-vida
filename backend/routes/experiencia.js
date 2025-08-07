@@ -1,15 +1,20 @@
 //backend/routes/experiencia.js
 import express from 'express';
-import { guardarExperiencia } from '../controllers/experienciaControllers.js';
-import { obtenerExperiencias } from '../controllers/experienciaControllers.js';
+import { 
+  guardarExperiencia,
+  obtenerExperiencias,
+  eliminarExperiencia,
+  actualizarExperiencia
+} from '../controllers/experienciaControllers.js';
 import auth from '../middlewares/auth.js';
-import verificarJWT  from '../middlewares/verificarJWT.js';
+import verificarJWT from '../middlewares/verificarJWT.js';
 
 const router = express.Router();
 
-// POST /api/experiencia
-router.post('/',  auth, guardarExperiencia);
-// GET /api/experiencia
-router.get('/', auth,  obtenerExperiencias);
+// CRUD completo para experiencias
+router.post('/', auth, guardarExperiencia);           // Crear
+router.get('/', auth, obtenerExperiencias);           // Leer
+router.put('/:id', auth, actualizarExperiencia);      // Actualizar
+router.delete('/:id', auth, eliminarExperiencia);     // Eliminar
 
 export default router;

@@ -174,19 +174,19 @@
             <td><input class="form-control" v-model="formacion.tarjeta" /></td>
             <td>
               <button
-                class="btn btn-danger btn-sm"
-                v-if="formacionesSuperior.length > 1"
-                @click.prevent="removeFormacion(index)"
-              >
-                🗑️
-              </button>
+    class="btn btn-danger btn-sm"
+    @click.prevent="removeFormacion(index)"
+    :title="formacionesSuperior.length === 1 ? 'Eliminar y dejar fila vacía' : 'Eliminar formación'"
+  >
+    🗑️
+  </button>
             </td>
           </tr>
         </tbody>
       </table>
 
-      <button type="button" class="btn btn-primary mt-2" @click="addFormacion">
-        ➕ Agregar otra formación
+      <button type="button" class="boton-guardar" @click="addFormacion">
+         Agregar otra formación
       </button>
     </div>
 
@@ -201,7 +201,8 @@
 
 <script>
 import api from "../api/axios";
-import { showSuccess, showError } from "../utils/showMessage.js";
+import { showSuccess, showError, showWarning } from "../utils/showMessage.js";
+import { eliminarFormacionSuperior } from "../api/datosAPI"; // ✅ Import estático
 
 export default {
   name: "FormacionAcadComponent",
@@ -234,16 +235,14 @@ export default {
       envioExitoso: false,
       errorEnvio: null,
       cargando: false,
-      modoEdicion: false, // Nueva variable para detectar si estamos editando
-      formacionId: null, // ID del documento para actualizar
+      modoEdicion: false,
+      formacionId: null,
     };
   },
   mounted() {
-    // Cargar datos iniciales si existen
     if (this.formacion && Object.keys(this.formacion).length > 0) {
       this.cargarDatosDesdeProps();
     } else {
-      // Intentar cargar datos existentes al montar el componente
       this.cargarDatos();
     }
   },
@@ -251,6 +250,7 @@ export default {
     selectGrado(n) {
       this.selectedGrado = this.selectedGrado === n ? null : n;
     },
+    
     addFormacion() {
       this.formacionesSuperior.push({
         modalidad: "",
@@ -262,11 +262,7 @@ export default {
         tarjeta: "",
       });
     },
-    removeFormacion(index) {
-      this.formacionesSuperior.splice(index, 1);
-    },
-    
-    // Cargar datos desde las props
+
     cargarDatosDesdeProps() {
       this.selectedGrado = this.formacion.gradoBasica || null;
       this.tituloBachiller = this.formacion.tituloBachiller || "";
@@ -287,10 +283,9 @@ export default {
       this.formacionId = this.formacion._id;
     },
 
-    // Nueva función para cargar datos existentes del servidor
     async cargarDatos() {
       try {
-        const response = await api.get("/formacion-academica"); // Cambié la ruta
+        const response = await api.get("/formacion-academica");
         const datos = response.data;
         
         if (datos) {
@@ -313,7 +308,6 @@ export default {
           this.formacionId = datos._id;
         }
       } catch (error) {
-        // Si no hay datos, simplemente mantener el formulario vacío
         if (error.response?.status !== 404) {
           console.error("Error al cargar datos:", error);
         }
@@ -348,15 +342,12 @@ export default {
         let response;
         
         if (this.modoEdicion) {
-          // Actualizar registro existente
           response = await api.put("/formacion-academica", formacion);
           showSuccess("✅ ¡Formación académica actualizada correctamente!");
         } else {
-          // Crear nuevo registro
           response = await api.post("/formacion-academica", formacion);
           showSuccess("✅ ¡Formación académica guardada correctamente!");
           
-          // Cambiar a modo edición después del primer guardado
           this.modoEdicion = true;
           this.formacionId = response.data.data._id;
         }
@@ -373,7 +364,6 @@ export default {
         
         if (error.response?.status === 404 && this.modoEdicion) {
           showError("❌ No se encontraron datos para actualizar. Creando nuevo registro...");
-          // Intentar crear en lugar de actualizar
           this.modoEdicion = false;
           this.enviarFormulario();
           return;
@@ -387,6 +377,122 @@ export default {
         this.cargando = false;
       }
     },
+
+    // ✅ MÉTODO CORREGIDO - usando import estático
+   // Método actualizado que siempre deja al menos una fila vacía:
+// Método corregido para removeFormacion
+async removeFormacion(index) {
+  const formacion = this.formacionesSuperior[index];
+  
+  // Si es la única fila, verificar si está vacía
+  if (this.formacionesSuperior.length === 1) {
+    if (this.esFormacionVacia(formacion)) {
+      showError("⚠️ Debe mantener al menos una fila para agregar formaciones");
+      return;
+    } else {
+      // Si la única fila tiene datos, mostrar confirmación especial
+      const confirmacion = confirm("¿Estás seguro de que deseas eliminar esta formación? Se creará una nueva fila vacía.");
+      if (!confirmacion) return;
+    }
+  } else {
+    // Si hay múltiples filas, confirmación normal
+    const confirmacion = confirm("¿Estás seguro de que deseas eliminar esta formación?");
+    if (!confirmacion) return;
+  }
+
+  try {
+    // Si la formación tiene un ID (ya está en MongoDB) y tenemos el ID del documento
+    if (formacion._id && this.formacionId) {
+      console.log('🗑️ Eliminando formación de MongoDB:', {
+        docId: this.formacionId,
+        subId: formacion._id
+      });
+
+      await eliminarFormacionSuperior(this.formacionId, formacion._id);
+      showSuccess("✅ Formación eliminada correctamente de la base de datos");
+    showWarning("⚠️No olvides actualizar la formacion academica para eliminar completamente la formación.")
+    }
+    
+    // Eliminar del array local
+    this.formacionesSuperior.splice(index, 1);
+    
+    // CRÍTICO: Asegurar que siempre hay al menos una fila vacía
+    this.asegurarFilaVaciaDisponible();
+    
+    if (!formacion._id) {
+      showSuccess("✅ Formación eliminada del formulario");
+    }
+    
+  } catch (error) {
+    console.error("❌ Error al eliminar:", error);
+    
+    if (error.message === 'FORMACION_NO_ENCONTRADA') {
+      // La formación no existe en MongoDB, solo la quitamos localmente
+      this.formacionesSuperior.splice(index, 1);
+      this.asegurarFilaVaciaDisponible();
+      showSuccess("✅ Formación eliminada. Guarda el formulario para confirmar los cambios.");
+    } else {
+      showError("❌ No se pudo eliminar la formación. Intenta nuevamente.");
+    }
+  }
+},
+
+// Método auxiliar mejorado para verificar si una formación está vacía
+esFormacionVacia(formacion) {
+  return !formacion.modalidad?.trim() && 
+         !formacion.semestres?.trim() && 
+         !formacion.graduado?.trim() && 
+         !formacion.titulo?.trim() && 
+         !formacion.mesTermino?.trim() && 
+         !formacion.anioTermino?.trim() && 
+         !formacion.tarjeta?.trim();
+},
+
+// Método auxiliar para asegurar que siempre hay una fila vacía disponible
+asegurarFilaVaciaDisponible() {
+  // Si no hay filas, crear una
+  if (this.formacionesSuperior.length === 0) {
+    this.addFormacion();
+    return;
+  }
+  
+  // Verificar si hay al menos una fila vacía
+  const hayFilaVacia = this.formacionesSuperior.some(formacion => 
+    this.esFormacionVacia(formacion)
+  );
+  
+  // Si no hay ninguna fila vacía, agregar una nueva
+  if (!hayFilaVacia) {
+    this.addFormacion();
+    console.log('✅ Se agregó una nueva fila vacía automáticamente');
+  }
+},
+
+// Método addFormacion mejorado (opcional)
+addFormacion() {
+  const nuevaFormacion = {
+    modalidad: "",
+    semestres: "",
+    graduado: "",
+    titulo: "",
+    mesTermino: "",
+    anioTermino: "",
+    tarjeta: "",
+  };
+  
+  this.formacionesSuperior.push(nuevaFormacion);
+  
+  // Scroll suave hacia la nueva fila (opcional)
+  this.$nextTick(() => {
+    const tabla = document.querySelector('.table tbody');
+    if (tabla) {
+      const ultimaFila = tabla.lastElementChild;
+      if (ultimaFila) {
+        ultimaFila.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  });
+},
   },
 };
 </script>

@@ -4,12 +4,6 @@
 
     <Experiencia2Component :experiencia="experienciaNueva" />
 
-    <div class="form-group" style="margin-top: 20px">
-      <button type="submit" class="boton-guardar" @click="guardarExperiencia">
-        Guardar experiencia
-      </button>
-    </div>
-
     <FooterComponent />
   </div>
 </template>

@@ -12,7 +12,6 @@
             v-model="apellido1"
             id="apellido1"
             class="form-control"
-           
           />
         </div>
         <div class="form-group">
@@ -22,7 +21,6 @@
             v-model="apellido2"
             id="apellido2"
             class="form-control"
-           
           />
         </div>
         <div class="form-group">
@@ -32,123 +30,120 @@
             type="text"
             id="nombres"
             class="form-control"
-           
           />
         </div>
       </div>
       <!-- Resto del formulario igual que antes -->
       <div class="form-row">
-  <!-- Documento de Identidad -->
-  <div class="form-group col-3">
-    <label for="tipoDocumento">DOCUMENTO DE IDENTIFICACIÓN</label>
-    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-      <div class="checkbox-group">
-        <input
-          type="radio"
-          id="cedula"
-          name="tipoDocumento"
-          value="C.C"
-          v-model="tipoDocumento"
-        />
-        <label for="cedula">C.C</label>
-      </div>
-      <div class="checkbox-group">
-        <input
-          type="radio"
-          id="cedulExt"
-          name="tipoDocumento"
-          value="C.E"
-          v-model="tipoDocumento"
-        />
-        <label for="cedulExt">C.E</label>
-      </div>
-      <div class="checkbox-group">
-        <input
-          type="radio"
-          id="pasaporte"
-          name="tipoDocumento"
-          value="PAS"
-          v-model="tipoDocumento"
-        />
-        <label for="pasaporte">PAS</label>
-      </div>
-    </div>
-  </div>
+        <!-- Documento de Identidad -->
+        <div class="form-group col-3">
+          <label for="tipoDocumento">DOCUMENTO DE IDENTIFICACIÓN</label>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px">
+            <div class="checkbox-group">
+              <input
+                type="radio"
+                id="cedula"
+                name="tipoDocumento"
+                value="C.C"
+                v-model="tipoDocumento"
+              />
+              <label for="cedula">C.C</label>
+            </div>
+            <div class="checkbox-group">
+              <input
+                type="radio"
+                id="cedulExt"
+                name="tipoDocumento"
+                value="C.E"
+                v-model="tipoDocumento"
+              />
+              <label for="cedulExt">C.E</label>
+            </div>
+            <div class="checkbox-group">
+              <input
+                type="radio"
+                id="pasaporte"
+                name="tipoDocumento"
+                value="PAS"
+                v-model="tipoDocumento"
+              />
+              <label for="pasaporte">PAS</label>
+            </div>
+          </div>
+        </div>
 
-  <!-- Número de documento -->
-  <div class="form-group col-2">
-    <label for="numDocumento">NÚMERO</label>
-    <input
-      v-model="numDocumento"
-      type="text"
-      id="numDocumento"
-      class="form-control"
-      placeholder="No. de documento"
-      :readonly="datosPrecargados"
-    />
-  </div>
+        <!-- Número de documento -->
+        <div class="form-group col-2">
+          <label for="numDocumento">NÚMERO</label>
+          <input
+            v-model="numDocumento"
+            type="text"
+            id="numDocumento"
+            class="form-control"
+            placeholder="No. de documento"
+          />
+        </div>
 
-  <!-- Sexo -->
-  <div class="form-group col-2">
-    <label>SEXO</label>
-    <div style="display: flex; gap: 10px;">
-      <div class="checkbox-group">
-        <input
-          type="radio"
-          id="sexoF"
-          name="sexo"
-          value="Femenino"
-          v-model="sexoF"
-        />
-        <label for="sexoF">F</label>
-      </div>
-      <div class="checkbox-group">
-        <input
-          type="radio"
-          id="sexoM"
-          name="sexo"
-          value="Masculino"
-          v-model="sexoM"
-        />
-        <label for="sexoM">M</label>
-      </div>
-    </div>
-  </div>
+        <!-- Sexo -->
+        <div class="form-group col-2">
+          <label>SEXO</label>
+          <div style="display: flex; gap: 10px">
+            <div class="checkbox-group">
+              <input
+                type="radio"
+                id="sexoF"
+                name="sexo"
+                value="Femenino"
+                v-model="sexoF"
+              />
+              <label for="sexoF">F</label>
+            </div>
+            <div class="checkbox-group">
+              <input
+                type="radio"
+                id="sexoM"
+                name="sexo"
+                value="Masculino"
+                v-model="sexoM"
+              />
+              <label for="sexoM">M</label>
+            </div>
+          </div>
+        </div>
 
-  <!-- Nacionalidad -->
-  <div class="form-group col-2">
-    <label>NACIONALIDAD</label>
-    <div style="display: flex; gap: 10px;">
-      <div class="checkbox-group">
-        <input
-          type="radio"
-          id="nacCol"
-          name="nacionalidad"
-          value="Colombiano"
-          v-model="nacCol"
-        />
-        <label for="nacCol">COL.</label>
-      </div>
-      <div class="checkbox-group">
-        <input
-          type="radio"
-          id="nacExt"
-          name="nacionalidad"
-          value="Extranjero"
-          v-model="nacExt"
-        />
-        <label for="nacExt">EXT.</label>
-      </div>
-    </div>
-  </div>
+        <!-- Nacionalidad -->
+        <div class="form-group col-2">
+          <label>NACIONALIDAD</label>
+          <div style="display: flex; gap: 10px">
+            <div class="checkbox-group">
+              <input
+                type="radio"
+                id="nacCol"
+                name="nacionalidad"
+                value="Colombiano"
+                v-model="nacCol"
+              />
+              <label for="nacCol">COL.</label>
+            </div>
+            <div class="checkbox-group">
+              <input
+                type="radio"
+                id="nacExt"
+                name="nacionalidad"
+                value="Extranjero"
+                v-model="nacExt"
+              />
+              <label for="nacExt">EXT.</label>
+            </div>
+          </div>
+        </div>
 
-  <!-- País -->
-  <div class="form-group col-3">
-    <label for="pais">PAÍS</label>
-    <input v-model="pais" type="text" id="pais" class="form-control" />
-  </div>
-</div>
-
+        <!-- País -->
+        <div class="form-group col-3">
+          <label for="pais">PAÍS</label>
+          <input v-model="pais" type="text" id="pais" class="form-control" />
+        </div>
+      </div>
 
       <div class="form-row">
         <div class="form-group col-2">
@@ -183,19 +178,12 @@
             class="form-control2"
             placeholder="No."
             v-model="numeroLibreta"
-            :readonly="datosPrecargados"
           />
         </div>
 
         <div class="form-group col-4">
           <label for="dm">D.M</label>
-          <input
-            type="text"
-            id="dm"
-            class="form-control2"
-            v-model="dm"
-            :readonly="datosPrecargados"
-          />
+          <input type="text" id="dm" class="form-control2" v-model="dm" />
         </div>
       </div>
 
@@ -331,10 +319,21 @@
       </div>
     </div>
     <div class="form-group" style="margin-top: 20px">
-      <button type="submit" class="boton-guardar" :disabled="cargando || datosPrecargados">
+      <button
+        type="submit"
+        class="boton-guardar"
+        style="margin-left: 10px; background-color: #28a745;"
+        :disabled="cargando || datosPrecargados"
+      >
         {{ cargando ? "Guardando..." : "Guardar datos personales" }}
+        
       </button>
-      <button type="button" class="boton-guardar" @click="actualizarDatos" :disabled="cargando">
+      <button
+        type="button"
+        class="boton-actualizar"
+        @click="actualizarDatos"
+        :disabled="cargando"
+      >
         {{ cargando ? "Actualizando..." : "Actualizar datos personales" }}
       </button>
     </div>
@@ -385,7 +384,6 @@ export default {
 
       datosPrecargados: !!this.datos?._id, // true si los datos vienen precargados
 
-
       // feedback visual
       envioExitoso: false,
       errorEnvio: null,
@@ -407,13 +405,13 @@ export default {
       // Seleccionar automáticamente el documento correspondiente
 
       // Asignación de valores para los campos de sexo y nacionalidad
-      this.sexoF = this.datos.sexo === "Femenino" ? this.datos.sexo: "";
-      this.sexoM = this.datos.sexo === "Masculino" ? this.datos.sexo: "";
+      this.sexoF = this.datos.sexo === "Femenino" ? this.datos.sexo : "";
+      this.sexoM = this.datos.sexo === "Masculino" ? this.datos.sexo : "";
 
       this.nacCol =
-        this.datos.nacionalidad === "Colombiano" ? this.datos.nacionalidad: "";
+        this.datos.nacionalidad === "Colombiano" ? this.datos.nacionalidad : "";
       this.nacExt =
-        this.datos.nacionalidad === "Extranjero" ? this.datos.nacionalidad:  "";
+        this.datos.nacionalidad === "Extranjero" ? this.datos.nacionalidad : "";
       this.pais = this.datos.pais || "";
 
       this.libretaMilitar = this.datos.libretaMilitar || "";
@@ -438,25 +436,25 @@ export default {
   },
   methods: {
     async enviarFormulario() {
-  this.cargando = true;
-  const payload = this.generarPayload();
-  try {
-    const res = await api.post("/datos-personales", payload);
-    showSuccess("✅ ¡Datos personales guardados correctamente!");
-    this.envioExitoso = true;
+      this.cargando = true;
+      const payload = this.generarPayload();
+      try {
+        const res = await api.post("/datos-personales", payload);
+        showSuccess("✅ ¡Datos personales guardados correctamente!");
+        this.envioExitoso = true;
 
-    // Desactiva el botón de guardar
-    this.datosPrecargados = true;
+        // Desactiva el botón de guardar
+        this.datosPrecargados = true;
 
-    // Opcional: simular que datos._id fue asignado (por si usas esto en otra parte)
-    this.$emit("datosActualizados", res.data); // para notificar al padre si lo deseas
-  } catch (e) {
-    showError("❌ Error al guardar los datos personales.");
-    this.errorEnvio = e.message;
-  } finally {
-    this.cargando = false;
-  }
-},
+        // Opcional: simular que datos._id fue asignado (por si usas esto en otra parte)
+        this.$emit("datosActualizados", res.data); // para notificar al padre si lo deseas
+      } catch (e) {
+        showError("❌ Error al guardar los datos personales.");
+        this.errorEnvio = e.message;
+      } finally {
+        this.cargando = false;
+      }
+    },
 
     async actualizarDatos() {
       this.cargando = true;
@@ -482,7 +480,6 @@ export default {
         sexo: this.sexoF || this.sexoM,
         nacionalidad: this.nacCol || this.nacExt,
 
-        
         pais: this.pais,
         libretaMilitar: this.libretaMilitar,
         numeroLibreta: this.numeroLibreta,

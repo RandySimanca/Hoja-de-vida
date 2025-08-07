@@ -1,6 +1,7 @@
 // frontend/src/api/datosAPI.js
 import api from "../helpers/axiosInstance";
 
+
 export async function enviarDatosPersonales(payload) {
   return await api.post("/datos-personales", payload);
 }
@@ -29,3 +30,21 @@ export async function guardarFirmaServidor(payload) {
 export async function obtenerFirmaServidor() {
   return await api.get('/firma-servidor');
 }
+
+export async function eliminarFormacionAcademica(id) {
+  return await api.delete(`/formacion-academica/${id}`);  // ✅ Ruta correcta
+}
+
+export const eliminarFormacionSuperior = async (docId, subId) => {
+  try {
+    const response = await api.delete(`/formacion-academica/${docId}/formacion-superior/${subId}`);
+    return response.data;
+  } catch (error) {
+    if (error.response?.status === 404) {
+      console.warn(`Formación superior con ID ${subId} no encontrada en documento ${docId}`);
+      throw new Error('FORMACION_NO_ENCONTRADA');
+    }
+    throw error;
+  }
+};
+
