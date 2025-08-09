@@ -139,7 +139,7 @@
         </div>
 
         <!-- País -->
-        <div class="form-group col-3">
+        <div class="form-group col-2">
           <label for="pais">PAÍS</label>
           <input v-model="pais" type="text" id="pais" class="form-control" />
         </div>
@@ -183,7 +183,7 @@
 
         <div class="form-group col-4">
           <label for="dm">D.M</label>
-          <input type="text" id="dm" class="form-control2" v-model="dm" />
+          <input type="text" id="dm" class="form-control2" v-model="dm" placeholder="Distrito Militar"/>
         </div>
       </div>
 
@@ -321,7 +321,7 @@
     <div class="form-group" style="margin-top: 20px">
       <button
         type="submit"
-        class="boton-guardar"
+        class="boton-guardar no-imprimir"
         style="margin-left: 10px; background-color: #28a745;"
         :disabled="cargando || datosPrecargados"
       >
@@ -330,7 +330,7 @@
       </button>
       <button
         type="button"
-        class="boton-actualizar"
+        class="no-imprimir boton-actualizar" 
         @click="actualizarDatos"
         :disabled="cargando"
       >

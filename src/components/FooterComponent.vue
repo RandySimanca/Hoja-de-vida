@@ -19,7 +19,7 @@ export default {
 .site-footer {
   background-color: #eff2f5;
   color: rgb(14, 13, 13);
-  padding: 20px;
+  padding: 4px 12px;
   text-align: center;
   border-radius: 18px;
 }

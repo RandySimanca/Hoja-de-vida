@@ -1,6 +1,6 @@
 <!-- src/views/Hoja3.vue -->
 <template>
-  <div class="section">
+  <div class="section-general">
     <Header2Component />
 
     <ExperienciaTotComponent
@@ -14,6 +14,8 @@
     <FirmaServidorComponent />
 
     <RecursosHumComponent />
+
+    
 
     <FooterComponent />
   </div>

@@ -14,9 +14,7 @@ import hojaVidaRoute from "./routes/hojaVidaRoutes.js"; // Asegúrate de que la 
 import experienciaRoutes from "./routes/experiencia.js"; // Asegúrate de que la ruta sea correcta
 import experienciaTotRoutes from "./routes/experienciaTot.js"; // Asegúrate de que la ruta sea correcta
 import firmaServidorRoutes from "./routes/firmaServidor.js"; // Asegúrate de que la ruta sea correcta
-
-
-
+import pdfRoutes from './routes/pdf.js';
 
 const app = express();
 connectDB();
@@ -33,6 +31,7 @@ app.use("/api", hojaVidaRoute); // Asegúrate de que la ruta sea correcta
 app.use("/api/experiencia", experienciaRoutes); // Asegúrate de que la ruta sea correcta
 app.use("/api/experiencia-Tot", experienciaTotRoutes); // Asegúrate de que la ruta sea correcta
 app.use("/api/firma-servidor", firmaServidorRoutes); // Asegúrate de que la ruta sea correcta
+app.use('/api/pdf', pdfRoutes);
 
 
 app.listen(3000, () => {

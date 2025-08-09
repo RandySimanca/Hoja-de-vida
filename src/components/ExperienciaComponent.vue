@@ -104,7 +104,7 @@
         </div>
 
         <div class="form-group" style="margin-top: 20px">
-          <button type="submit" class="boton-guardar" :disabled="cargando">
+          <button type="submit" class="boton-guardar no-imprimir" :disabled="cargando">
             {{ modoEdicion ? 'Actualizar experiencia' : 'Guardar experiencia' }}
           </button>
           
@@ -112,7 +112,7 @@
           <button 
             v-if="experienciaLocal._id" 
             type="button" 
-            class="boton-guardar"
+            class="boton-guardar no-imprimir"
             style="margin-left: 10px; background-color: #dc3545;"
             @click="confirmarEliminacion"
             :disabled="cargando"

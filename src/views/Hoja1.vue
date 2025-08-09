@@ -1,6 +1,6 @@
 <!-- src/views/Hoja1.vue -->
 <template>
-  <div class="section">
+  <div class="section-general">
     <form @submit.prevent="enviarFormulario">
       <!-- Sección del encabezado -->
       <div>
@@ -8,16 +8,14 @@
       </div>
 
       <!-- Sección de datos cargados -->
-      <div v-if="hojaStore.cargado">
+      <div v-if="hojaStore.cargado" class="datos-formacion-wrap compact">
         <DatosPerComponent :datos="hojaStore.datosPersonales || {}" />
-        <FormacionAcadComponent :formacion="hojaStore.formacionAcademica || {}" />
-           </div>
-     
+        <FormacionAcadComponent
+          :formacion="hojaStore.formacionAcademica || {}"
+        />
+      </div>
     </form>
-  </div>
-
-  <div>
-    <FooterComponent />
+   
   </div>
 </template>
 
@@ -28,6 +26,7 @@ import { useHojaVidaStore } from "../stores/hojaVida";
 import { useDatosStore } from "../stores/datos";
 import { useUsuarioStore } from "../stores/usuarios";
 import api from "../api/axios.js";
+import html2pdf from "html2pdf.js";
 
 /** ─────── 🧠 Componentes ─────── **/
 import HeaderComponent from "../components/HeaderComponent.vue";
@@ -45,7 +44,9 @@ const token = localStorage.getItem("token");
 
 onMounted(() => {
   if (!token) {
-    console.error("❌ Token no encontrado. Redirigiendo o mostrando fallback...");
+    console.error(
+      "❌ Token no encontrado. Redirigiendo o mostrando fallback..."
+    );
     // Aquí podrías redirigir al login si deseas
   } else {
     hojaStore.cargarHojaDeVida(); // ✅ Acción correcta del store
@@ -150,9 +151,31 @@ const enviarFormulario = async () => {
 
     console.log("✅ Datos enviados con éxito:", respuesta.data);
   } catch (error) {
-    console.error("❌ Error al enviar datos:", error.response?.data || error.message);
+    console.error(
+      "❌ Error al enviar datos:",
+      error.response?.data || error.message
+    );
   }
 };
+
+const hojaRef = ref(null);
+
+function generarPDF() {
+  if (!hojaRef.value) {
+    console.error("❌ No se encontró el elemento hojaDeVidaPDF");
+    return;
+  }
+
+  const opciones = {
+    margin: 0.2,
+    filename: "hoja-de-vida.pdf",
+    image: { type: "jpeg", quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+  };
+
+  html2pdf().set(opciones).from(elemento).save();
+}
 </script>
 
 <style scoped>
@@ -161,10 +184,23 @@ const enviarFormulario = async () => {
 }
 </style>
 
-
 <style>
+button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
 .boton-guardar {
-  background-color:  #28a745;
+  background-color: #28a745;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -175,7 +211,7 @@ const enviarFormulario = async () => {
 }
 
 .boton-actualizar {
-  background-color:  #1e90ff;
+  background-color: #1e90ff;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -185,7 +221,6 @@ const enviarFormulario = async () => {
   transition: all 0.3s ease;
   margin-left: 30px;
 }
-
 
 .boton-guardar:hover {
   background-color: #2980b9;
@@ -362,6 +397,23 @@ const enviarFormulario = async () => {
   align-items: flex-start;
   margin-top: 0;
   box-shadow: 6px 6px 0px rgba(0, 0, 0, 1);
+  box-sizing: border-box;
+
+}
+.section-general {
+  border: 2px solid rgb(0, 204, 255);
+  padding: 0px;
+  gap: 10px;
+  display: block;
+  border-radius: 18px;
+  flex-direction: row;
+  gap: 1px;
+  align-items: flex-start;
+  margin-top: 0;
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 1);
+  box-sizing: border-box;
+  margin-bottom: 40px;
+  margin-top: 0px;
 }
 
 .section-title {
@@ -406,6 +458,22 @@ const enviarFormulario = async () => {
   flex: 1;
 }
 
+.declaration p {
+  font-size: 12px;
+  color: #333;
+  margin: 0;
+  font-weight: bold;
+}
+
+.declaration td {
+  font-size: 12px;
+  color: #333;
+  margin: 0;
+  font-weight: bold;
+}
+
+
+
 header {
   text-align: center;
 }
@@ -436,13 +504,13 @@ header {
 }
 
 form {
-  margin-bottom: 40px;
+  margin-bottom: 5px;
 }
 
 .form-group label {
   display: block;
   font-weight: bold;
-  margin-bottom: 3px;
+  margin-bottom: 2px;
   font-size: 11px;
 }
 
@@ -454,15 +522,15 @@ form {
 }
 .form-group {
   margin-right: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 2px;
   flex: 1;
 }
 
 .form-control {
   width: 70%;
-  padding: 4px;
+  padding: 0px;
   box-sizing: border-box;
-  height: 28px;
+  height: 24px;
 }
 
 .form-control1 {
@@ -519,6 +587,11 @@ form {
   background-color: #f0f0f0;
 }
 
+.btn btn-danger {
+  line-height: 1;
+  padding: 0.5rem 1rem;
+}
+
 .compacto h3,
 .compacto h2,
 .compacto p {
@@ -541,86 +614,41 @@ form {
   font-size: 11px;
 }
 
-/**desde aqui el nuevo codigo de stylo para la tarjeta de experiencias faltantes */
-
-/* Estilos para el mensaje de no experiencias */
-.no-experiencias-container {
+.datos-formacion-wrap.compact {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 300px;
-  padding: 2rem;
+  flex-direction: column;
+  gap: 8px; /* ajustar la separación vertical (prueba 4-12px) */
+  margin-top: 0;
+}
+.datos-formacion-wrap.compact > * {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
-.no-experiencias-message {
-  text-align: center;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border: 2px dashed #dee2e6;
-  border-radius: 15px;
-  padding: 3rem 2rem;
-  max-width: 500px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.icon-large {
-  font-size: 4rem;
-  color: #6c757d;
-  margin-bottom: 1rem;
-}
-
-.no-experiencias-message h3 {
-  color: #495057;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-.no-experiencias-message p {
-  color: #6c757d;
-  margin-bottom: 2rem;
-  font-size: 1.1rem;
-  line-height: 1.5;
-}
-
-.btn-recordatorio {
-  background: linear-gradient(135deg, #ffc107 0%, #ffca2c 100%);
-  color: #212529;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 25px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(255, 193, 7, 0.3);
-}
-
-.btn-recordatorio:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(255, 193, 7, 0.4);
-  background: linear-gradient(135deg, #ffca2c 0%, #ffd60a 100%);
-}
-
-.btn-recordatorio:active {
-  transform: translateY(0);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .no-experiencias-message {
-    padding: 2rem 1rem;
+/* Cada hoja será una página separada */
+.pagina {
+    page-break-after: always;
   }
   
-  .icon-large {
-    font-size: 3rem;
-  }
+  /* Tamaño carta en impresión */
+  @media print {
+    .carta {
+      width: 8.5in;
+      height: 11in;
+      padding: 0.5cm; /* margen interno */
+      box-sizing: border-box;
+      overflow: hidden;
+      position: relative;
+    }
+
+
   
-  .no-experiencias-message h3 {
-    font-size: 1.3rem;
-  }
   
-  .no-experiencias-message p {
-    font-size: 1rem;
+  /* Oculta elementos no imprimibles */
+  .no-imprimir {
+    display: none !important;
   }
 }
+
+/**desde aqui el nuevo codigo de stylo para la tarjeta de experiencias faltantes */
 </style>

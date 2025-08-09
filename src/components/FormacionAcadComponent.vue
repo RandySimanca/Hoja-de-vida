@@ -39,7 +39,7 @@
             <label for="secundaria">SECUNDARIA</label>
           </div>
           <div style="display: flex; margin-top: 5px">
-            <div class="checkbox-group" v-for="n in [6, 7, 8, 9]" :key="n">
+            <div class="checkbox-group" v-for="n in [6, 7, 8, 9,10,11]" :key="n">
               <input
                 type="checkbox"
                 :id="`grado-${n}`"
@@ -50,8 +50,8 @@
               <label :for="`grado-${n}`">{{ n }}o.</label>
             </div>
           </div>
-
-          <div class="form-group col-2">
+<!--
+                    <div class="form-group col-2">
             <label for="media">MEDIA</label>
           </div>
           <div style="display: flex; margin-top: 5px">
@@ -66,6 +66,7 @@
               <label :for="`grado-${n}`">{{ n }}</label>
             </div>
           </div>
+        -->
         </div>
 
         <div class="form-group col-2">
@@ -174,7 +175,7 @@
             <td><input class="form-control" v-model="formacion.tarjeta" /></td>
             <td>
               <button
-    class="btn btn-danger btn-sm"
+    class="btn btn-danger btn-sm no-imprimir"
     @click.prevent="removeFormacion(index)"
     :title="formacionesSuperior.length === 1 ? 'Eliminar y dejar fila vacía' : 'Eliminar formación'"
   >
@@ -185,13 +186,13 @@
         </tbody>
       </table>
 
-      <button type="button" class="boton-guardar" @click="addFormacion">
+      <button type="button" class="boton-guardar no-imprimir" @click="addFormacion">
          Agregar otra formación
       </button>
     </div>
 
     <div class="form-group" style="margin-top: 20px">
-      <button type="submit" class="boton-guardar">
+      <button type="submit" class="boton-guardar no-imprimir">
         {{ modoEdicion ? 'Actualizar formacion academica' : 'Guardar formacion academica' }}
       </button>
     </div>

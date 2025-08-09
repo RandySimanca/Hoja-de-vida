@@ -38,22 +38,48 @@
         <p>________________________________</p>
         <p>NOMBRE Y FIRMA DEL JEFE DE PERSONAL O DE CONTRATOS</p>
       </div>
+
+      <div>
+
+
+</div>
     </div>
+
+ 
   </template>
   
   <script setup>
-  // Props opcionales para mostrar contenido dinámico si se desea
-  defineProps({
-    observaciones: {
-      type: String,
-      default: ''
-    },
-    ciudadFecha: {
-      type: String,
-      default: ''
-    }
-  });
-  </script>
+import { defineProps } from 'vue';
+import { descargarPDF } from '../api/pdfAPI';
+import { useHojaVidaStore } from '../stores/hojaVida';
+
+const props = defineProps({
+  observaciones: {
+    type: String,
+    default: ''
+  },
+  ciudadFecha: {
+    type: String,
+    default: ''
+  }
+});
+
+const hojaVidaStore = useHojaVidaStore();
+
+const exportarPDF = async () => {
+  try {
+    const datos = {
+      datosPersonales: hojaVidaStore.datosPersonales,
+      formacionAcademica: hojaVidaStore.formacionAcademica,
+      experiencia: hojaVidaStore.experiencia,
+    };
+    await descargarPDF(datos);
+  } catch (error) {
+    console.error('Error al exportar PDF:', error);
+  }
+};
+</script>
+
   
   <style scoped>
   /* Puedes agregar estilos si lo necesitas */

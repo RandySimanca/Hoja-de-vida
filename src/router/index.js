@@ -13,6 +13,7 @@ import Hoja1 from "../views/Hoja1.vue";
 import Hoja2 from "../views/Hoja2.vue";
 import Hoja2Extra from "../views/Hoja2Extra.vue";
 import Hoja3 from "../views/Hoja3.vue";
+import VistaCompleta from "../views/VistaCompleta.vue";
 
 
 // Middleware para proteger rutas
@@ -48,7 +49,8 @@ const router = createRouter({
         { path: "Hoja1", component: Hoja1 },
         { path: "Hoja2", component: Hoja2 },
         { path: "Hoja2Extra", component: Hoja2Extra },
-        { path: "Hoja3", component: Hoja3 }
+        { path: "Hoja3", component: Hoja3 },
+        {path: "vistaCompleta", component: VistaCompleta},
       ]
     },
 

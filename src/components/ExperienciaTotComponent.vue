@@ -1,10 +1,9 @@
 <template>
-  <div class="section">
-    <div class="section-title">
-      <span class="section-number">4</span> TIEMPO TOTAL DE EXPERIENCIA
-    </div>
-
-    <div class="section">
+  <div class="section declaration">
+   
+      <div class="section-title">
+        <span class="section-number">4</span> TIEMPO TOTAL DE EXPERIENCIA
+      </div>
       <p>
         INDIQUE EL TIEMPO TOTAL DE SU EXPERIENCIA LABORAL EN NÚMERO DE AÑOS Y
         MESES.
@@ -56,20 +55,31 @@
               />
             </td>
             <td>
-              <input type="number" :value="privado.meses" readonly 
-              min="0" max="11" />
+              <input
+                type="number"
+                :value="privado.meses"
+                readonly
+                min="0"
+                max="11"
+              />
             </td>
           </tr>
           <tr>
             <td>TRABAJADOR INDEPENDIENTE</td>
             <td>
-              <input type="number" :value="independiente.anios" readonly 
+              <input
+                type="number"
+                :value="independiente.anios"
+                readonly
                 min="0"
                 max="99"
               />
             </td>
             <td>
-              <input type="number" :value="independiente.meses" readonly 
+              <input
+                type="number"
+                :value="independiente.meses"
+                readonly
                 min="0"
                 max="11"
               />
@@ -82,19 +92,19 @@
           </tr>
         </tbody>
       </table>
-    </div>
+    
   </div>
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps } from "vue";
 
 const props = defineProps({
   publico: Object,
   privado: Object,
   independiente: Object,
   totalAnios: Number,
-  totalMeses: Number
+  totalMeses: Number,
 });
 </script>
 

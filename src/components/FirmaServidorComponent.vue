@@ -46,7 +46,7 @@
         <label for="firma">FIRMA DEL SERVIDOR PÚBLICO O CONTRATISTA</label><br />
       </div>
   
-      <div class="form-group" style="margin-top: 20px;">
+      <div class="form-group no-imprimir" style="margin-top: 20px;">
         <button @click="guardarFirma" class="boton-guardar">
           Guardar diligenciamiento
         </button>

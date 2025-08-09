@@ -1,6 +1,6 @@
 <!--src/views/Hoja2.vue-->
 <template>
-  <div class="section">
+  <div class="section-general">
     <Header2Component />
 
     <!-- Mensaje cuando no hay experiencias -->
@@ -23,7 +23,7 @@
       <ExperienciaComponent :experiencia="exp" />
     </div>
 
-    <FooterComponent />
+
   </div>
 </template>
 

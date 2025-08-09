@@ -8,11 +8,11 @@
     "build": "vite build",
     "preview": "vite preview",
     "estructura": "npx tree-cli -L 3 -I \"node_modules,dist,.git\" > estructura.txt",
-      "audit:labels": "node tools/audits/accessibility/auditLabels.js",
-      "repair:labels": "node tools/fixers/accessibility/repairLabels.js"
-    
+    "audit:labels": "node tools/audits/accessibility/auditLabels.js",
+    "repair:labels": "node tools/fixers/accessibility/repairLabels.js"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^4.3.0",
     "axios": "^1.10.0",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
@@ -20,9 +20,15 @@
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
     "express-validator": "^7.2.1",
+    "file-saver": "^2.0.5",
+    "html2canvas": "^1.4.1",
+    "html2pdf.js": "^0.10.3",
     "jsonwebtoken": "^9.0.2",
+    "jspdf": "^3.0.1",
     "mongoose": "^8.16.4",
+    "pdfkit": "^0.17.1",
     "pinia": "^3.0.3",
+    "puppeteer": "^24.16.0",
     "sweetalert2": "^11.22.2",
     "vue": "^3.5.18",
     "vue-router": "^4.5.1",
