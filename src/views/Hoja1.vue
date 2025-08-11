@@ -1,21 +1,22 @@
 <!-- src/views/Hoja1.vue -->
 <template>
-  <div class="section-general">
+  <!-- Sección del encabezado -->
+  <div class="section-general contenido-pagina carta">
+    <div>
+      <HeaderComponent />
+    </div>
     <form @submit.prevent="enviarFormulario">
-      <!-- Sección del encabezado -->
-      <div>
-        <HeaderComponent />
-      </div>
-
       <!-- Sección de datos cargados -->
-      <div v-if="hojaStore.cargado" class="datos-formacion-wrap compact">
+      <div
+        v-if="hojaStore.cargado"
+        class="datos-formacion-wrap compact contenido-pagina"
+      >
         <DatosPerComponent :datos="hojaStore.datosPersonales || {}" />
         <FormacionAcadComponent
           :formacion="hojaStore.formacionAcademica || {}"
         />
       </div>
     </form>
-   
   </div>
 </template>
 
@@ -47,9 +48,9 @@ onMounted(() => {
     console.error(
       "❌ Token no encontrado. Redirigiendo o mostrando fallback..."
     );
-    // Aquí podrías redirigir al login si deseas
+ 
   } else {
-    hojaStore.cargarHojaDeVida(); // ✅ Acción correcta del store
+    hojaStore.cargarHojaDeVida(); // ✅ 
     console.log("✅ Token válido:", token);
   }
 });
@@ -398,22 +399,21 @@ button:hover {
   margin-top: 0;
   box-shadow: 6px 6px 0px rgba(0, 0, 0, 1);
   box-sizing: border-box;
-
 }
+
 .section-general {
-  border: 2px solid rgb(0, 204, 255);
-  padding: 0px;
-  gap: 10px;
-  display: block;
-  border-radius: 18px;
-  flex-direction: row;
-  gap: 1px;
-  align-items: flex-start;
-  margin-top: 0;
-  box-shadow: 6px 6px 0px rgba(0, 0, 0, 1);
+  display: flex;
+  flex-direction: column;
+
   box-sizing: border-box;
+  padding: 0;
   margin-bottom: 40px;
-  margin-top: 0px;
+  margin-top: 10px;
+}
+
+.contenido-pagina {
+  flex: 1;
+  overflow: hidden;
 }
 
 .section-title {
@@ -471,8 +471,6 @@ button:hover {
   margin: 0;
   font-weight: bold;
 }
-
-
 
 header {
   text-align: center;
@@ -617,7 +615,7 @@ form {
 .datos-formacion-wrap.compact {
   display: flex;
   flex-direction: column;
-  gap: 8px; /* ajustar la separación vertical (prueba 4-12px) */
+  gap: 8px;
   margin-top: 0;
 }
 .datos-formacion-wrap.compact > * {
@@ -625,30 +623,86 @@ form {
   margin-bottom: 0;
 }
 
-/* Cada hoja será una página separada */
-.pagina {
-    page-break-after: always;
+/* Tamaño carta en impresión */
+
+@media print {
+  .carta {
+    width: 8.5in !important;
+    height: 11in !important;
+    padding: 0.5in !important;
+    page-break-after: always !important;
+    box-sizing: border-box;
   }
-  
-  /* Tamaño carta en impresión */
-  @media print {
-    .carta {
-      width: 8.5in;
-      height: 11in;
-      padding: 0.5cm; /* margen interno */
-      box-sizing: border-box;
-      overflow: hidden;
-      position: relative;
-    }
-
-
-  
-  
-  /* Oculta elementos no imprimibles */
-  .no-imprimir {
-    display: none !important;
+  .carta:last-child {
+    page-break-after: auto;
   }
 }
 
-/**desde aqui el nuevo codigo de stylo para la tarjeta de experiencias faltantes */
+.no-imprimir {
+  display: none !important;
+}
+
+.no-experiencias-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.no-experiencias-message {
+  background: #fff;
+  border-radius: 15px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.no-experiencias-message:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+}
+
+.icon-large {
+  font-size: 3rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.no-experiencias-message h3 {
+  color: #111827;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.no-experiencias-message p {
+  color: #4b5563;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.btn-recordatorio {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #fff;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-recordatorio:hover {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  transform: translateY(-2px);
+}
+
+.compoFirma {
+  height: 350px; 
+}
 </style>

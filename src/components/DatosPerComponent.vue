@@ -318,7 +318,7 @@
         </div>
       </div>
     </div>
-    <div class="form-group" style="margin-top: 20px">
+    <div class="form-group no-imprimir" style="margin-top: 20px">
       <button
         type="submit"
         class="boton-guardar no-imprimir"

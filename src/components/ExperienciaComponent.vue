@@ -1,6 +1,7 @@
 <template>
   <form @submit.prevent="guardarExperiencia">
     <div class="section">
+     
       <div class="form-group">
         <label>EMPLEO ACTUAL O CONTRATO ANTERIOR</label>
 

@@ -1,25 +1,29 @@
 <!-- src/views/Hoja3.vue -->
 <template>
-  <div class="section-general">
+  <div class="section-general contenido-pagina carta">
     <Header2Component />
 
-    <ExperienciaTotComponent
-      :publico="publico"
-      :privado="privado"
-      :independiente="independiente"
-      :totalAnios="totalAnios"
-      :totalMeses="totalMeses"
-    />
+    <div class="">
+      <ExperienciaTotComponent
+        :publico="publico"
+        :privado="privado"
+        :independiente="independiente"
+        :totalAnios="totalAnios"
+        :totalMeses="totalMeses"
+      />
 
-    <FirmaServidorComponent />
-
-    <RecursosHumComponent />
-
-    
+      <FirmaServidorComponent class="compoFirma" />
+      <RecursosHumComponent />
+    </div>
 
     <FooterComponent />
   </div>
 </template>
+
+<style scoped>
+
+</style>
+
 <script setup>
 import { reactive, computed, ref, onMounted } from "vue";
 import Header2Component from "../components/Header2Component.vue";

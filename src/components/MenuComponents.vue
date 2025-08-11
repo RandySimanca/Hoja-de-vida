@@ -35,6 +35,7 @@ onMounted(() => {
     <li><router-link to="/panel/Hoja2">Experiencia Laboral</router-link></li>
     <li><router-link to="/panel/Hoja2Extra">Registrar Experiencia</router-link></li>
     <li><router-link to="/panel/Hoja3">Tiempo Total de Experiencia</router-link></li>
+    <li><router-link to= "/panel/VistaCompleta">Generar PDF</router-link></li>
     </ul>
 
   <button @click="cerrarSesion" class="boton-cerrar">Cerrar sesión</button>

@@ -189,14 +189,13 @@
       <button type="button" class="boton-guardar no-imprimir" @click="addFormacion">
          Agregar otra formación
       </button>
-    </div>
 
-    <div class="form-group" style="margin-top: 20px">
-      <button type="submit" class="boton-guardar no-imprimir">
+      <button type="submit" class="boton-guardar no-imprimir" style="margin-left: 10px;">
         {{ modoEdicion ? 'Actualizar formacion academica' : 'Guardar formacion academica' }}
       </button>
     </div>
-   
+
+    
   </form>
 </template>
 
