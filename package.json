@@ -36,6 +36,7 @@
     "vue-toastification": "^2.0.0-rc.5"
   },
   "devDependencies": {
+    "@types/html2pdf.js": "^0.10.0",
     "@types/node": "^24.1.0",
     "@vitejs/plugin-vue": "^6.0.0",
     "tree-cli": "^0.6.7",
