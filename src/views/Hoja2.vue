@@ -85,7 +85,7 @@ const experienciasAgrupadas = computed(() => agrupar(experienciaStore.experienci
   .carta {
     width: 8.5in !important;
     height: 11in !important;
-    padding: 0.5in !important;
+    padding: 0.4in !important;
     box-sizing: border-box;
     page-break-after: always !important;
   }

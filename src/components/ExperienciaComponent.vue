@@ -127,7 +127,7 @@
 </template>
 
 <script>
-import { showSuccess, showError } from "../utils/showMessage.js";
+import { showSuccess, showError, showConfirm, showWarning } from "../utils/showMessage.js";
 import api from "../api/axios";
 
 export default {
@@ -176,6 +176,25 @@ export default {
     }
   },
   methods: {
+    esNumeroEnRango(valor, min, max) {
+      const n = parseInt(valor, 10);
+      return Number.isFinite(n) && n >= min && n <= max;
+    },
+
+    validarFechasCampos(f) {
+      // Solo validar si alguno está lleno; si todo vacío, se reporta como inválido
+      if (!f) return { ok: false, msg: "Fechas incompletas" };
+      const { dia, mes, anio } = f;
+      if (!this.esNumeroEnRango(dia, 1, 31)) return { ok: false, msg: "El día debe estar entre 1 y 31" };
+      if (!this.esNumeroEnRango(mes, 1, 12)) return { ok: false, msg: "El mes debe estar entre 1 y 12" };
+      if (!Number.isFinite(parseInt(anio, 10))) return { ok: false, msg: "El año es requerido" };
+      return { ok: true };
+    },
+
+    construirDate({ dia, mes, anio }) {
+      const d = parseInt(dia, 10), m = parseInt(mes, 10), y = parseInt(anio, 10);
+      return new Date(y, m - 1, d);
+    },
     normalizarFecha(fecha) {
       if (!fecha) return { dia: '', mes: '', anio: '' };
       if (typeof fecha === 'string' || fecha instanceof Date) {
@@ -220,6 +239,26 @@ export default {
     async guardarExperiencia() {
       this.cargando = true;
       try {
+        // Validaciones de fecha básicas
+        const valIng = this.validarFechasCampos(this.experienciaLocal.fechaIngreso);
+        if (!valIng.ok) {
+          showError(`❌ Fecha de ingreso inválida: ${valIng.msg}`);
+          return;
+        }
+        const valRet = this.validarFechasCampos(this.experienciaLocal.fechaRetiro);
+        if (!valRet.ok) {
+          showError(`❌ Fecha de retiro inválida: ${valRet.msg}`);
+          return;
+        }
+
+        // Comparación ingreso <= retiro
+        const dIng = this.construirDate(this.experienciaLocal.fechaIngreso);
+        const dRet = this.construirDate(this.experienciaLocal.fechaRetiro);
+        if (dIng > dRet) {
+          showError("❌ La fecha de ingreso no puede ser mayor que la fecha de retiro.");
+          return;
+        }
+
         const experienciaFormateada = {
           ...this.experienciaLocal,
           fechaIngreso: this.convertirFecha(this.experienciaLocal.fechaIngreso),
@@ -253,12 +292,14 @@ export default {
       }
     },
 
-    confirmarEliminacion() {
+    async confirmarEliminacion() {
       const empresa = this.experienciaLocal.empresa || 'esta experiencia';
-      const confirmacion = confirm(
-        `¿Estás seguro de que deseas eliminar la experiencia en "${empresa}"?\n\nEsta acción no se puede deshacer.`
-      );
-      
+      const confirmacion = await showConfirm({
+        title: 'Eliminar experiencia',
+        text: `¿Estás seguro de que deseas eliminar la experiencia en "${empresa}"? Esta acción no se puede deshacer.`,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'No'
+      });
       if (confirmacion) {
         this.eliminarExperiencia();
       }

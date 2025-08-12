@@ -201,7 +201,7 @@
 
 <script>
 import api from "../api/axios";
-import { showSuccess, showError, showWarning } from "../utils/showMessage.js";
+import { showSuccess, showError, showWarning, showConfirm } from "../utils/showMessage.js";
 import { eliminarFormacionSuperior } from "../api/datosAPI"; // ✅ Import estático
 
 export default {
@@ -385,18 +385,28 @@ async removeFormacion(index) {
   const formacion = this.formacionesSuperior[index];
   
   // Si es la única fila, verificar si está vacía
-  if (this.formacionesSuperior.length === 1) {
+    if (this.formacionesSuperior.length === 1) {
     if (this.esFormacionVacia(formacion)) {
       showError("⚠️ Debe mantener al menos una fila para agregar formaciones");
       return;
     } else {
-      // Si la única fila tiene datos, mostrar confirmación especial
-      const confirmacion = confirm("¿Estás seguro de que deseas eliminar esta formación? Se creará una nueva fila vacía.");
+      // Si la única fila tiene datos, mostrar confirmación especial (Sí/No)
+      const confirmacion = await showConfirm({
+        title: 'Eliminar formación',
+        text: '¿Deseas eliminar esta formación? Se creará una nueva fila vacía.',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'No'
+      });
       if (!confirmacion) return;
     }
   } else {
-    // Si hay múltiples filas, confirmación normal
-    const confirmacion = confirm("¿Estás seguro de que deseas eliminar esta formación?");
+    // Si hay múltiples filas, confirmación con modal (Sí/No)
+    const confirmacion = await showConfirm({
+      title: 'Eliminar formación',
+      text: '¿Estás seguro de que deseas eliminar esta formación?',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'No'
+    });
     if (!confirmacion) return;
   }
 

@@ -28,3 +28,24 @@ export function showWarning(msg = '') {
     confirmButtonText: 'Entendido'
   });
 }
+
+// Confirmación con botones Sí/No, retorna true si el usuario confirma
+export async function showConfirm({
+  title = 'Confirmar',
+  text = '',
+  confirmButtonText = 'Sí',
+  cancelButtonText = 'No',
+  icon = 'warning'
+} = {}) {
+  const result = await Swal.fire({
+    icon,
+    title,
+    text,
+    showCancelButton: true,
+    confirmButtonText,
+    cancelButtonText,
+    reverseButtons: true,
+    focusCancel: true,
+  });
+  return result.isConfirmed === true;
+}

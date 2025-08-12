@@ -21,7 +21,15 @@
 </template>
 
 <style scoped>
-
+@media print {
+  .carta {
+    width: 8.5in !important;
+    height: 11in !important;
+    padding: 0.4in !important;
+    page-break-after: always !important;
+    box-sizing: border-box;
+  }
+}
 </style>
 
 <script setup>

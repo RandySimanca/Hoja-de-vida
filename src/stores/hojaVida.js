@@ -8,6 +8,7 @@ export const useHojaVidaStore = defineStore("hojaVida", {
     datosPersonales: null,
     formacionAcademica: null,
     experiencia: null,
+    firmaServidor: null,
     cargado: false, // NUEVO: control de carga
   }),
   actions: {

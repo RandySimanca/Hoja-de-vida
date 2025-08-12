@@ -629,17 +629,15 @@ form {
   .carta {
     width: 8.5in !important;
     height: 11in !important;
-    padding: 0.5in !important;
+    padding: 0.4in !important; /* margen interno ligeramente menor */
     page-break-after: always !important;
     box-sizing: border-box;
   }
   .carta:last-child {
     page-break-after: auto;
   }
-}
-
-.no-imprimir {
-  display: none !important;
+  /* Ocultar solo al imprimir */
+/* Eliminar regla global que ocultaba siempre .no-imprimir */
 }
 
 .no-experiencias-container {

@@ -186,6 +186,22 @@ cargando: false,
 
   },
   methods: {
+    esNumeroEnRango(valor, min, max) {
+      const n = parseInt(valor, 10);
+      return Number.isFinite(n) && n >= min && n <= max;
+    },
+    validarFechasCampos(f) {
+      if (!f) return { ok: false, msg: 'Fechas incompletas' };
+      const { dia, mes, anio } = f;
+      if (!this.esNumeroEnRango(dia, 1, 31)) return { ok: false, msg: 'El día debe estar entre 1 y 31' };
+      if (!this.esNumeroEnRango(mes, 1, 12)) return { ok: false, msg: 'El mes debe estar entre 1 y 12' };
+      if (!Number.isFinite(parseInt(anio, 10))) return { ok: false, msg: 'El año es requerido' };
+      return { ok: true };
+    },
+    construirDate({ dia, mes, anio }) {
+      const d = parseInt(dia, 10), m = parseInt(mes, 10), y = parseInt(anio, 10);
+      return new Date(y, m - 1, d);
+    },
     convertirFecha({ dia, mes, anio }) {
       if (!dia || !mes || !anio) return null;
       const d = parseInt(dia), m = parseInt(mes), y = parseInt(anio);
@@ -193,6 +209,14 @@ cargando: false,
     },
     async guardarExperiencia() {
       try {
+        const valIng = this.validarFechasCampos(this.experiencia.fechaIngreso);
+        if (!valIng.ok) { showError(`❌ Fecha de ingreso inválida: ${valIng.msg}`); return; }
+        const valRet = this.validarFechasCampos(this.experiencia.fechaRetiro);
+        if (!valRet.ok) { showError(`❌ Fecha de retiro inválida: ${valRet.msg}`); return; }
+        const dIng = this.construirDate(this.experiencia.fechaIngreso);
+        const dRet = this.construirDate(this.experiencia.fechaRetiro);
+        if (dIng > dRet) { showError('❌ La fecha de ingreso no puede ser mayor que la fecha de retiro.'); return; }
+
         const experienciaFormateada = {
           ...this.experiencia,
           fechaIngreso: this.convertirFecha(this.experiencia.fechaIngreso),
