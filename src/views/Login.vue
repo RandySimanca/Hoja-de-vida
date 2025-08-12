@@ -66,7 +66,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import axios from "../api/axios"; // Asegúrate de tener configurado axios correctamente
-import { useHojaStore } from "../stores/useHojaStore";
+import { useHojaVidaStore } from "../stores/hojaVida";
 
 const email = ref("");
 const password = ref("");
@@ -94,8 +94,8 @@ const handleLogin = async () => {
     const { token, usuario } = res.data;
     localStorage.setItem("token", token);
     localStorage.setItem("usuario", JSON.stringify(usuario));
-    const hojaStore = useHojaStore();
-    await hojaStore.cargarHoja(); // ✅ Carga datos antes de mostrar el panel
+    const hojaStore = useHojaVidaStore();
+    await hojaStore.cargarHojaDeVida(); // ✅ Carga datos antes de mostrar el panel
 
     router.push(usuario.roles.includes("admin") ? "/admin" : "/panel/Hoja1");
   } catch (e) {
