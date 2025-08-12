@@ -271,11 +271,11 @@ export default {
           // Actualizar experiencia existente
           
           response = await api.put(`/experiencia/${this.experienciaLocal._id}`, experienciaFormateada);
-          showSuccess("✅ ¡Experiencia laboral actualizada correctamente!");
+          showSuccess("✅ ¡Experiencia laboral actualizada correctamente.!");
         } else {
           // Crear nueva experiencia
           response = await api.post("/experiencia", experienciaFormateada);
-          showSuccess("✅ ¡Experiencia laboral guardada correctamente!");
+          showSuccess("✅ ¡Experiencia laboral guardada correctamente.!");
           
           // Actualizar el ID local después de crear
           this.experienciaLocal._id = response.data.data._id;
